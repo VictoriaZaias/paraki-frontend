@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/campo_tipo_carro.dart';
 import '../components/editor.dart';
 import 'principal_motorista.dart';
 
@@ -26,7 +27,7 @@ class CadastroMotorista extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 60.0),
                 child: Text(
                   _tituloAppBar,
-                  style: TextStyle(color: Color(0xFFEDE4E2), fontSize: 36.0),
+                  //style: TextStyle(color: Color(0xFFEDE4E2), fontSize: 36.0),
                 ),
               ),
               Editor(
@@ -37,9 +38,7 @@ class CadastroMotorista extends StatelessWidget {
                 dica: _dicaCampoCPF,
                 teclado: TextInputType.number,
               ),
-              Editor(
-                rotulo: 'Modelo do(s) carro(s)',
-              ),
+              CampoTipoCarro(),
               Editor(
                 rotulo: _rotuloCampoSenha,
                 dica: _dicaCampoSenha,
