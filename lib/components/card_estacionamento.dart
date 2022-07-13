@@ -4,11 +4,11 @@ class CardEstacionamento extends StatelessWidget {
   final String nomeEstacionamento;
   final String quantidadeTotalVagas;
 
-  const CardEstacionamento(
+  const CardEstacionamento({
     Key? key,
-    this.nomeEstacionamento,
-    this.quantidadeTotalVagas,
-  ) : super(key: key);
+    required this.nomeEstacionamento,
+    required this.quantidadeTotalVagas,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
