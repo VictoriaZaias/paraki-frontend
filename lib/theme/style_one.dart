@@ -9,6 +9,9 @@ Color _cinzinha = const Color(0xFF535257);
 ThemeData appTheme() {
   return ThemeData(
     // Fundos
+    cardTheme: CardTheme(
+      color: _branquin,
+    ),
     appBarTheme: AppBarTheme(
       color: _lilili,
     ),
@@ -16,8 +19,9 @@ ThemeData appTheme() {
     // Fundos
 
     // Letras
-    //fontFamily: "Poppins",
+    fontFamily: 'Poppins',
     inputDecorationTheme: InputDecorationTheme(
+      iconColor: Colors.black,
       hintStyle: TextStyle(
         color: Colors.black,
       ),
@@ -29,7 +33,7 @@ ThemeData appTheme() {
     ),
     textTheme: TextTheme(
       bodyText2: TextStyle(
-        color: Colors.red,
+        color: _branquin,
       ),
     ),
     // Letras

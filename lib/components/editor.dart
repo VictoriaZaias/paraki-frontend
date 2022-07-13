@@ -5,6 +5,7 @@ class Editor extends StatelessWidget {
   final String? rotulo;
   final String? dica;
   final IconData? icone;
+  final double? comprimento;
   final TextInputType? teclado;
 
   const Editor(
@@ -13,6 +14,7 @@ class Editor extends StatelessWidget {
       this.rotulo,
       this.dica,
       this.icone,
+      this.comprimento = 300.0,
       this.teclado})
       : super(key: key);
 
@@ -21,11 +23,12 @@ class Editor extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       child: SizedBox(
-        width: 300.0,
+        width: comprimento,
         height: 50.0,
         child: TextField(
           keyboardType: teclado,
           decoration: InputDecoration(
+            prefixIcon: icone != null ? Icon(icone) : null,
             labelText: rotulo,
             hintText: dica,
             border: const OutlineInputBorder(

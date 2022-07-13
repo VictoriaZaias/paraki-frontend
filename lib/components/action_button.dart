@@ -10,15 +10,17 @@ ActionButton(
 */
 class ActionButton extends StatelessWidget {
   final TextEditingController? controlador;
-  final double? tamanho;
-  final Widget? simbolo;
+  final double? tamanhoBotao;
+  final IconData? simbolo;
+  final double? tamanhoSimbolo;
   final Function()? onPressed;
 
   const ActionButton({
     Key? key,
     this.controlador,
-    this.tamanho,
+    this.tamanhoBotao,
     this.simbolo,
+    this.tamanhoSimbolo,
     required this.onPressed,
   }) : super(key: key);
 
@@ -27,11 +29,14 @@ class ActionButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
-        width: tamanho,
-        height: tamanho,
+        width: tamanhoBotao,
+        height: tamanhoBotao,
         child: FloatingActionButton(
           onPressed: onPressed,
-          child: simbolo,
+          child: Icon(
+            simbolo,
+            size: 25.0,
+          ),
         ),
       ),
     );

@@ -1,8 +1,8 @@
 import 'package:estacionamento/components/button.dart';
 import 'package:flutter/material.dart';
 import '../components/editor.dart';
-import 'cadastro_motorista.dart';
-import 'principal_motorista.dart';
+import 'cadastro_usuario.dart';
+import 'principal_usuario.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -36,17 +36,17 @@ class Login extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PrincipalMotorista()));
+                          builder: (context) => PrincipalUsuario()));
                 },
               ),
               TextButton(
+                child: Text(_textoBotaoCadastrar),
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CadastroMotorista()));
+                          builder: (context) => CadastroUsuario()));
                 },
-                child: Text(_textoBotaoCadastrar),
               ),
             ],
           ),

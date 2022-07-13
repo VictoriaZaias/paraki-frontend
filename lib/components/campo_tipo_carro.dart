@@ -8,7 +8,9 @@ class CampoTipoCarro extends StatefulWidget {
 }
 
 class _CampoTipoCarroState extends State<CampoTipoCarro> {
-  String dropdownValue = 'Modelo do(s) carro(s)';
+  final listaTiposCarros = ["Combustão", "Elétrico", "Combustão e elétrico"];
+  String? dropdownValue;
+  String dica = "Modelo do(s) carro(s)";
 
   @override
   Widget build(BuildContext context) {
@@ -24,26 +26,21 @@ class _CampoTipoCarroState extends State<CampoTipoCarro> {
         height: 53.0,
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
-            //hint: Text('Modelo de(s) carro(s)'),
+            hint: Text(dica),
             value: dropdownValue,
             elevation: 16,
             dropdownColor: Color(0xFFEDE4E2),
+            items: listaTiposCarros.map((String value) {
+              return DropdownMenuItem(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
             onChanged: (String? newValue) {
               setState(() {
                 dropdownValue = newValue!;
               });
             },
-            items: <String>[
-              'Modelo do(s) carro(s)',
-              'Combustão',
-              'Elétrico',
-              'Combustão e elétrico'
-            ].map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
           ),
         ),
       ),

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import '../components/button.dart';
 import '../components/campo_tipo_carro.dart';
 import '../components/editor.dart';
-import 'principal_motorista.dart';
+import 'principal_usuario.dart';
 
-class CadastroMotorista extends StatelessWidget {
-  const CadastroMotorista({Key? key}) : super(key: key);
+class CadastroUsuario extends StatelessWidget {
+  const CadastroUsuario({Key? key}) : super(key: key);
 
   static const _tituloAppBar = 'Boas-vindas!';
-  static const _rotuloCampoNomeMotorista = 'Nome completo';
+  static const _rotuloCampoNomeUsuarioCadastroUsuario = 'Nome completo';
   static const _rotuloCampoCPF = 'CPF';
   static const _dicaCampoCPF = '00000000000';
   static const _rotuloCampoSenha = 'Senha';
@@ -27,11 +28,11 @@ class CadastroMotorista extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 60.0),
                 child: Text(
                   _tituloAppBar,
-                  //style: TextStyle(color: Color(0xFFEDE4E2), fontSize: 36.0),
+                  style: TextStyle(fontSize: 36.0),
                 ),
               ),
               Editor(
-                rotulo: _rotuloCampoNomeMotorista,
+                rotulo: _rotuloCampoNomeUsuarioCadastroUsuario,
               ),
               Editor(
                 rotulo: _rotuloCampoCPF,
@@ -47,14 +48,14 @@ class CadastroMotorista extends StatelessWidget {
                 rotulo: _rotuloCampoConfirmaSenha,
                 dica: _dicaCampoConfirmaSenha,
               ),
-              ElevatedButton(
+              Button(
+                rotulo: _textoBotaoCadastrar,
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PrincipalMotorista()));
+                          builder: (context) => PrincipalUsuario()));
                 },
-                child: Text(_textoBotaoCadastrar),
               ),
             ],
           ),
