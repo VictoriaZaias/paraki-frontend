@@ -4,7 +4,7 @@ import '../components/action_button.dart';
 import '../components/card_estacionamento.dart';
 import '../components/editor.dart';
 
-class PrincipalMotorista extends StatelessWidget {
+class PrincipalUsuario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
