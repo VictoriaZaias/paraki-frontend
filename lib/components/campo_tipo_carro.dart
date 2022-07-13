@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CampoTipoCarro extends StatefulWidget {
-  const CampoTipoCarro({Key? key}) : super(key: key);
+  final String? valor;
+  const CampoTipoCarro({Key? key, this.valor}) : super(key: key);
 
   @override
   State<CampoTipoCarro> createState() => _CampoTipoCarroState();
@@ -11,6 +12,7 @@ class _CampoTipoCarroState extends State<CampoTipoCarro> {
   final listaTiposCarros = ["Combustão", "Elétrico", "Combustão e elétrico"];
   String? dropdownValue;
   String dica = "Modelo do(s) carro(s)";
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class _CampoTipoCarroState extends State<CampoTipoCarro> {
             }).toList(),
             onChanged: (String? newValue) {
               setState(() {
-                dropdownValue = newValue!;
+                dropdownValue = newValue;
               });
             },
           ),

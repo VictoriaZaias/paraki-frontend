@@ -46,3 +46,20 @@ Future<List<Usuario>> listarUsuario() async {
   }  
   return usuarios;
 }
+
+void cadastrarUsuario(Usuario usuario) async{
+   final Client client = InterceptedClient.build(
+    interceptors: [LoggingInterceptor()],
+  );
+   final Map<String, dynamic> usuarioMap = {
+        'nomeUsuario': usuario.nomeUsuario,
+        'CPF': usuario.cpf,
+        'senha': usuario.senha,
+        'tipoUsuario' : 1,
+        'modeloCarro' : 1,
+   };
+
+   final String jsonUsuario = jsonEncode(usuarioMap);
+   await client.post(Uri.parse('http://192.168.1.170:3000/paraki/usuario/cadastrar'), headers: {"content-type":"application/json"}, body: jsonUsuario); 
+
+}

@@ -29,7 +29,7 @@ Future<List<Estacionamento>> listarEstacionamento() async {
   final Client client = InterceptedClient.build(
     interceptors: [LoggingInterceptor()],
   );
-  final response = await client.get(Uri.parse('http://localhost:3000/paraki/estacionamento/listar'));
+  final response = await client.get(Uri.parse('http://192.168.1.170:3000/paraki/estacionamento/listar'));
   final List<Estacionamento> estacionamentos = [];
   var estacionamentoJson = jsonDecode(response.body);
   for (var json in estacionamentoJson['result']){

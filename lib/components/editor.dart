@@ -26,6 +26,7 @@ class Editor extends StatelessWidget {
         width: comprimento,
         height: 50.0,
         child: TextField(
+          controller: controlador,
           keyboardType: teclado,
           decoration: InputDecoration(
             prefixIcon: icone != null ? Icon(icone) : null,
