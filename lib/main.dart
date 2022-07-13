@@ -5,9 +5,9 @@ import 'http/webClient.dart';
 import 'screens/login.dart';
 import 'theme/style_one.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const ParakiApp());
-  //findAll().then((usuarios) => print('new.usuarios $usuarios'));
+  listarUsuario().then((usuarios) => print("novos usuarios $usuarios"));
 }
 
 class ParakiApp extends StatelessWidget {

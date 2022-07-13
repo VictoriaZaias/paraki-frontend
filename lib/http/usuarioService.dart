@@ -1,4 +1,4 @@
-/*import 'package:estacionamento/models/usuario.dart';
+import 'package:estacionamento/models/usuario.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
@@ -26,36 +26,26 @@ class LoggingInterceptor implements InterceptorContract {
   }
 }
 
-Future<List<Usuario>> findAll() async {
+Future<List<Usuario>> listarUsuario() async {
   final Client client = InterceptedClient.build(
     interceptors: [LoggingInterceptor()],
   );
-  final response = await client
-      .get(Uri.parse('http://192.168.1.110:3000/paraki/usuario/listar'));
-  final List<dynamic> decodedJson = jsonDecode(response.body);
+  final response = await client.get(Uri.parse('http://localhost:3000/paraki/usuario/listar'));
+ // final List<dynamic> decodedJson = jsonDecode(response.body);
   final List<Usuario> usuarios = [];
-  for (Map<String, dynamic> usuarioJson in decodedJson) {
+  var usuarioJson = jsonDecode(response.body);
     //final Map<String, dynamic> result = usuarioJson['result'];
-    final Usuario usuario = Usuario(
-      usuarioJson['result']['idUsuario'],
-      usuarioJson['result']['nomeUsuario'],
-      usuarioJson['result']['CPF'],
-      usuarioJson['result']['tipoUsuario'],
-      usuarioJson['result']['senha'],
-      usuarioJson['result']['modeloCarro'],
+  for (var json in usuarioJson['result']){
+     final Usuario usuario = Usuario(
+      json['idUsuario'],
+      json['nomeUsuario'],
+      json['CPF'],
+      json['tipoUsuario'],
+      json['modeloCarro'],
+      json['senha'],
+      
     );
-    print(usuario.cpf);
     usuarios.add(usuario);
-  }
-
-  if (response.statusCode == 200) {
-    final List<dynamic> decodedJson = jsonDecode(response.body);
-
-    return decodedJson
-        .map((dynamic json) => Usuario.fromJson(json))
-        .toList();
-  }
-  throw HttpException(_getMessage(response.statusCode));
-
+  }  
   return usuarios;
-}*/
+}
