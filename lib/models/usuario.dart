@@ -14,7 +14,6 @@ class Usuario {
       this.modeloCarro,
       this.senha);
 
-
   int get getIdUsuario{
     return idUsuario;
   }

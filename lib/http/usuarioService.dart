@@ -1,5 +1,4 @@
 import 'package:estacionamento/models/usuario.dart';
-import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'dart:convert';
@@ -31,10 +30,8 @@ Future<List<Usuario>> listarUsuario() async {
     interceptors: [LoggingInterceptor()],
   );
   final response = await client.get(Uri.parse('http://localhost:3000/paraki/usuario/listar'));
- // final List<dynamic> decodedJson = jsonDecode(response.body);
   final List<Usuario> usuarios = [];
   var usuarioJson = jsonDecode(response.body);
-    //final Map<String, dynamic> result = usuarioJson['result'];
   for (var json in usuarioJson['result']){
      final Usuario usuario = Usuario(
       json['idUsuario'],
