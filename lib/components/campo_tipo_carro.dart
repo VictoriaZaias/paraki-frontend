@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CampoTipoCarro extends StatefulWidget {
-  final String? valor;
-  const CampoTipoCarro({Key? key, this.valor}) : super(key: key);
+  String? dropdownValue;
+
+  CampoTipoCarro({
+    Key? key,
+    this.dropdownValue,
+  }) : super(key: key);
 
   @override
   State<CampoTipoCarro> createState() => _CampoTipoCarroState();
@@ -10,9 +14,7 @@ class CampoTipoCarro extends StatefulWidget {
 
 class _CampoTipoCarroState extends State<CampoTipoCarro> {
   final listaTiposCarros = ["Combustão", "Elétrico", "Combustão e elétrico"];
-  String? dropdownValue;
   String dica = "Modelo do(s) carro(s)";
-
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class _CampoTipoCarroState extends State<CampoTipoCarro> {
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             hint: Text(dica),
-            value: dropdownValue,
+            value: widget.dropdownValue,
             elevation: 16,
             dropdownColor: Color(0xFFEDE4E2),
             items: listaTiposCarros.map((String value) {
@@ -40,7 +42,7 @@ class _CampoTipoCarroState extends State<CampoTipoCarro> {
             }).toList(),
             onChanged: (String? newValue) {
               setState(() {
-                dropdownValue = newValue;
+                widget.dropdownValue = newValue!;
               });
             },
           ),
