@@ -21,6 +21,7 @@ class CadastroUsuario extends StatelessWidget {
   static TextEditingController nomeUsuario = TextEditingController();
   static TextEditingController CPF = TextEditingController();
   static TextEditingController senha = TextEditingController();
+  static String? carro;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,9 @@ class CadastroUsuario extends StatelessWidget {
                 teclado: TextInputType.number,
                 controlador: CPF,
               ),
-              CampoTipoCarro(),
+              CampoTipoCarro(
+                dropdownValue: carro,
+              ),
               Editor(
                 rotulo: _rotuloCampoSenha,
                 dica: _dicaCampoSenha,
@@ -59,10 +62,23 @@ class CadastroUsuario extends StatelessWidget {
               Button(
                 rotulo: _textoBotaoCadastrar,
                 onPressed: () {
-                  
-                  CampoTipoCarro campo;
-                  Usuario usuario = Usuario(1, nomeUsuario.text , CPF.text, '2', '1', senha.text);
-                  //cadastrarUsuario(usuario);
+                  String carroId = '4';
+                  switch (carro) {
+                    case 'Elétrico':
+                      carroId = '1';
+                      break;
+                    case 'Combustão':
+                      carroId = '2';
+                      break;
+                    case 'Combustão e elétrico':
+                      carroId = '3';
+                      break;
+                    default:
+                  }
+                    Usuario usuario = Usuario(
+                        1, nomeUsuario.text, CPF.text, '2', carroId, senha.text);
+                    cadastrarUsuario(usuario);
+
                   Navigator.push(
                       context,
                       MaterialPageRoute(
