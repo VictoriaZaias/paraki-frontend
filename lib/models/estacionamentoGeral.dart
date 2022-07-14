@@ -1,31 +1,37 @@
-class Estacionamento {
+class estacionamentoGeral{
   final int idEstacionamento;
   final String nomeEstacionamento;
-  final String cnpj;
-  //final String cep;
- // final String unidadeFederativa;
+  //final String CNPJ;
+  //final String CEP;
+  //final String estado;
   //final String cidade;
   //final String bairro;
   //final String logradouro;
   //final int numeroEstacionamento;
-  final String telefoneEstacionamento;
+  //final String telefone;
   final int quantidadeTotalVagas;
-  final String usuario;
+  //final String caracteristica;
+  //final String horarioInicio;
+  //final String horarioFim;
+  //final String precoHora;
 
-
-  Estacionamento(
+  estacionamentoGeral(
       this.idEstacionamento,
       this.nomeEstacionamento,
-      this.cnpj,
-      //this.cep,
-     // this.unidadeFederativa,
+      //this.CNPJ,
+      //this.CEP,
+      //this.estado,
       //this.cidade,
       //this.bairro,
       //this.logradouro,
       //this.numeroEstacionamento,
-      this.telefoneEstacionamento,
-      this.quantidadeTotalVagas,
-      this.usuario);
+      //this.telefone,
+      this.quantidadeTotalVagas
+      //this.caracteristica,
+      //this.horarioInicio,
+      //this.horarioFim,
+      //this.precoHora
+      );
 
 
   @override

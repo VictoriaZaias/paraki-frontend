@@ -1,4 +1,4 @@
-import 'package:estacionamento/models/estacionamento.dart';
+import 'package:estacionamento/models/estacionamentoEspecifico.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'dart:convert';
@@ -25,26 +25,24 @@ class LoggingInterceptor implements InterceptorContract {
   }
 }
 
-Future<List<Estacionamento>> listarEstacionamento() async {
+Future<List<estacionamentoEspecifico>> listarEstacionamento() async {
   final Client client = InterceptedClient.build(
     interceptors: [LoggingInterceptor()],
   );
   final response = await client.get(Uri.parse('http://192.168.1.170:3000/paraki/estacionamento/listar'));
-  final List<Estacionamento> estacionamentos = [];
+  final List<estacionamentoEspecifico> estacionamentos = [];
   var estacionamentoJson = jsonDecode(response.body);
   for (var json in estacionamentoJson['result']){
-     final Estacionamento estacionamento = Estacionamento(
+     final estacionamentoEspecifico estacionamento = estacionamentoEspecifico(
       json['idEstacionamento'],
       json['nomeEstacionamento'],
-      json['CNPJ'],
-      json['telefone'],
-      json['qtdTotalVagas'],
+      //json['logradouro'],
       //json['nroEstacionamento'],
-      //json['endereco'],
-      json['usuario'],
-      
+      //json['precoHora'],
+      json['qtdTotalVagas'],
     );
     estacionamentos.add(estacionamento);
   }  
   return estacionamentos;
 }
+

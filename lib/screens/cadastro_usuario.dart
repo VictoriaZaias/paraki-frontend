@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../components/button.dart';
 import '../components/campo_tipo_carro.dart';
 import '../components/editor.dart';
+import '../http/usuarioService.dart';
 import '../models/usuario.dart';
 import 'principal_usuario.dart';
 
@@ -58,10 +59,9 @@ class CadastroUsuario extends StatelessWidget {
               Button(
                 rotulo: _textoBotaoCadastrar,
                 onPressed: () {
+                  
                   CampoTipoCarro campo;
-                  var valor =  _CampoTipoCarroState: ValueChanged;
-                  print("TESTE:" + Campo());
-                  Usuario usuario = Usuario(1, nomeUsuario.text , CPF.text, '1', '1', senha.text);
+                  Usuario usuario = Usuario(1, nomeUsuario.text , CPF.text, '2', '1', senha.text);
                   //cadastrarUsuario(usuario);
                   Navigator.push(
                       context,
