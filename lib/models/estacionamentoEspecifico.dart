@@ -1,4 +1,4 @@
-class estacionamentoEspecifico{
+class EstacionamentoEspecifico{
   final int idEstacionamento;
   final String nomeEstacionamento;
   //final String logradouro;
@@ -6,7 +6,7 @@ class estacionamentoEspecifico{
   //final String precoHora;
   final int quantidadeTotalVagas;
 
-  estacionamentoEspecifico(
+  EstacionamentoEspecifico(
       this.idEstacionamento,
       this.nomeEstacionamento,
       //this.logradouro,

@@ -1,4 +1,4 @@
-class reserva{
+class Reserva{
   //final String
 
 

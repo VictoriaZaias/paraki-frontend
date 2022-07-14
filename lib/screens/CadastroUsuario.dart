@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../components/button.dart';
-import '../components/campo_tipo_carro.dart';
-import '../components/editor.dart';
-import '../http/usuarioService.dart';
-import '../models/usuario.dart';
-import 'principal_usuario.dart';
+import '../components/Button.dart';
+import '../components/CampoTipoCarro.dart';
+import '../components/Editor.dart';
+import '../http/UsuarioService.dart';
+import '../models/Usuario.dart';
+import 'PrincipalUsuario.dart';
 
 class CadastroUsuario extends StatelessWidget {
   const CadastroUsuario({Key? key}) : super(key: key);
@@ -75,14 +75,16 @@ class CadastroUsuario extends StatelessWidget {
                       break;
                     default:
                   }
-                    Usuario usuario = Usuario(
-                        1, nomeUsuario.text, CPF.text, '2', carroId, senha.text);
-                    cadastrarUsuario(usuario);
+                  Usuario usuario = Usuario(
+                      1, nomeUsuario.text, CPF.text, '2', carroId, senha.text);
+                  cadastrarUsuario(usuario);
 
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PrincipalUsuario()));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PrincipalUsuario(),
+                    ),
+                  );
                 },
               ),
             ],

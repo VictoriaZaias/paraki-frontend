@@ -3,18 +3,20 @@ import 'package:flutter/material.dart';
 class Editor extends StatelessWidget {
   final TextEditingController? controlador;
   final String? rotulo;
+  final double? altura;
+  final double? largura;
   final String? dica;
   final IconData? icone;
-  final double? comprimento;
   final TextInputType? teclado;
 
   const Editor(
       {Key? key,
       this.controlador,
       this.rotulo,
+      this.altura = 50.0,
+      this.largura = 300.0,
       this.dica,
       this.icone,
-      this.comprimento = 300.0,
       this.teclado})
       : super(key: key);
 
@@ -23,8 +25,8 @@ class Editor extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       child: SizedBox(
-        width: comprimento,
-        height: 50.0,
+        width: largura,
+        height: altura,
         child: TextField(
           controller: controlador,
           keyboardType: teclado,

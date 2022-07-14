@@ -9,6 +9,9 @@ Color _cinzinha = const Color(0xFF535257);
 ThemeData appTheme() {
   return ThemeData(
     // Fundos
+    tabBarTheme: TabBarTheme(
+      labelColor: _lilili,
+    ),
     cardTheme: CardTheme(
       color: _branquin,
     ),

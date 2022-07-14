@@ -1,8 +1,8 @@
-import 'package:estacionamento/components/button.dart';
 import 'package:flutter/material.dart';
-import '../components/editor.dart';
-import 'cadastro_usuario.dart';
-import 'principal_usuario.dart';
+import '../components/Button.dart';
+import '../components/Editor.dart';
+import 'CadastroUsuario.dart';
+import 'PrincipalUsuario.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
