@@ -21,6 +21,7 @@ class Login extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              //Image.asset('assets/images/paraki.png'),
               Editor(
                 rotulo: _rotuloCampoCPF,
                 dica: _dicaCampoCPF,

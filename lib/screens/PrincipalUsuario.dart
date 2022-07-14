@@ -1,5 +1,5 @@
- // NÃO MEXA AQUI PELO AMORRRRR
-/*
+// NÃO MEXA AQUI PELO AMORRRRR
+
 import 'package:flutter/material.dart';
 import '../components/ActionButton.dart';
 import '../components/Editor.dart';
@@ -36,7 +36,7 @@ class MenuCima extends StatefulWidget implements PreferredSizeWidget {
   @override
   // TODO: implement preferredSize
   Size get preferredSize {
-    return new Size.fromHeight(80.0);
+    return new Size.fromHeight(150.0);
   }
 }
 
@@ -45,49 +45,9 @@ class _MenuCimaState extends State<MenuCima> {
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(100.0),
-      child: DefaultTabController(
-        length: 3,
-        child: TabBar(
-          indicatorSize: TabBarIndicatorSize.tab,
-          tabs: <Widget>[
-            Tab(
-              child: ActionButton(
-                tamanhoBotao: _tamanhoActionButtons,
-                simbolo: Icons.person,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PerfilUsuario(),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Tab(
-              child: ActionButton(
-                tamanhoBotao: _tamanhoActionButtons,
-                simbolo: Icons.star,
-                onPressed: () {},
-              ),
-            ),
-            Tab(
-              child: ActionButton(
-                tamanhoBotao: _tamanhoActionButtons,
-                simbolo: Icons.manage_search,
-                onPressed: () {},
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-/*
-    AppBar(
-      automaticallyImplyLeading: false,
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(40.0),
+      preferredSize: Size.fromHeight(40.0),
+      child: Container(
+        color: Color(0xFFB497F2),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -117,7 +77,6 @@ class _MenuCimaState extends State<MenuCima> {
           ],
         ),
       ),
-    );*/
+    );
   }
 }
-*/
