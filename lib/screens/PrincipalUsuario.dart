@@ -1,16 +1,58 @@
-// NÃO MEXA AQUI PELO AMORRRRR
-
 import 'package:flutter/material.dart';
 import '../components/ActionButton.dart';
 import '../components/Editor.dart';
 import '../components/ListaEstacionamento.dart';
 import 'PerfilUsuario.dart';
 
-class PrincipalUsuario extends StatelessWidget {
+class PrincipalUsuario extends StatefulWidget {
+  const PrincipalUsuario({Key? key}) : super(key: key);
+
+  @override
+  State<PrincipalUsuario> createState() => _PrincipalUsuarioState();
+}
+
+class _PrincipalUsuarioState extends State<PrincipalUsuario> {
+  static const _tamanhoActionButtons = 55.0;
+  bool isFavoriteVisible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MenuCima(),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.0),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(90),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ActionButton(
+                  tamanhoBotao: _tamanhoActionButtons,
+                  simbolo: Icons.person,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PerfilUsuario()));
+                  },
+                ),
+                ActionButton(
+                  tamanhoBotao: _tamanhoActionButtons,
+                  simbolo: Icons.star,
+                  onPressed: () {
+                    setState(() => isFavoriteVisible = !isFavoriteVisible);
+                  },
+                ),
+                ActionButton(
+                  tamanhoBotao: _tamanhoActionButtons,
+                  simbolo: Icons.manage_search,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
       body: Center(
         child: Column(
           children: [
@@ -19,60 +61,13 @@ class PrincipalUsuario extends StatelessWidget {
               largura: 350.0,
               icone: Icons.search,
             ),
-            ListaEstacionamento(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MenuCima extends StatefulWidget implements PreferredSizeWidget {
-  const MenuCima({Key? key}) : super(key: key);
-
-  @override
-  State<MenuCima> createState() => _MenuCimaState();
-
-  @override
-  // TODO: implement preferredSize
-  Size get preferredSize {
-    return new Size.fromHeight(150.0);
-  }
-}
-
-class _MenuCimaState extends State<MenuCima> {
-  static const _tamanhoActionButtons = 55.0;
-  @override
-  Widget build(BuildContext context) {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(40.0),
-      child: Container(
-        color: Color(0xFFB497F2),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ActionButton(
-              tamanhoBotao: _tamanhoActionButtons,
-              simbolo: Icons.person,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PerfilUsuario(),
-                  ),
-                );
-              },
+            Visibility(
+              child: ListaEstacionamento(),
+              visible: !isFavoriteVisible,
             ),
-            ActionButton(
-              tamanhoBotao: _tamanhoActionButtons,
-              simbolo: Icons.star,
-              onPressed: () {},
-            ),
-            ActionButton(
-              tamanhoBotao: _tamanhoActionButtons,
-              simbolo: Icons.manage_search,
-              onPressed: () {},
+            Visibility(
+              child: Text("Lista dos estacionamentos favoritados."),
+              visible: isFavoriteVisible,
             ),
           ],
         ),

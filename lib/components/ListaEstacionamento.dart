@@ -5,9 +5,14 @@ import 'CardEstacionamento.dart';
 import 'CenteredMessage.dart';
 import 'Progress.dart';
 
-class ListaEstacionamento extends StatelessWidget {
+class ListaEstacionamento extends StatefulWidget {
   const ListaEstacionamento({Key? key}) : super(key: key);
 
+  @override
+  State<ListaEstacionamento> createState() => _ListaEstacionamentoState();
+}
+
+class _ListaEstacionamentoState extends State<ListaEstacionamento> {
   @override
   Widget build(BuildContext context) {
     return Expanded(

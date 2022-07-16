@@ -9,31 +9,59 @@ class PerfilUsuario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 90.0,
-        leadingWidth: 90.0,
-        leading: ActionButton(
-          simbolo: Icons.arrow_back,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(200.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            //crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ActionButton(
-                tamanhoBotao: 130.0,
-                simbolo: Icons.person,
-                tamanhoSimbolo: 80.0,
-                onPressed: null,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(210.0),
+        child: AppBar(
+          toolbarHeight: 90.0,
+          leadingWidth: 90.0,
+          leading: ActionButton(
+            simbolo: Icons.arrow_back,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          flexibleSpace: PreferredSize(
+            preferredSize: Size.fromHeight(210.0),
+            child: SizedBox(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ActionButton(
+                    tamanhoBotao: 120.0,
+                    simbolo: Icons.person,
+                    tamanhoSimbolo: 75.0,
+                    onPressed: null,
+                  ),
+                  Text(
+                    "Victória Caroline Souza Zaias",
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
               ),
-              Text("Victória Caroline Souza Zaias"),
-            ],
+            ),
           ),
         ),
+      ),
+      body: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              //color: Color(0xFFEDE4E2),
+              border: Border(
+                bottom: BorderSide(
+                  color: Color(0xFFB497F2),
+                  width: 1.5,
+                ),
+              ),
+            ),
+            child: ListTile(
+              title: Text("CPF"),
+              subtitle: Text("***.**.***-**"),
+            ),
+          ),
+        ],
       ),
     );
   }

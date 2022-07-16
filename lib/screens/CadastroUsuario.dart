@@ -62,7 +62,7 @@ class CadastroUsuario extends StatelessWidget {
               Button(
                 rotulo: _textoBotaoCadastrar,
                 onPressed: () {
-                  String carroId = '4';
+                  String carroId;
                   switch (carro) {
                     case 'Elétrico':
                       carroId = '1';
@@ -74,6 +74,7 @@ class CadastroUsuario extends StatelessWidget {
                       carroId = '3';
                       break;
                     default:
+                      carroId = '4';
                   }
                   Usuario usuario = Usuario(
                       1, nomeUsuario.text, CPF.text, '2', carroId, senha.text);
