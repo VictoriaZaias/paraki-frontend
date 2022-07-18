@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
   final TextEditingController? controlador;
+  final double padding;
   final double? tamanhoBotao;
   final IconData? simbolo;
   final double? tamanhoSimbolo;
@@ -10,6 +11,7 @@ class ActionButton extends StatelessWidget {
   const ActionButton({
     Key? key,
     this.controlador,
+    this.padding = 20.0,
     this.tamanhoBotao = 60.0,
     this.simbolo,
     this.tamanhoSimbolo = 25.0,
@@ -19,7 +21,7 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(padding),
       child: SizedBox(
         width: tamanhoBotao,
         height: tamanhoBotao,

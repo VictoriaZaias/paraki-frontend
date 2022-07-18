@@ -23,6 +23,9 @@ ThemeData appTheme() {
 
     // Letras
     fontFamily: 'Poppins',
+    listTileTheme: ListTileThemeData(
+      textColor: _cinzinha,
+    ),
     inputDecorationTheme: InputDecorationTheme(
       iconColor: Colors.black,
       hintStyle: TextStyle(

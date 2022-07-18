@@ -29,20 +29,20 @@ class _ListaEstacionamentoState extends State<ListaEstacionamento> {
               break;
             case ConnectionState.done:
               if (snapshot.hasData) {
-                final List<EstacionamentoEspecifico> Estacionamentos =
+                final List<EstacionamentoEspecifico> estacionamentos =
                     snapshot.data ?? [];
-                if (Estacionamentos.isNotEmpty) {
+                if (estacionamentos.isNotEmpty) {
                   return ListView.builder(
                     itemBuilder: (context, index) {
-                      final EstacionamentoEspecifico Estacionamento =
-                          Estacionamentos[index];
+                      final EstacionamentoEspecifico estacionamento =
+                          estacionamentos[index];
                       return CardEstacionamento(
-                        nomeEstacionamento: Estacionamento.nomeEstacionamento,
+                        nomeEstacionamento: estacionamento.nomeEstacionamento,
                         quantidadeTotalVagas:
-                            Estacionamento.quantidadeTotalVagas.toString(),
+                            estacionamento.quantidadeTotalVagas.toString(),
                       );
                     },
-                    itemCount: Estacionamentos.length,
+                    itemCount: estacionamentos.length,
                   );
                 }
               }

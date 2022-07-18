@@ -43,7 +43,7 @@ Future<List<EstacionamentoEspecifico>> listarEstacionamento() async {
       json['qtdTotalVagas'],
     );
     Estacionamentos.add(Estacionamento);
-  }  
+  }
   return Estacionamentos;
 }
 

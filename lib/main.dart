@@ -1,7 +1,5 @@
-import 'package:estacionamento/screens/PerfilUsuario.dart';
 import 'package:flutter/material.dart';
 import 'screens/Login.dart';
-import 'screens/PrincipalUsuario.dart';
 import 'theme/style_one.dart';
 
 void main() {
@@ -14,8 +12,7 @@ class ParakiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //home: const Login(),
-      home: PerfilUsuario(),
+      home: const Login(),
       title: 'Paraki',
       theme: appTheme(),
     );

@@ -61,6 +61,36 @@ class PerfilUsuario extends StatelessWidget {
               subtitle: Text("***.**.***-**"),
             ),
           ),
+          Container(
+            decoration: BoxDecoration(
+              //color: Color(0xFFEDE4E2),
+              border: Border(
+                bottom: BorderSide(
+                  color: Color(0xFFB497F2),
+                  width: 1.5,
+                ),
+              ),
+            ),
+            child: ListTile(
+              title: Text("Senha"),
+              subtitle: Text("********"),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              //color: Color(0xFFEDE4E2),
+              border: Border(
+                bottom: BorderSide(
+                  color: Color(0xFFB497F2),
+                  width: 1.5,
+                ),
+              ),
+            ),
+            child: ListTile(
+              title: Text("Modelo do(s) carro(s)"),
+              subtitle: Text("Elétrico"),
+            ),
+          ),
         ],
       ),
     );
