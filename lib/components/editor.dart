@@ -23,20 +23,20 @@ class Editor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
       child: SizedBox(
         width: largura,
         height: altura,
-        child: TextField(
+        child: TextFormField(
           controller: controlador,
           keyboardType: teclado,
           decoration: InputDecoration(
             prefixIcon: icone != null ? Icon(icone) : null,
             labelText: rotulo,
             hintText: dica,
-            border: const OutlineInputBorder(
+            border: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              borderRadius: BorderRadius.circular(20.0),
             ),
           ),
         ),

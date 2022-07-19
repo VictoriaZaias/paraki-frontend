@@ -5,7 +5,7 @@ import 'CadastroUsuario.dart';
 import 'PrincipalUsuario.dart';
 
 class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+  Login({Key? key}) : super(key: key);
 
   static const _rotuloCampoCPF = 'CPF';
   static const _dicaCampoCPF = '00000000000';
@@ -13,6 +13,10 @@ class Login extends StatelessWidget {
   static const _dicaCampoSenha = '00000000';
   static const _textoBotaoEntrar = 'Entrar';
   static const _textoBotaoCadastrar = 'Cadastrar';
+
+  final TextEditingController _controladorCpf = TextEditingController();
+  final TextEditingController _controladorSenha = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +27,20 @@ class Login extends StatelessWidget {
             children: <Widget>[
               //Image.asset('assets/images/paraki.png'),
               Editor(
+                controlador: _controladorCpf,
                 rotulo: _rotuloCampoCPF,
                 dica: _dicaCampoCPF,
                 teclado: TextInputType.number,
               ),
               Editor(
+                controlador: _controladorSenha,
                 rotulo: _rotuloCampoSenha,
                 dica: _dicaCampoSenha,
               ),
               Button(
                 rotulo: _textoBotaoEntrar,
                 onPressed: () {
+
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -54,5 +61,19 @@ class Login extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String? _validateLogin(String text) {
+    if (text.isEmpty) {
+      return "Informe o login";
+    }
+    return null;
+  }
+
+  String? _validateSenha(String text) {
+    if (text.isEmpty) {
+      return "Informe a senha";
+    }
+    return null;
   }
 }

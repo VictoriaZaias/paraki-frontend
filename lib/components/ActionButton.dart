@@ -26,6 +26,7 @@ class ActionButton extends StatelessWidget {
         width: tamanhoBotao,
         height: tamanhoBotao,
         child: FloatingActionButton(
+          heroTag: null,
           onPressed: onPressed,
           child: Center(
             child: Icon(

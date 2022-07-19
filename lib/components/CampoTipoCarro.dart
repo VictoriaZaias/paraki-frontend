@@ -15,7 +15,7 @@ class CampoTipoCarro extends StatefulWidget {
 class _CampoTipoCarroState extends State<CampoTipoCarro> {
   final listaTiposCarros = ["Combustão", "Elétrico", "Combustão e elétrico"];
   String dica = "Modelo do(s) carro(s)";
-
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,11 +30,13 @@ class _CampoTipoCarroState extends State<CampoTipoCarro> {
         height: 53.0,
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
-            hint: Text(dica),
+            //hint: Text(dica),
             value: widget.dropdownValue,
             elevation: 16,
             dropdownColor: Color(0xFFEDE4E2),
             items: listaTiposCarros.map((String value) {
+              print("DENTRO ALO SOCORROOOOOOOOOOOOOOOOOOOOO");
+              print(widget.dropdownValue);
               return DropdownMenuItem(
                 value: value,
                 child: Text(value),
