@@ -1,8 +1,8 @@
+import 'package:estacionamento/models/endereco.dart';
+import 'package:estacionamento/models/estacionamento.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'dart:convert';
-
-import '../models/EstacionamentoEspecifico.dart';
 
 class LoggingInterceptor implements InterceptorContract {
   @override
@@ -26,24 +26,40 @@ class LoggingInterceptor implements InterceptorContract {
   }
 }
 
-Future<List<EstacionamentoEspecifico>> listarEstacionamento() async {
+Future<List<Estacionamento>> listarEstacionamento() async {
   final Client client = InterceptedClient.build(
     interceptors: [LoggingInterceptor()],
   );
   final response = await client.get(Uri.parse('http://192.168.1.113:3000/paraki/estacionamento/listar'));
-  final List<EstacionamentoEspecifico> Estacionamentos = [];
-  var EstacionamentoJson = jsonDecode(response.body);
-  for (var json in EstacionamentoJson['result']){
-     final EstacionamentoEspecifico Estacionamento = EstacionamentoEspecifico(
+  final List<Estacionamento> estacionamentos = [];
+  var estacionamentoJson = jsonDecode(response.body);
+  for (var json in estacionamentoJson['result']){
+    //print('AAA*/*/*/*/');
+    //final enderecoResponse = await client.get(Uri.parse('http://192.168.1.113:3000/paraki/endereco/buscar/'+json['endereco'].toString()));
+    //var enderecoJson = jsonDecode(enderecoResponse.body);
+    /*final Endereco endereco = Endereco(
+      enderecoJson['idEndereco'],
+      enderecoJson['bairro'],
+      enderecoJson['logradouro'],
+      enderecoJson['tipoLogradouro'],
+      enderecoJson['cidade'],
+      enderecoJson['uf'],
+      enderecoJson['cep'],
+      );*/
+     final Estacionamento estacionamento = Estacionamento(
       json['idEstacionamento'],
       json['nomeEstacionamento'],
-      //json['logradouro'],
-      //json['nroEstacionamento'],
-      //json['precoHora'],
+      json['CNPJ'],
       json['qtdTotalVagas'],
+      json['nroEstacionamento'],
+      json['telefone'],
+      json['valorHora']
+      //endereco 
     );
-    Estacionamentos.add(Estacionamento);
+    //print("----AAAAA----");
+    //print(estacionamento);
+    estacionamentos.add(estacionamento);
   }
-  return Estacionamentos;
+  return estacionamentos;
 }
 

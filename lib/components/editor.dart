@@ -9,6 +9,7 @@ class Editor extends StatelessWidget {
   final String? dica;
   final IconData? icone;
   final TextInputType? teclado;
+  final bool? senha;
 
   const Editor(
       {Key? key,
@@ -19,7 +20,8 @@ class Editor extends StatelessWidget {
       this.largura = 300.0,
       this.dica,
       this.icone,
-      this.teclado})
+      this.teclado,
+      this.senha=false})
       : super(key: key);
 
   @override
@@ -30,6 +32,7 @@ class Editor extends StatelessWidget {
         width: largura,
         height: altura,
         child: TextFormField(
+          obscureText: senha!,
           controller: controlador,
           validator: validacao,
           keyboardType: teclado,

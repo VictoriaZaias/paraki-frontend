@@ -66,10 +66,12 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 rotulo: _rotuloCampoSenha,
                 dica: _dicaCampoSenha,
                 controlador: senha,
+                senha: true,
               ),
               Editor(
                 rotulo: _rotuloCampoConfirmaSenha,
                 dica: _dicaCampoConfirmaSenha,
+                senha: true,
               ),
               Button(
                 rotulo: _textoBotaoCadastrar,

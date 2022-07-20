@@ -1,6 +1,6 @@
+import 'package:estacionamento/http/estacionamentoService.dart';
+import 'package:estacionamento/models/estacionamento.dart';
 import 'package:flutter/material.dart';
-import '../http/EstacionamentoService.dart';
-import '../models/EstacionamentoEspecifico.dart';
 import 'CardEstacionamento.dart';
 import 'CenteredMessage.dart';
 import 'Progress.dart';
@@ -16,10 +16,10 @@ class _ListaEstacionamentoState extends State<ListaEstacionamento> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: FutureBuilder<List<EstacionamentoEspecifico>>(
+      child: FutureBuilder<List<Estacionamento>>(
         future: listarEstacionamento(),
         builder:
-            (context, AsyncSnapshot<List<EstacionamentoEspecifico>> snapshot) {
+            (context, AsyncSnapshot<List<Estacionamento>> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
               break;
@@ -29,17 +29,17 @@ class _ListaEstacionamentoState extends State<ListaEstacionamento> {
               break;
             case ConnectionState.done:
               if (snapshot.hasData) {
-                final List<EstacionamentoEspecifico> estacionamentos =
+                final List<Estacionamento> estacionamentos =
                     snapshot.data ?? [];
                 if (estacionamentos.isNotEmpty) {
                   return ListView.builder(
                     itemBuilder: (context, index) {
-                      final EstacionamentoEspecifico estacionamento =
+                      final Estacionamento estacionamento =
                           estacionamentos[index];
                       return CardEstacionamento(
                         nomeEstacionamento: estacionamento.nomeEstacionamento,
-                        quantidadeTotalVagas:
-                            estacionamento.quantidadeTotalVagas.toString(),
+                        valorHora: estacionamento.valorHora,
+                        quantidadeTotalVagas: estacionamento.qtdTotalVagas.toString(),
                       );
                     },
                     itemCount: estacionamentos.length,

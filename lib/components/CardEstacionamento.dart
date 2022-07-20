@@ -6,11 +6,13 @@ import 'ActionButton.dart';
 class CardEstacionamento extends StatelessWidget {
   final String nomeEstacionamento;
   final String quantidadeTotalVagas;
+  final int valorHora;
 
   const CardEstacionamento({
     Key? key,
     required this.nomeEstacionamento,
     required this.quantidadeTotalVagas,
+    required this.valorHora
   }) : super(key: key);
 
   @override
@@ -27,6 +29,8 @@ class CardEstacionamento extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => DadosEstacionamento()));
+            
+            
             },
           ),
           /*
@@ -39,6 +43,7 @@ class CardEstacionamento extends StatelessWidget {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(valorHora.toString()),
               Text(quantidadeTotalVagas),
             ],
           ),

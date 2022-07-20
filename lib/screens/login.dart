@@ -39,6 +39,7 @@ class Login extends StatelessWidget {
                 controlador: _controladorSenha,
                 rotulo: _rotuloCampoSenha,
                 dica: _dicaCampoSenha,
+                senha: true,
               ),
               Button(
                 rotulo: _textoBotaoEntrar,
