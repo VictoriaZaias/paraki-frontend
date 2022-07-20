@@ -1,3 +1,5 @@
+import 'package:estacionamento/http/loginService.dart';
+import 'package:estacionamento/screens/PrincipalAdmin.dart';
 import 'package:flutter/material.dart';
 import '../components/Button.dart';
 import '../components/Editor.dart';
@@ -39,12 +41,20 @@ class Login extends StatelessWidget {
               ),
               Button(
                 rotulo: _textoBotaoEntrar,
-                onPressed: () {
-
-                  Navigator.push(
+                onPressed: () async {
+                  var usuario = await LoginService().validarLogin(_controladorCpf.text, _controladorSenha.text);
+                  if(usuario.tipo == "Motorista"){
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => PrincipalUsuario()));
+                  }else if(usuario.tipo == "Administrador"){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PrincipalAdmin()));
+                  }
+                  
                 },
               ),
               TextButton(
