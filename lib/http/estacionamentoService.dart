@@ -1,5 +1,5 @@
-import 'package:estacionamento/models/endereco.dart';
-import 'package:estacionamento/models/estacionamento.dart';
+import 'package:estacionamento/models/Endereco.dart';
+import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'dart:convert';
@@ -30,7 +30,7 @@ Future<List<Estacionamento>> listarEstacionamento() async {
   final Client client = InterceptedClient.build(
     interceptors: [LoggingInterceptor()],
   );
-  final response = await client.get(Uri.parse('http://192.168.1.113:3000/paraki/estacionamento/listar'));
+  final response = await client.get(Uri.parse('http://172.25.239.100:3000/paraki/estacionamento/listar'));
   final List<Estacionamento> estacionamentos = [];
   var estacionamentoJson = jsonDecode(response.body);
   for (var json in estacionamentoJson['result']){

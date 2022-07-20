@@ -1,11 +1,10 @@
-import 'package:estacionamento/screens/login.dart';
+import 'package:estacionamento/screens/Login.dart';
 import 'package:flutter/material.dart';
 import '../components/Button.dart';
 import '../components/DropdownSelect.dart';
 import '../components/Editor.dart';
 import '../http/UsuarioService.dart';
 import '../models/Usuario.dart';
-import 'PrincipalUsuario.dart';
 
 class CadastroUsuario extends StatefulWidget {
   const CadastroUsuario({Key? key}) : super(key: key);

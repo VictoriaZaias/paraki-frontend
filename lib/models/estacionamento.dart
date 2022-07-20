@@ -1,4 +1,4 @@
-import 'package:estacionamento/models/endereco.dart';
+import 'package:estacionamento/models/Endereco.dart';
 
 class Estacionamento{
   final int idEstacionamento;
