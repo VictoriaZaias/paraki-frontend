@@ -1,3 +1,4 @@
+import 'package:estacionamento/models/Usuario.dart';
 import 'package:flutter/material.dart';
 import '../components/ActionButton.dart';
 import '../components/Editor.dart';
@@ -5,7 +6,8 @@ import '../components/ListaEstacionamento.dart';
 import 'PerfilUsuario.dart';
 
 class PrincipalUsuario extends StatefulWidget {
-  const PrincipalUsuario({Key? key}) : super(key: key);
+  final Usuario? user;
+  PrincipalUsuario({this.user});
 
   @override
   State<PrincipalUsuario> createState() => _PrincipalUsuarioState();
@@ -33,7 +35,7 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PerfilUsuario()));
+                            builder: (context) => PerfilUsuario(user: widget.user!)));
                   },
                 ),
                 ActionButton(

@@ -1,10 +1,10 @@
 import 'package:estacionamento/components/ActionButton.dart';
+import 'package:estacionamento/models/Usuario.dart';
 import 'package:flutter/material.dart';
 
-import 'PrincipalUsuario.dart';
-
 class PerfilUsuario extends StatelessWidget {
-  const PerfilUsuario({Key? key}) : super(key: key);
+  final Usuario user;
+  PerfilUsuario({required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class PerfilUsuario extends StatelessWidget {
                     onPressed: null,
                   ),
                   Text(
-                    "Victória Caroline Souza Zaias",
+                    user.nomeUsuario,
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -58,7 +58,7 @@ class PerfilUsuario extends StatelessWidget {
             ),
             child: ListTile(
               title: Text("CPF"),
-              subtitle: Text("***.**.***-**"),
+              subtitle: Text(user.cpf),
             ),
           ),
           Container(
@@ -73,7 +73,7 @@ class PerfilUsuario extends StatelessWidget {
             ),
             child: ListTile(
               title: Text("Senha"),
-              subtitle: Text("********"),
+              subtitle: Text(user.senha),
             ),
           ),
           Container(
@@ -88,7 +88,7 @@ class PerfilUsuario extends StatelessWidget {
             ),
             child: ListTile(
               title: Text("Modelo do(s) carro(s)"),
-              subtitle: Text("Elétrico"),
+              subtitle: Text(user.modeloCarro),
             ),
           ),
         ],

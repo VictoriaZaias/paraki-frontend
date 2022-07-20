@@ -1,4 +1,5 @@
 import 'package:estacionamento/http/loginService.dart';
+import 'package:estacionamento/models/Usuario.dart';
 import 'package:estacionamento/screens/PrincipalAdmin.dart';
 import 'package:flutter/material.dart';
 import '../components/Button.dart';
@@ -44,10 +45,11 @@ class Login extends StatelessWidget {
                 onPressed: () async {
                   var usuario = await LoginService().validarLogin(_controladorCpf.text, _controladorSenha.text);
                   if(usuario.tipo == "Motorista"){
+                    Usuario u = Usuario(usuario.idUsuario, usuario.nomeUsuario, usuario.cpf, usuario.tipo, usuario.modeloCarro, usuario.senha);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PrincipalUsuario()));
+                          builder: (context) => PrincipalUsuario(user: u)));
                   }else if(usuario.tipo == "Administrador"){
                     Navigator.push(
                       context,

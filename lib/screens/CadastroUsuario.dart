@@ -1,3 +1,4 @@
+import 'package:estacionamento/screens/login.dart';
 import 'package:flutter/material.dart';
 import '../components/Button.dart';
 import '../components/DropdownSelect.dart';
@@ -94,7 +95,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PrincipalUsuario(),
+                      builder: (context) => Login(),
                     ),
                   );
                 },
