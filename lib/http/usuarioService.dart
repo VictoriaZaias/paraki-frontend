@@ -58,7 +58,7 @@ void cadastrarUsuario(Usuario usuario) async{
         'tipoUsuario' : usuario.tipo,
         'modeloCarro' : usuario.modeloCarro,
    };
-  print(usuario);
+    
    final String jsonUsuario = jsonEncode(usuarioMap);
    await client.post(Uri.parse('http://179.106.203.64:3000/paraki/usuario/cadastrar'), headers: {"content-type":"application/json"}, body: jsonUsuario); 
 

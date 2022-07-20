@@ -17,17 +17,22 @@ class CardEstacionamento extends StatelessWidget {
       height: 150.0,
       child: Card(
         child: ListTile(
-          leading: ActionButton(
-            padding: 0.0,
-            tamanhoBotao: 70.0,
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DadosEstacionamento(
-                            estacionamento: estacionamento,
-                          )));
-            },
+          leading: Stack(
+            alignment: Alignment.center,
+            children: [
+              ActionButton(
+                padding: 0.0,
+                tamanhoBotao: 70.0,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DadosEstacionamento(
+                              estacionamento: estacionamento)));
+                },
+              ),
+              //Text("VAGAS"),
+            ],
           ),
           title: Text(estacionamento.nomeEstacionamento),
           subtitle: Column(

@@ -11,18 +11,18 @@ class Button extends StatelessWidget {
     Key? key,
     this.controlador,
     required this.rotulo,
-    this.altura = 150.0,
-    this.largura = 30.0,
+    this.altura = 30.0,
+    this.largura = 200.0,
     required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+      padding: const EdgeInsets.fromLTRB(15.0, 35.0, 15.0, 5.0),
       child: SizedBox(
-        width: altura,
-        height: largura,
+        width: largura,
+        height: altura,
         child: ElevatedButton(
           onPressed: onPressed,
           style: ButtonStyle(

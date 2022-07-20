@@ -1,3 +1,4 @@
+import 'package:estacionamento/screens/Agradecimento.dart';
 import 'package:flutter/material.dart';
 import '../components/ActionButton.dart';
 import '../components/Button.dart';
@@ -6,6 +7,7 @@ import '../components/Editor.dart';
 import '../http/UsuarioService.dart';
 import '../models/Usuario.dart';
 import 'Login.dart';
+import 'PrincipalAdmin.dart';
 
 class AdminCadastro extends StatefulWidget {
   const AdminCadastro({Key? key}) : super(key: key);
@@ -47,7 +49,7 @@ class _AdminCadastroState extends State<AdminCadastro> {
           title: Text(
             "Cadastro usuário",
             style: TextStyle(
-              fontSize: 24.0,
+              fontSize: 22.0,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -126,8 +128,11 @@ class _AdminCadastroState extends State<AdminCadastro> {
                   Usuario usuario = Usuario(1, nomeUsuario.text, cpf.text,
                       vinculoId, carroId, senha.text);
                   cadastrarUsuario(usuario);
-
-                  Navigator.pop(context);
+                  
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Agradecimento("cadastrado")));
                 },
               ),
             ],

@@ -1,3 +1,7 @@
+import 'package:estacionamento/screens/AdminValidacao.dart';
+import 'package:estacionamento/screens/Agradecimento.dart';
+import 'package:estacionamento/screens/PrincipalAdmin.dart';
+import 'package:estacionamento/screens/PrincipalUsuario.dart';
 import 'package:flutter/material.dart';
 import 'screens/Login.dart';
 import 'theme/style_one.dart';

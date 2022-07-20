@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../components/Button.dart';
 import 'AdminCadastro.dart';
+import 'AdminProcura.dart';
 
 class PrincipalAdmin extends StatelessWidget {
   const PrincipalAdmin({Key? key}) : super(key: key);
@@ -43,7 +44,10 @@ class PrincipalAdmin extends StatelessWidget {
               ),
               Button(
                 rotulo: "Alterar/Inativar",
-                onPressed: null,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AdminProcura()));
+                },
               ),
             ],
           ),
