@@ -16,64 +16,71 @@ class Login extends StatelessWidget {
 
   final TextEditingController _controladorCpf = TextEditingController();
   final TextEditingController _controladorSenha = TextEditingController();
-  
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              //Image.asset('assets/images/paraki.png'),
-              Editor(
-                controlador: _controladorCpf,
-                rotulo: _rotuloCampoCPF,
-                dica: _dicaCampoCPF,
-                teclado: TextInputType.number,
-              ),
-              Editor(
-                controlador: _controladorSenha,
-                rotulo: _rotuloCampoSenha,
-                dica: _dicaCampoSenha,
-              ),
-              Button(
-                rotulo: _textoBotaoEntrar,
-                onPressed: () {
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                //Image.asset('assets/images/paraki.png'),
+                Editor(
+                  controlador: _controladorCpf,
+                  validacao: _validateLogin,
+                  rotulo: _rotuloCampoCPF,
+                  dica: _dicaCampoCPF,
+                  teclado: TextInputType.number,
+                ),
+                Editor(
+                  controlador: _controladorSenha,
+                  validacao: _validateSenha,
+                  rotulo: _rotuloCampoSenha,
+                  dica: _dicaCampoSenha,
+                ),
+                Button(
+                  rotulo: _textoBotaoEntrar,
+                  onPressed: () {
+                    final login = _controladorCpf.text;
+                    final senha = _controladorSenha.text;
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PrincipalUsuario()));
-                },
-              ),
-              TextButton(
-                child: Text(_textoBotaoCadastrar),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CadastroUsuario()));
-                },
-              ),
-            ],
+                    if (_formKey.currentState!.validate()) {
+                      return Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PrincipalUsuario()));
+                    }
+                  },
+                ),
+                TextButton(
+                  child: Text(_textoBotaoCadastrar),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CadastroUsuario()));
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  String? _validateLogin(String text) {
-    if (text.isEmpty) {
-      return "Informe o login";
+  String? _validateLogin(String? text) {
+    if (text == null || text.isEmpty) {
+      return "Informe o CPF";
     }
-    return null;
   }
 
-  String? _validateSenha(String text) {
-    if (text.isEmpty) {
+  String? _validateSenha(String? text) {
+    if (text == null || text.isEmpty) {
       return "Informe a senha";
     }
-    return null;
   }
 }

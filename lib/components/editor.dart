@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Editor extends StatelessWidget {
   final TextEditingController? controlador;
+  final String? Function(String?)? validacao;
   final String? rotulo;
   final double? altura;
   final double? largura;
@@ -12,6 +13,7 @@ class Editor extends StatelessWidget {
   const Editor(
       {Key? key,
       this.controlador,
+      this.validacao,
       this.rotulo,
       this.altura = 50.0,
       this.largura = 300.0,
@@ -29,6 +31,7 @@ class Editor extends StatelessWidget {
         height: altura,
         child: TextFormField(
           controller: controlador,
+          validator: validacao,
           keyboardType: teclado,
           decoration: InputDecoration(
             prefixIcon: icone != null ? Icon(icone) : null,
