@@ -8,7 +8,7 @@ class Estacionamento{
   final int nroEstacionamento;
   final String telefone;
   final int valorHora;
-  //final Endereco endereco;
+  final Endereco endereco;
 
   Estacionamento(
       this.idEstacionamento,
@@ -18,7 +18,7 @@ class Estacionamento{
       this.nroEstacionamento,
       this.telefone,
       this.valorHora,
-      //this.endereco
+      this.endereco
       );
 
   @override

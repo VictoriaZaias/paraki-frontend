@@ -1,9 +1,12 @@
+import 'package:estacionamento/http/estacionamentoService.dart';
+import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:flutter/material.dart';
 
 import '../components/ActionButton.dart';
 
 class DadosEstacionamento extends StatelessWidget {
-  const DadosEstacionamento({Key? key}) : super(key: key);
+  final Estacionamento estacionamento;
+  DadosEstacionamento({required this.estacionamento});
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +37,15 @@ class DadosEstacionamento extends StatelessWidget {
               ),
             ),
             child: ListTile(
-              title: Text("Estacionamento LabIoT"),
+              title: Text(estacionamento.nomeEstacionamento),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Av. Tancredo Neves, 6731 - Jardim Itaipu"),
-                  Text("Foz do Iguaçu - PR, 85867-900, Brasil"),
-                  Text("Fone: +55 44 ****-****"),
+                  Text(enderecoCompleto(estacionamento)),
+                  Text("Telefone: "+estacionamento.telefone),
+                  Text("CNPJ: "+estacionamento.cnpj),
+                  Text("Quantidade de vagas: "+estacionamento.qtdTotalVagas.toString()),
+                  Text("Valor por hora: "+estacionamento.valorHora.toString())
                 ],
               ),
             ),

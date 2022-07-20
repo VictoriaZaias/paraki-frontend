@@ -26,6 +26,18 @@ class LoggingInterceptor implements InterceptorContract {
   }
 }
 
+String enderecoCompleto(Estacionamento estacionamento){
+  String enderecoCompleto;
+  enderecoCompleto = estacionamento.endereco.tipoLogradouro+" "+
+  estacionamento.endereco.logradouro+", "+
+  estacionamento.nroEstacionamento.toString()+" - "+
+  estacionamento.endereco.bairro+", "+
+  estacionamento.endereco.cidade+" - "+
+  estacionamento.endereco.unidadeFederativa+", "+
+  estacionamento.endereco.cep;
+  return enderecoCompleto;
+}
+
 Future<List<Estacionamento>> listarEstacionamento() async {
   final Client client = InterceptedClient.build(
     interceptors: [LoggingInterceptor()],
@@ -34,18 +46,17 @@ Future<List<Estacionamento>> listarEstacionamento() async {
   final List<Estacionamento> estacionamentos = [];
   var estacionamentoJson = jsonDecode(response.body);
   for (var json in estacionamentoJson['result']){
-    //print('AAA*/*/*/*/');
-    //final enderecoResponse = await client.get(Uri.parse('http://192.168.1.113:3000/paraki/endereco/buscar/'+json['endereco'].toString()));
-    //var enderecoJson = jsonDecode(enderecoResponse.body);
-    /*final Endereco endereco = Endereco(
-      enderecoJson['idEndereco'],
-      enderecoJson['bairro'],
-      enderecoJson['logradouro'],
-      enderecoJson['tipoLogradouro'],
-      enderecoJson['cidade'],
-      enderecoJson['uf'],
-      enderecoJson['cep'],
-      );*/
+    final enderecoResponse = await client.get(Uri.parse('http://172.25.239.100:3000/paraki/endereco/buscar/'+json['endereco'].toString()));
+    var jsonEndereco = jsonDecode(enderecoResponse.body);
+    final Endereco endereco = Endereco(
+      jsonEndereco['result']['idEndereco'],
+      jsonEndereco['result']['bairro'],
+      jsonEndereco['result']['logradouro'],
+      jsonEndereco['result']['tipoLogradouro'],
+      jsonEndereco['result']['cidade'],
+      jsonEndereco['result']['uf'],
+      jsonEndereco['result']['cep'],
+      );
      final Estacionamento estacionamento = Estacionamento(
       json['idEstacionamento'],
       json['nomeEstacionamento'],
@@ -53,11 +64,9 @@ Future<List<Estacionamento>> listarEstacionamento() async {
       json['qtdTotalVagas'],
       json['nroEstacionamento'],
       json['telefone'],
-      json['valorHora']
-      //endereco 
+      json['valorHora'],
+      endereco 
     );
-    //print("----AAAAA----");
-    //print(estacionamento);
     estacionamentos.add(estacionamento);
   }
   return estacionamentos;
