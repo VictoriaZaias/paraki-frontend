@@ -1,3 +1,4 @@
+import 'package:estacionamento/http/HorarioFuncionamentoService.dart';
 import 'package:estacionamento/http/estacionamentoService.dart';
 import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class DadosEstacionamento extends StatelessWidget {
           leadingWidth: 90.0,
           leading: ActionButton(
             simbolo: Icons.arrow_back,
-            onPressed: () {
+            onPressed: (){
               Navigator.pop(context);
             },
           ),
@@ -42,21 +43,15 @@ class DadosEstacionamento extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(enderecoCompleto(estacionamento)),
-                  Text("Telefone: " + estacionamento.telefone),
-                  Text("CNPJ: " + estacionamento.cnpj),
-                  Text("Quantidade de vagas: " +
-                      estacionamento.qtdTotalVagas.toString()),
-                  Text("Valor por hora: " + estacionamento.valorHora.toString())
+                  Text("Telefone: "+estacionamento.telefone),
+                  Text("CNPJ: "+estacionamento.cnpj),
+                  Text("Quantidade de vagas: "+estacionamento.qtdTotalVagas.toString()),
+                  Text("Valor por hora: "+estacionamento.valorHora.toString()),
+                  //Text(HorarioFuncionamentoService.listarHorarios(estacionamento.idEstacionamento));
                 ],
               ),
             ),
           ),
-          /*
-          StreamBuilder(
-            stream: ,
-            builder: (BuildContext context,
-                AsyncSnapshot<QuerySnapshot> snapshot) {},
-          ),*/
         ],
       ),
     );
