@@ -42,14 +42,21 @@ class DadosEstacionamento extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(enderecoCompleto(estacionamento)),
-                  Text("Telefone: "+estacionamento.telefone),
-                  Text("CNPJ: "+estacionamento.cnpj),
-                  Text("Quantidade de vagas: "+estacionamento.qtdTotalVagas.toString()),
-                  Text("Valor por hora: "+estacionamento.valorHora.toString())
+                  Text("Telefone: " + estacionamento.telefone),
+                  Text("CNPJ: " + estacionamento.cnpj),
+                  Text("Quantidade de vagas: " +
+                      estacionamento.qtdTotalVagas.toString()),
+                  Text("Valor por hora: " + estacionamento.valorHora.toString())
                 ],
               ),
             ),
           ),
+          /*
+          StreamBuilder(
+            stream: ,
+            builder: (BuildContext context,
+                AsyncSnapshot<QuerySnapshot> snapshot) {},
+          ),*/
         ],
       ),
     );

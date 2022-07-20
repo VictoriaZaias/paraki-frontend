@@ -40,6 +40,7 @@ class Editor extends StatelessWidget {
             prefixIcon: icone != null ? Icon(icone) : null,
             labelText: rotulo,
             hintText: dica,
+            contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(20.0),

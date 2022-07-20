@@ -37,14 +37,6 @@ class _ListaEstacionamentoState extends State<ListaEstacionamento> {
                       final Estacionamento estacionamento =
                           estacionamentos[index];
                       return CardEstacionamento(
-                        /*idEstacionamento: estacionamento.idEstacionamento,
-                        nomeEstacionamento: estacionamento.nomeEstacionamento,
-                        cnpj: estacionamento.cnpj,
-                        qtdTotalVagas: estacionamento.qtdTotalVagas,
-                        nroEstacionamento: estacionamento.nroEstacionamento,
-                        valorHora: estacionamento.valorHora,
-                        telefone: estacionamento.telefone,
-                        endereco: enderecoCompleto(estacionamento),*/
                         estacionamento: estacionamento,
                       );
                     },

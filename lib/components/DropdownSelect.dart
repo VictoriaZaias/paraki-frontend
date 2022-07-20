@@ -18,7 +18,7 @@ class DropdownSelect<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       child: SizedBox(
         width: 300.0,
         height: 50.0,
@@ -27,6 +27,7 @@ class DropdownSelect<T> extends StatelessWidget {
             return InputDecorator(
               decoration: InputDecoration(
                 labelText: dica,
+                contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(20.0),
@@ -36,7 +37,7 @@ class DropdownSelect<T> extends StatelessWidget {
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<T>(
                   value: valor,
-                  isDense: true,
+                  //isDense: true,
                   onChanged: onChanged,
                   items: opcoes.map((T valor) {
                     return DropdownMenuItem<T>(

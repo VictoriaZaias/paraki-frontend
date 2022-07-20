@@ -19,7 +19,6 @@ class Login extends StatelessWidget {
 
   final TextEditingController _controladorCpf = TextEditingController();
   final TextEditingController _controladorSenha = TextEditingController();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -44,20 +43,26 @@ class Login extends StatelessWidget {
               Button(
                 rotulo: _textoBotaoEntrar,
                 onPressed: () async {
-                  var usuario = await LoginService().validarLogin(_controladorCpf.text, _controladorSenha.text);
-                  if(usuario.tipo == "Motorista"){
-                    Usuario u = Usuario(usuario.idUsuario, usuario.nomeUsuario, usuario.cpf, usuario.tipo, usuario.modeloCarro, usuario.senha);
+                  var usuario = await LoginService().validarLogin(
+                      _controladorCpf.text, _controladorSenha.text);
+                  if (usuario.tipo == "Motorista") {
+                    Usuario u = Usuario(
+                        usuario.idUsuario,
+                        usuario.nomeUsuario,
+                        usuario.cpf,
+                        usuario.tipo,
+                        usuario.modeloCarro,
+                        usuario.senha);
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PrincipalUsuario(user: u)));
-                  }else if(usuario.tipo == "Administrador"){
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PrincipalUsuario(user: u)));
+                  } else if (usuario.tipo == "Administrador") {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PrincipalAdmin()));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PrincipalAdmin()));
                   }
-                  
                 },
               ),
               TextButton(

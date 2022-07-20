@@ -27,19 +27,18 @@ class PrincipalAdmin extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Text("Usuário",
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
+              Text(
+                "Usuário",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Button(
                 rotulo: "Inserir",
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AdminCadastro()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AdminCadastro()));
                 },
               ),
               Button(

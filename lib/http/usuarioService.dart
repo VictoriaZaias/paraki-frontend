@@ -29,7 +29,7 @@ Future<List<Usuario>> listarUsuario() async {
   final Client client = InterceptedClient.build(
     interceptors: [LoggingInterceptor()],
   );
-  final response = await client.get(Uri.parse('http://172.25.239.100:3000/paraki/usuario/listar'));
+  final response = await client.get(Uri.parse('http://179.106.203.64:3000/paraki/usuario/listar'));
   final List<Usuario> usuarios = [];
   var usuarioJson = jsonDecode(response.body);
   for (var json in usuarioJson['result']){
@@ -58,8 +58,8 @@ void cadastrarUsuario(Usuario usuario) async{
         'tipoUsuario' : usuario.tipo,
         'modeloCarro' : usuario.modeloCarro,
    };
-
+  print(usuario);
    final String jsonUsuario = jsonEncode(usuarioMap);
-   await client.post(Uri.parse('http://172.25.239.100:3000/paraki/usuario/cadastrar'), headers: {"content-type":"application/json"}, body: jsonUsuario); 
+   await client.post(Uri.parse('http://179.106.203.64:3000/paraki/usuario/cadastrar'), headers: {"content-type":"application/json"}, body: jsonUsuario); 
 
 }
