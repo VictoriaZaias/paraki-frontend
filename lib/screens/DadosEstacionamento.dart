@@ -42,7 +42,7 @@ class DadosEstacionamento extends StatelessWidget {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(enderecoCompleto(estacionamento)),
+                  Text(estacionamentoService().enderecoCompleto(estacionamento)),
                   Text("Telefone: "+estacionamento.telefone),
                   Text("CNPJ: "+estacionamento.cnpj),
                   Text("Quantidade de vagas: "+estacionamento.qtdTotalVagas.toString()),

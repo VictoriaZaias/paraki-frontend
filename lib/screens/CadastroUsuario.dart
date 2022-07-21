@@ -1,9 +1,10 @@
+import 'package:estacionamento/http/usuarioService.dart';
 import 'package:estacionamento/screens/Login.dart';
 import 'package:flutter/material.dart';
 import '../components/Button.dart';
 import '../components/DropdownSelect.dart';
 import '../components/Editor.dart';
-import '../http/UsuarioService.dart';
+
 import '../models/Usuario.dart';
 
 class CadastroUsuario extends StatefulWidget {
@@ -90,8 +91,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       carroId = '4';
                   }
                   Usuario usuario = Usuario(
-                      1, nomeUsuario.text, cpf.text, '2', carroId, senha.text);
-                  cadastrarUsuario(usuario);
+                      1, nomeUsuario.text, cpf.text, "2", carroId, senha.text);
+                  usuarioService().cadastrarUsuario(usuario);
 
                   Navigator.push(
                     context,

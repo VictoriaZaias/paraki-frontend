@@ -29,7 +29,7 @@ class LoggingInterceptor implements InterceptorContract {
 
 class HorarioFuncionamentoService{
 
-  String urlPadrao = "http://172.25.239.100:3000/paraki/";
+  String urlPadrao = "http://192.168.1.170:3000/paraki/";
 
   Future<List<HorarioFuncionamento>> buscarHorarios(int idEstacionamento) async {
   final Client client = InterceptedClient.build(
