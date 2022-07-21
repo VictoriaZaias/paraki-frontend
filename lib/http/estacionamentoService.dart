@@ -28,7 +28,7 @@ class LoggingInterceptor implements InterceptorContract {
 
 class estacionamentoService{
 
-  String urlPadrao = "http://192.168.1.170:3000/paraki/";
+  String urlPadrao = "http://179.106.210.152:3000/paraki/";
 
 String enderecoCompleto(Estacionamento estacionamento){
   String enderecoCompleto;
@@ -50,7 +50,7 @@ Future<List<Estacionamento>> listarEstacionamento() async {
   final List<Estacionamento> estacionamentos = [];
   var estacionamentoJson = jsonDecode(response.body);
   for (var json in estacionamentoJson['result']){
-    final enderecoResponse = await client.get(Uri.parse('${urlPadrao}paraki/endereco/buscar/'+json['endereco'].toString()));
+    final enderecoResponse = await client.get(Uri.parse('${urlPadrao}endereco/buscar/'+json['endereco'].toString()));
     var jsonEndereco = jsonDecode(enderecoResponse.body);
     final Endereco endereco = Endereco(
       jsonEndereco['result']['idEndereco'],

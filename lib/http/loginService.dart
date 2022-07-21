@@ -29,7 +29,7 @@ class LoggingInterceptor implements InterceptorContract {
 
 class LoginService{
 
-  String urlPadrao = "http://192.168.1.170:3000/paraki/";
+  String urlPadrao = "http://179.106.210.152:3000/paraki/";
 
   Future<Usuario> validarLogin(String cpf, String senha) async {
     final Client client = InterceptedClient.build(

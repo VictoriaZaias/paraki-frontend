@@ -29,13 +29,13 @@ class LoggingInterceptor implements InterceptorContract {
 
 class HorarioFuncionamentoService{
 
-  String urlPadrao = "http://192.168.1.170:3000/paraki/";
+  String urlPadrao = "http://179.106.210.152:3000/paraki/";
 
   Future<List<HorarioFuncionamento>> buscarHorarios(int idEstacionamento) async {
   final Client client = InterceptedClient.build(
     interceptors: [LoggingInterceptor()],
   );
-  final response = await client.get(Uri.parse('http://172.25.239.100:3000/paraki/horarioFuncionamento/buscar/'+idEstacionamento.toString()));
+  final response = await client.get(Uri.parse('${urlPadrao}horarioFuncionamento/buscar/'+idEstacionamento.toString()));
   final List<HorarioFuncionamento> horarios = [];
   var horarioJson = jsonDecode(response.body);
   for (var json in horarioJson['result']){
