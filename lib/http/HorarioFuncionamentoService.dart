@@ -29,7 +29,7 @@ class LoggingInterceptor implements InterceptorContract {
 
 class HorarioFuncionamentoService{
 
-  String urlPadrao = "http://179.106.210.152:3000/paraki/";
+  String urlPadrao = "http://estacionamento-pedepano.herokuapp.com/paraki/";
 
   Future<List<HorarioFuncionamento>> buscarHorarios(int idEstacionamento) async {
   final Client client = InterceptedClient.build(

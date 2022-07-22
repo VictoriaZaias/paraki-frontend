@@ -16,6 +16,7 @@ class PrincipalUsuario extends StatefulWidget {
 class _PrincipalUsuarioState extends State<PrincipalUsuario> {
   static const _tamanhoActionButtons = 55.0;
   bool isFavoriteVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

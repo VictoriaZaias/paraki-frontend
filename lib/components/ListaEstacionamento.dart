@@ -1,6 +1,6 @@
-import 'package:estacionamento/http/estacionamentoService.dart';
-import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:flutter/material.dart';
+import '../http/EstacionamentoService.dart';
+import '../models/Estacionamento.dart';
 import 'CardEstacionamento.dart';
 import 'CenteredMessage.dart';
 import 'Progress.dart';

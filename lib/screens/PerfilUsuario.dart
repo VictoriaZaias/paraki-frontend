@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 
 class PerfilUsuario extends StatelessWidget {
   final Usuario user;
-  PerfilUsuario({required this.user});
+  PerfilUsuario({
+    required this.user,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,52 +48,37 @@ class PerfilUsuario extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              //color: Color(0xFFEDE4E2),
-              border: Border(
-                bottom: BorderSide(
-                  color: Color(0xFFB497F2),
-                  width: 1.5,
-                ),
-              ),
-            ),
-            child: ListTile(
-              title: Text("CPF"),
-              subtitle: Text(user.cpf),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              //color: Color(0xFFEDE4E2),
-              border: Border(
-                bottom: BorderSide(
-                  color: Color(0xFFB497F2),
-                  width: 1.5,
-                ),
-              ),
-            ),
-            child: ListTile(
-              title: Text("Senha"),
-              subtitle: Text(user.senha),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              //color: Color(0xFFEDE4E2),
-              border: Border(
-                bottom: BorderSide(
-                  color: Color(0xFFB497F2),
-                  width: 1.5,
-                ),
-              ),
-            ),
-            child: ListTile(
-              title: Text("Modelo do(s) carro(s)"),
-              subtitle: Text(user.modeloCarro),
-            ),
-          ),
+          dadosUsuario("CPF", user.cpf, Icons.edit),
+          dadosUsuario("Senha", user.senha, Icons.edit),
+          dadosUsuario("Modelo do(s) carro(s)", user.modeloCarro, Icons.edit),
+          dadosUsuario("Sair do app", null, null),
         ],
+      ),
+    );
+  }
+
+  Container dadosUsuario(String titulo, String? dado, IconData? icone) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Color(0xFFB497F2),
+            width: 1.5,
+          ),
+        ),
+      ),
+      child: ListTile(
+        textColor: Color(0xFFEDE4E2),
+        title: Text(titulo),
+        subtitle: dado != null ? Text(dado) : null,
+        trailing: icone != null
+            ? IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  icone,
+                ),
+              )
+            : null,
       ),
     );
   }

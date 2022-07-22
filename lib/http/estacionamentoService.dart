@@ -26,53 +26,59 @@ class LoggingInterceptor implements InterceptorContract {
   }
 }
 
-class estacionamentoService{
+class estacionamentoService {
+  String urlPadrao = "http://estacionamento-pedepano.herokuapp.com/paraki/";
 
-  String urlPadrao = "http://179.106.210.152:3000/paraki/";
-
-String enderecoCompleto(Estacionamento estacionamento){
-  String enderecoCompleto;
-  enderecoCompleto = estacionamento.endereco.tipoLogradouro+" "+
-  estacionamento.endereco.logradouro+", "+
-  estacionamento.nroEstacionamento.toString()+" - "+
-  estacionamento.endereco.bairro+", "+
-  estacionamento.endereco.cidade+" - "+
-  estacionamento.endereco.unidadeFederativa+", "+
-  estacionamento.endereco.cep;
-  return enderecoCompleto;
-}
-
-Future<List<Estacionamento>> listarEstacionamento() async {
-  final Client client = InterceptedClient.build(
-    interceptors: [LoggingInterceptor()],
-  );
-  final response = await client.get(Uri.parse('${urlPadrao}estacionamento/listar'));
-  final List<Estacionamento> estacionamentos = [];
-  var estacionamentoJson = jsonDecode(response.body);
-  for (var json in estacionamentoJson['result']){
-    final enderecoResponse = await client.get(Uri.parse('${urlPadrao}endereco/buscar/'+json['endereco'].toString()));
-    var jsonEndereco = jsonDecode(enderecoResponse.body);
-    final Endereco endereco = Endereco(
-      jsonEndereco['result']['idEndereco'],
-      jsonEndereco['result']['bairro'],
-      jsonEndereco['result']['logradouro'],
-      jsonEndereco['result']['tipoLogradouro'],
-      jsonEndereco['result']['cidade'],
-      jsonEndereco['result']['uf'],
-      jsonEndereco['result']['cep'],
-      );
-     final Estacionamento estacionamento = Estacionamento(
-      json['idEstacionamento'],
-      json['nomeEstacionamento'],
-      json['CNPJ'],
-      json['qtdTotalVagas'],
-      json['nroEstacionamento'],
-      json['telefone'],
-      json['valorHora'],
-      endereco 
-    );
-    estacionamentos.add(estacionamento);
+  String enderecoCompleto(Estacionamento estacionamento) {
+    String enderecoCompleto;
+    enderecoCompleto = estacionamento.endereco.tipoLogradouro +
+        " " +
+        estacionamento.endereco.logradouro +
+        ", " +
+        estacionamento.nroEstacionamento.toString() +
+        " - " +
+        estacionamento.endereco.bairro +
+        ", " +
+        estacionamento.endereco.cidade +
+        " - " +
+        estacionamento.endereco.unidadeFederativa +
+        ", " +
+        estacionamento.endereco.cep;
+    return enderecoCompleto;
   }
-  return estacionamentos;
-}
+
+  Future<List<Estacionamento>> listarEstacionamento() async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );
+    final response =
+        await client.get(Uri.parse('${urlPadrao}estacionamento/listar'));
+    final List<Estacionamento> estacionamentos = [];
+    var estacionamentoJson = jsonDecode(response.body);
+    for (var json in estacionamentoJson['result']) {
+      final enderecoResponse = await client.get(Uri.parse(
+          '${urlPadrao}endereco/buscar/' + json['endereco'].toString()));
+      var jsonEndereco = jsonDecode(enderecoResponse.body);
+      final Endereco endereco = Endereco(
+        jsonEndereco['result']['idEndereco'],
+        jsonEndereco['result']['bairro'],
+        jsonEndereco['result']['logradouro'],
+        jsonEndereco['result']['tipoLogradouro'],
+        jsonEndereco['result']['cidade'],
+        jsonEndereco['result']['uf'],
+        jsonEndereco['result']['cep'],
+      );
+      final Estacionamento estacionamento = Estacionamento(
+          json['idEstacionamento'],
+          json['nomeEstacionamento'],
+          json['CNPJ'],
+          json['qtdTotalVagas'],
+          json['nroEstacionamento'],
+          json['telefone'],
+          json['valorHora'],
+          endereco);
+      estacionamentos.add(estacionamento);
+    }
+    return estacionamentos;
+  }
 }
