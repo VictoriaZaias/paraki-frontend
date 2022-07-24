@@ -3,9 +3,7 @@ import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'dart:convert';
 
-
 class LoggingInterceptor implements InterceptorContract {
-
   @override
   Future<RequestData> interceptRequest({required RequestData data}) async {
     print(data.toString());
@@ -27,35 +25,39 @@ class LoggingInterceptor implements InterceptorContract {
   }
 }
 
-class LoginService{
-
+class LoginService {
   String urlPadrao = "http://estacionamento-pedepano.herokuapp.com/paraki/";
 
   Future<Usuario> validarLogin(String cpf, String senha) async {
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
     );
+
     final Map<String, dynamic> usuarioMap = {
-          'CPF': cpf,
-          'senha': senha,
+      'CPF': cpf,
+      'senha': senha,
     };
 
     final String jsonUsuario = jsonEncode(usuarioMap);
-    final Response response = await client.post(Uri.parse('${urlPadrao}usuario/login'), headers: {"content-type":"application/json"}, body: jsonUsuario);
+    final Response response = await client.post(
+        Uri.parse('${urlPadrao}usuario/login'),
+        headers: {"content-type": "application/json"},
+        body: jsonUsuario);
 
     var json = jsonDecode(response.body);
 
     var usuario = Usuario(0, "", "", "", "", "");
 
-    if (json['result'] != 'CPF ou senha inválidos!'){
-        usuario = Usuario(
+    if (json['result'] != 'CPF ou senha inválidos!') {
+      usuario = Usuario(
         json['result']['idUsuario'],
         json['result']['nomeUsuario'],
         json['result']['CPF'],
         json['result']['tipoUsuario'],
         json['result']['modeloCarro'],
-        json['result']['senha']);
+        json['result']['senha'],
+      );
     }
-      return usuario;
+    return usuario;
   }
 }

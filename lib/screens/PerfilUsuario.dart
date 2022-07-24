@@ -1,6 +1,8 @@
 import 'package:estacionamento/components/ActionButton.dart';
 import 'package:estacionamento/models/Usuario.dart';
+import 'package:mysql1/mysql1.dart';
 import 'package:flutter/material.dart';
+import 'Login.dart';
 
 class PerfilUsuario extends StatelessWidget {
   final Usuario user;
@@ -48,16 +50,19 @@ class PerfilUsuario extends StatelessWidget {
       ),
       body: Column(
         children: [
-          dadosUsuario("CPF", user.cpf, Icons.edit),
-          dadosUsuario("Senha", user.senha, Icons.edit),
-          dadosUsuario("Modelo do(s) carro(s)", user.modeloCarro, Icons.edit),
-          dadosUsuario("Sair do app", null, null),
+          dadosUsuario("CPF", user.cpf, Icons.edit, null),
+          dadosUsuario("Senha", user.senha, Icons.edit, null),
+          dadosUsuario(
+              "Modelo do(s) carro(s)", user.modeloCarro, Icons.edit, null),
+          dadosUsuario(
+              "Sair do app", null, Icons.logout_rounded, null),
         ],
       ),
     );
   }
 
-  Container dadosUsuario(String titulo, String? dado, IconData? icone) {
+  Container dadosUsuario(
+      String titulo, String? dado, IconData? icone, Function()? acao) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -68,18 +73,26 @@ class PerfilUsuario extends StatelessWidget {
         ),
       ),
       child: ListTile(
-        textColor: Color(0xFFEDE4E2),
         title: Text(titulo),
         subtitle: dado != null ? Text(dado) : null,
         trailing: icone != null
             ? IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  acao;
+                },
                 icon: Icon(
                   icone,
+                  color: Color(0xFFEDE4E2),
                 ),
               )
             : null,
       ),
     );
+  }
+
+  signOut(BuildContext context) async {
+    //await signOut(context);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Login()));
   }
 }

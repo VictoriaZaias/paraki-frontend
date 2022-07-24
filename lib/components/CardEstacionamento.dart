@@ -17,6 +17,7 @@ class CardEstacionamento extends StatelessWidget {
       height: 150.0,
       child: Card(
         child: ListTile(
+          textColor: Colors.black,
           leading: Stack(
             alignment: Alignment.center,
             children: [

@@ -47,21 +47,30 @@ class Login extends StatelessWidget {
                       _controladorCpf.text, _controladorSenha.text);
                   if (usuario.tipo == "Motorista") {
                     Usuario u = Usuario(
-                        usuario.idUsuario,
-                        usuario.nomeUsuario,
-                        usuario.cpf,
-                        usuario.tipo,
-                        usuario.modeloCarro,
-                        usuario.senha);
+                      usuario.idUsuario,
+                      usuario.nomeUsuario,
+                      usuario.cpf,
+                      usuario.tipo,
+                      usuario.modeloCarro,
+                      usuario.senha,
+                    );
+                    /*
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PrincipalUsuario(user: u)),
+                    );*/
+
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PrincipalUsuario(user: u)));
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PrincipalUsuario(user: u)),
+                    );
                   } else if (usuario.tipo == "Administrador") {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PrincipalAdmin()));
+                      context,
+                      MaterialPageRoute(builder: (context) => PrincipalAdmin()),
+                    );
                   }
                 },
               ),

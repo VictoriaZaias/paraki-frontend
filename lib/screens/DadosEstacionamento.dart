@@ -1,15 +1,18 @@
-import 'package:estacionamento/http/HorarioFuncionamentoService.dart';
-import 'package:estacionamento/http/EstacionamentoService.dart';
-import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:flutter/material.dart';
-
 import '../components/ActionButton.dart';
+import '../components/Button.dart';
+import '../components/ContainerDados.dart';
+import '../http/EstacionamentoService.dart';
+import '../models/Estacionamento.dart';
+import 'ReservaEstacionamento.dart';
 
 class DadosEstacionamento extends StatelessWidget {
   final Estacionamento estacionamento;
+
   DadosEstacionamento({
+    Key? key,
     required this.estacionamento,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +20,7 @@ class DadosEstacionamento extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(95.0),
         child: AppBar(
+          centerTitle: true,
           toolbarHeight: 90.0,
           leadingWidth: 90.0,
           leading: ActionButton(
@@ -25,40 +29,104 @@ class DadosEstacionamento extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
+          title: Text(
+            "Estacionamento",
+            style: TextStyle(
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+          actions: [
+            ActionButton(
+              simbolo: Icons.star,
+              onPressed: () {},
+            ),
+          ],
         ),
       ),
       body: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              //color: Color(0xFFEDE4E2),
-              border: Border(
-                bottom: BorderSide(
-                  color: Color(0xFFB497F2),
-                  width: 1.5,
-                ),
-              ),
-            ),
-            child: ListTile(
-              title: Text(estacionamento.nomeEstacionamento),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      estacionamentoService().enderecoCompleto(estacionamento)),
-                  Text("Telefone: " + estacionamento.telefone),
-                  Text("CNPJ: " + estacionamento.cnpj),
-                  Text("Quantidade de vagas: " +
-                      estacionamento.qtdTotalVagas.toString()),
-                  Text(
-                      "Valor por hora: " + estacionamento.valorHora.toString()),
-                  //Text(HorarioFuncionamentoService.listarHorarios(estacionamento.idEstacionamento));
-                ],
-              ),
-            ),
+          ContainerDados(
+            titulo: estacionamento.nomeEstacionamento,
+            dados: _dadosGerais(),
+          ),
+          ContainerDados(
+            titulo: "Vagas",
+            dados: _dadosVagas(),
+          ),
+          ContainerDados(
+            titulo: "Horario de funcionamento",
+            dados: _dadosHorarios(),
+          ),
+          ContainerDados(
+            titulo: "Preços",
+            dados: _dadosPrecos(),
+          ),
+          ContainerDados(
+            titulo: "Características",
+            dados: _dadosCaracteristicas(),
+          ),
+          Button(
+            rotulo: "Reservar",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ReservaEstacionamento(estacionamento: estacionamento)),
+              );
+            },
           ),
         ],
       ),
     );
+  }
+
+  List<Widget> _dadosGerais() {
+    return [
+      Text(estacionamentoService().enderecoCompleto(estacionamento)),
+      Text("Telefone: " + estacionamento.telefone),
+    ];
+  }
+
+  List<Widget> _dadosVagas() {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Total de vagas"),
+          Text(estacionamento.qtdTotalVagas.toString() + " vagas"),
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Vagas disponíveis"),
+          //Text(estacionamento.qtdVagasDisponiveis.toString() + " vagas"),
+        ],
+      ),
+    ];
+  }
+
+  List<Widget> _dadosHorarios() {
+    return [
+      //Text(HorarioFuncionamentoService.listarHorarios(
+      //    estacionamento.idEstacionamento)),
+    ];
+  }
+
+  List<Widget> _dadosPrecos() {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("1 hora"),
+          Text("R\$ " + estacionamento.valorHora.toString()),
+        ],
+      ),
+    ];
+  }
+
+  List<Widget> _dadosCaracteristicas() {
+    return [];
   }
 }

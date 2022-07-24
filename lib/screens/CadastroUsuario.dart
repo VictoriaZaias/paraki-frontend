@@ -57,10 +57,10 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 dica: "Tipo(s) de carro(s)",
                 opcoes: ["Combustão", "Elétrico", "Combustão e elétrico"],
                 valor: carro,
-                onChanged: (String? valor) => setState(() {
-                    carro = valor;
-                  }),
                 getRotulo: (String valor) => valor,
+                onChanged: (String? valor) => setState(() {
+                  carro = valor;
+                }),
               ),
               Editor(
                 rotulo: _rotuloCampoSenha,

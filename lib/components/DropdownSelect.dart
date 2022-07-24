@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 class DropdownSelect<T> extends StatelessWidget {
   final String dica;
+  final double? altura;
+  final double? largura;
+  final double borda;
   final List<T> opcoes;
   final T? valor;
   final String Function(T) getRotulo;
@@ -9,28 +12,32 @@ class DropdownSelect<T> extends StatelessWidget {
 
   DropdownSelect({
     this.dica = 'Selecione uma opção',
+    this.altura = 50.0,
+    this.largura = 300.0,
+    this.borda = 20.0,
     this.opcoes = const [],
-    required this.getRotulo,
     this.valor,
-    this.onChanged,
+    required this.getRotulo,
+    required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: SizedBox(
-        width: 300.0,
-        height: 50.0,
+        width: largura,
+        height: altura,
         child: FormField<T>(
           builder: (FormFieldState<T> state) {
             return InputDecorator(
               decoration: InputDecoration(
                 labelText: dica,
-                contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(20.0),
+                  borderRadius: BorderRadius.circular(borda),
                 ),
               ),
               isEmpty: valor == null || valor == '',

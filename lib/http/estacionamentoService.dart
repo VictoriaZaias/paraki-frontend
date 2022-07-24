@@ -38,7 +38,7 @@ class estacionamentoService {
         estacionamento.nroEstacionamento.toString() +
         " - " +
         estacionamento.endereco.bairro +
-        ", " +
+        "\n" +
         estacionamento.endereco.cidade +
         " - " +
         estacionamento.endereco.unidadeFederativa +

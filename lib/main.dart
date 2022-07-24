@@ -1,23 +1,20 @@
-import 'package:estacionamento/screens/AdminValidacao.dart';
-import 'package:estacionamento/screens/Agradecimento.dart';
-import 'package:estacionamento/screens/PrincipalAdmin.dart';
-import 'package:estacionamento/screens/PrincipalUsuario.dart';
-import 'package:estacionamento/screens/TestandoStreams.dart';
+import 'dart:async';
+import 'package:mysql1/mysql1.dart';
 import 'package:flutter/material.dart';
 import 'screens/Login.dart';
 import 'theme/style_one.dart';
 
-void main() {
+main() {
   runApp(const ParakiApp());
 }
 
-class ParakiApp extends StatelessWidget {
+class ParakiApp extends StatelessWidget { 
   const ParakiApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: PeriodicRequester(),
+      home: Login(),
       title: 'Paraki',
       theme: appTheme(),
     );

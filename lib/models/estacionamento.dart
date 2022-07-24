@@ -5,6 +5,7 @@ class Estacionamento{
   final String nomeEstacionamento;
   final String cnpj;
   final int qtdTotalVagas;
+  //final int qtdVagasDisponiveis;
   final int nroEstacionamento;
   final String telefone;
   final int valorHora;
@@ -15,6 +16,7 @@ class Estacionamento{
       this.nomeEstacionamento,
       this.cnpj,
       this.qtdTotalVagas,
+      //this.qtdVagasDisponiveis,
       this.nroEstacionamento,
       this.telefone,
       this.valorHora,
