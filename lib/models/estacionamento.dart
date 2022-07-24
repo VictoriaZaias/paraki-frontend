@@ -5,7 +5,7 @@ class Estacionamento{
   final String nomeEstacionamento;
   final String cnpj;
   final int qtdTotalVagas;
-  //final int qtdVagasDisponiveis;
+  final int qtdVagasDisponiveis;
   final int nroEstacionamento;
   final String telefone;
   final int valorHora;
@@ -16,7 +16,7 @@ class Estacionamento{
       this.nomeEstacionamento,
       this.cnpj,
       this.qtdTotalVagas,
-      //this.qtdVagasDisponiveis,
+      this.qtdVagasDisponiveis,
       this.nroEstacionamento,
       this.telefone,
       this.valorHora,
@@ -25,6 +25,6 @@ class Estacionamento{
 
   @override
   String toString() {
-    return 'Estacionamento{nome: $nomeEstacionamento, cnpj: $cnpj, qtdTotalVagas: $qtdTotalVagas, nroEstacionamento: $nroEstacionamento, telefone: $telefone, valorHora: $valorHora}';
+    return 'Estacionamento{nome: $nomeEstacionamento, cnpj: $cnpj, qtdTotalVagas: $qtdTotalVagas, qtdVagasDisponiveis: $qtdVagasDisponiveis, nroEstacionamento: $nroEstacionamento, telefone: $telefone, valorHora: $valorHora}';
   }
 }

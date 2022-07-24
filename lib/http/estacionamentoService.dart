@@ -73,6 +73,7 @@ class estacionamentoService {
           json['nomeEstacionamento'],
           json['CNPJ'],
           json['qtdTotalVagas'],
+          json['qtdVagasDisponiveis'],
           json['nroEstacionamento'],
           json['telefone'],
           json['valorHora'],

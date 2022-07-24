@@ -40,8 +40,8 @@ class CardEstacionamento extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(estacionamentoService().enderecoCompleto(estacionamento)),
-              Text("Quantidade de vagas: " +
-                  estacionamento.qtdTotalVagas.toString()),
+              Text("Quantidade de vagas disponíveis: " +
+                  estacionamento.qtdVagasDisponiveis.toString()),
               Text("Valor por hora: " + estacionamento.valorHora.toString()),
             ],
           ),

@@ -101,7 +101,7 @@ class DadosEstacionamento extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text("Vagas disponíveis"),
-          //Text(estacionamento.qtdVagasDisponiveis.toString() + " vagas"),
+          Text(estacionamento.qtdVagasDisponiveis.toString() + " vagas"),
         ],
       ),
     ];
