@@ -1,6 +1,7 @@
+import 'package:estacionamento/components/Testando.dart';
 import 'package:flutter/material.dart';
 import '../models/Estacionamento.dart';
-import 'CardEstacionamento.dart';
+import 'Testando.dart';
 import 'CenteredMessage.dart';
 import 'Progress.dart';
 
@@ -38,7 +39,7 @@ class _ListaEstacionamentoState extends State<ListaEstacionamento> {
                     itemBuilder: (context, index) {
                       final Estacionamento estacionamento =
                           estacionamentos[index];
-                      return CardEstacionamento(
+                      return Testando(
                         estacionamento: estacionamento,
                       );
                     },

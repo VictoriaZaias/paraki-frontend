@@ -1,6 +1,9 @@
 import 'package:estacionamento/http/EstacionamentoService.dart';
 import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'dart:async';
 
 import '../screens/DadosEstacionamento.dart';
 import 'ActionButton.dart';
@@ -32,7 +35,6 @@ class CardEstacionamento extends StatelessWidget {
                               estacionamento: estacionamento)));
                 },
               ),
-              //Text("VAGAS"),
             ],
           ),
           title: Text(estacionamento.nomeEstacionamento),
