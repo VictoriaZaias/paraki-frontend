@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:estacionamento/screens/CadastroEstacionamento.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:flutter/material.dart';
 import 'screens/Login.dart';
@@ -14,7 +15,7 @@ class ParakiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Login(),
+      home: CadastroEstacionamento(),
       title: 'Paraki',
       theme: appTheme(),
     );

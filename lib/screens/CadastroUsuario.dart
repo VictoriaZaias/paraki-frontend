@@ -15,8 +15,8 @@ class CadastroUsuario extends StatefulWidget {
 }
 
 class _CadastroUsuarioState extends State<CadastroUsuario> {
-  static const _tituloAppBar = 'Boas-vindas!';
-  static const _rotuloCampoNomeUsuarioCadastroUsuario = 'Nome completo';
+  static const _tituloTela = 'Boas-vindas!';
+  static const _rotuloCampoNomeUsuario= 'Nome completo';
   static const _rotuloCampoCPF = 'CPF';
   static const _dicaCampoCPF = '00000000000';
   static const _rotuloCampoSenha = 'Senha';
@@ -39,12 +39,12 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 60.0),
                 child: Text(
-                  _tituloAppBar,
+                  _tituloTela,
                   style: TextStyle(fontSize: 36.0),
                 ),
               ),
               Editor(
-                rotulo: _rotuloCampoNomeUsuarioCadastroUsuario,
+                rotulo: _rotuloCampoNomeUsuario,
                 controlador: nomeUsuario,
               ),
               Editor(

@@ -46,6 +46,10 @@ ThemeData appTheme() {
     // Letras
 
     // Botões
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateProperty.all<Color>(_branquin),
+      checkColor: MaterialStateProperty.all<Color>(_roxedao),
+    ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all<Color>(_pretao),
