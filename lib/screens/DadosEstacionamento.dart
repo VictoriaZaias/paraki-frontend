@@ -111,9 +111,9 @@ class DadosEstacionamento extends StatelessWidget {
   }
 
   List<Widget> _dadosHorarios() {
-    List<Widget> a = [];
+    List<Widget> h = [];
     estacionamento.horarios.forEach((element) {
-      a.add(
+      h.add(
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -126,7 +126,7 @@ class DadosEstacionamento extends StatelessWidget {
         ),
       );
     });
-    return a;
+    return h;
   }
 
   List<Widget> _dadosPrecos() {
@@ -142,6 +142,17 @@ class DadosEstacionamento extends StatelessWidget {
   }
 
   List<Widget> _dadosCaracteristicas() {
-    return [];
+    List<Widget> c = [];
+    estacionamento.caracteristicas.forEach((element) {
+      c.add(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(element.caracteristica),
+          ],
+        ),
+      );
+    });
+    return c;
   }
 }

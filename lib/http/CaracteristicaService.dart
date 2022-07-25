@@ -1,11 +1,10 @@
-import 'package:estacionamento/models/HorarioFuncionamento.dart';
+import 'package:estacionamento/components/ListaCaracteristicas.dart';
+import 'package:estacionamento/models/Caracteristica.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'dart:convert';
 
-
 class LoggingInterceptor implements InterceptorContract {
-
   @override
   Future<RequestData> interceptRequest({required RequestData data}) async {
     print(data.toString());
@@ -27,27 +26,25 @@ class LoggingInterceptor implements InterceptorContract {
   }
 }
 
-class HorarioFuncionamentoService{
-
+class CaracteristicaService {
   String urlPadrao = "http://estacionamento-pedepano.herokuapp.com/paraki/";
 
-  Future<List<HorarioFuncionamento>> listarHorarios(int idEstacionamento) async {
+  Future<List<Caracteristica>> listarCaracteristicas(int idEstacionamento) async {
   final Client client = InterceptedClient.build(
     interceptors: [LoggingInterceptor()],
   );
-  final response = await client.get(Uri.parse('${urlPadrao}horarioFuncionamento/buscar/'+idEstacionamento.toString()));
-  final List<HorarioFuncionamento> horarios = [];
-  var horarioJson = jsonDecode(response.body);
-  for (var json in horarioJson['result']){
-    final HorarioFuncionamento horarioFuncionamento = HorarioFuncionamento(
-      json['idHorarioFuncionamento'],
-      json['horarioInicio'],
-      json['horarioFim'],
-      json['diaSemana'],
-      json['estacionamento'].toString()
+  final response = await client.get(Uri.parse('${urlPadrao}estacionamentoCaracteristica/listarCaracteristicasEstacionamento/'+idEstacionamento.toString()));
+  final List<Caracteristica> caracteristicas = [];
+  var caracteristicaJson= jsonDecode(response.body);
+
+  for (var json in caracteristicaJson['result']){
+    final Caracteristica caracteristica = Caracteristica(
+      json['idCaracteristica'],
+      json['caracteristica'],
+      json['estacionamento'],
     );
-    horarios.add(horarioFuncionamento);
+    caracteristicas.add(caracteristica);
   }
-  return horarios;
+  return caracteristicas;
  }
 }
