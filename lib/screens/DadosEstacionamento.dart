@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+import 'package:estacionamento/components/ListaHorarios.dart';
+import 'package:estacionamento/http/HorarioFuncionamentoService.dart';
+import 'package:estacionamento/models/HorarioFuncionamento.dart';
 import 'package:flutter/material.dart';
 import '../components/ActionButton.dart';
 import '../components/Button.dart';
@@ -52,8 +57,8 @@ class DadosEstacionamento extends StatelessWidget {
           ContainerDados(
             titulo: "Vagas",
             dados: _dadosVagas(),
-          ),
-          ContainerDados(
+          ), 
+          ContainerDados (
             titulo: "Horario de funcionamento",
             dados: _dadosHorarios(),
           ),
@@ -108,9 +113,25 @@ class DadosEstacionamento extends StatelessWidget {
   }
 
   List<Widget> _dadosHorarios() {
+    var test = [];
+    
+   /*HorarioFuncionamentoService().listarHorarios(estacionamento.idEstacionamento).then((value) => 
+    value.forEach((element) {
+      HorarioFuncionamento h = HorarioFuncionamento(
+        element.idHorarioFuncionamento,
+        element.horarioInicio,
+        element.horarioFim,
+        element.diaSemana,
+        element.idEstacionamento
+      );
+      test.add(h);
+      print(test);
+    })
+   );*/
+   print('---------------------------');
+   print(test.length);
     return [
-      //Text(HorarioFuncionamentoService.listarHorarios(
-      //    estacionamento.idEstacionamento)),
+      Text("asd"),
     ];
   }
 
