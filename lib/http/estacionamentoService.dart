@@ -1,3 +1,4 @@
+import 'package:estacionamento/http/CaracteristicaService.dart';
 import 'package:estacionamento/http/EnderecoService.dart';
 import 'package:estacionamento/http/HorarioFuncionamentoService.dart';
 import 'package:estacionamento/models/Estacionamento.dart';
@@ -60,6 +61,7 @@ class estacionamentoService {
     for (var json in estacionamentoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       var horarios = await HorarioFuncionamentoService().listarHorarios(json['idEstacionamento']);
+      var caracteristicas = await CaracteristicaService().listarCaracteristicas(json['idEstacionamento']);
       final Estacionamento estacionamento = Estacionamento(
           json['idEstacionamento'],
           json['nomeEstacionamento'],
@@ -70,7 +72,8 @@ class estacionamentoService {
           json['telefone'],
           json['valorHora'],
           endereco,
-          horarios);
+          horarios,
+          caracteristicas);
       estacionamentos.add(estacionamento);
     }
     return estacionamentos;
@@ -97,6 +100,7 @@ Future<List<Estacionamento>> listarEstacionamentoBusca(String busca) async {
     for (var json in estacionamentoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       var horarios = await HorarioFuncionamentoService().listarHorarios(json['idEstacionamento']);
+      var caracteristicas = await CaracteristicaService().listarCaracteristicas(json['idEstacionamento']);
       final Estacionamento estacionamento = Estacionamento(
           json['idEstacionamento'],
           json['nomeEstacionamento'],
@@ -107,7 +111,8 @@ Future<List<Estacionamento>> listarEstacionamentoBusca(String busca) async {
           json['telefone'],
           json['valorHora'],
           endereco,
-          horarios);
+          horarios,
+          caracteristicas);
       estacionamentos.add(estacionamento);
     }
     }

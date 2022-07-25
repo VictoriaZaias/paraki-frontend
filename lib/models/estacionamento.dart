@@ -13,7 +13,7 @@ class Estacionamento{
   final int valorHora;
   final Endereco endereco;
   final List<HorarioFuncionamento> horarios;
-  //final List<Caracteristica> caracteristicas;
+  final List<Caracteristica> caracteristicas;
 
   Estacionamento(
       this.idEstacionamento,
@@ -26,11 +26,11 @@ class Estacionamento{
       this.valorHora,
       this.endereco,
       this.horarios,
-      //this.caracteristicas
+      this.caracteristicas
       );
 
   @override
   String toString() {
-    return 'Estacionamento{nome: $nomeEstacionamento, cnpj: $cnpj, qtdTotalVagas: $qtdTotalVagas, qtdVagasDisponiveis: $qtdVagasDisponiveis, nroEstacionamento: $nroEstacionamento, telefone: $telefone, valorHora: $valorHora, endereco: $endereco}';
+    return 'Estacionamento{nome: $nomeEstacionamento, cnpj: $cnpj, qtdTotalVagas: $qtdTotalVagas, qtdVagasDisponiveis: $qtdVagasDisponiveis, nroEstacionamento: $nroEstacionamento, telefone: $telefone, valorHora: $valorHora, endereco: $endereco, horarios: $horarios, caracteristicas: $caracteristicas}';
   }
 }
