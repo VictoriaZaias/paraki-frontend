@@ -44,40 +44,42 @@ class DadosEstacionamento extends StatelessWidget {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          ContainerDados(
-            titulo: estacionamento.nomeEstacionamento,
-            dados: _dadosGerais(),
-          ),
-          ContainerDados(
-            titulo: "Vagas",
-            dados: _dadosVagas(),
-          ), 
-          ContainerDados (
-            titulo: "Horario de funcionamento",
-            dados: _dadosHorarios(),
-          ),
-          ContainerDados(
-            titulo: "Preços",
-            dados: _dadosPrecos(),
-          ),
-          ContainerDados(
-            titulo: "Características",
-            dados: _dadosCaracteristicas(),
-          ),
-          Button(
-            rotulo: "Reservar",
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        ReservaEstacionamento(estacionamento: estacionamento)),
-              );
-            },
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ContainerDados(
+              titulo: estacionamento.nomeEstacionamento,
+              dados: _dadosGerais(),
+            ),
+            ContainerDados(
+              titulo: "Vagas",
+              dados: _dadosVagas(),
+            ),
+            ContainerDados(
+              titulo: "Horario de funcionamento",
+              dados: _dadosHorarios(),
+            ),
+            ContainerDados(
+              titulo: "Preços",
+              dados: _dadosPrecos(),
+            ),
+            ContainerDados(
+              titulo: "Características",
+              dados: _dadosCaracteristicas(),
+            ),
+            Button(
+              rotulo: "Reservar",
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ReservaEstacionamento(
+                          estacionamento: estacionamento)),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -115,7 +117,11 @@ class DadosEstacionamento extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(element.diaSemana+": "+element.horarioInicio+" - "+element.horarioFim),
+            Text(element.diaSemana +
+                ": " +
+                element.horarioInicio +
+                " - " +
+                element.horarioFim),
           ],
         ),
       );

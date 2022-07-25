@@ -24,7 +24,6 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
   TimeOfDay time = TimeOfDay.now();
   DateTime date = DateTime.now();
   NumberFormat numberFormat = new NumberFormat("00");
-  //String resultado_preco = "0";
   int? horas_reserva = 0;
 
   @override
@@ -45,109 +44,11 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
           ),
           ContainerDados(
             titulo: "Entrada",
-            dados: [
-              Row(
-                children: [
-                  Text("Dia da reserva: "),
-                  OutlinedButton(
-                    onPressed: () async {
-                      final newDate = await showDatePicker(
-                        context: context,
-                        initialDate: date,
-                        firstDate: DateTime(DateTime.now().year),
-                        lastDate: DateTime(DateTime.now().year + 1),
-                        builder: (context, child) {
-                          return MediaQuery(
-                            data: MediaQuery.of(context)
-                                .copyWith(alwaysUse24HourFormat: true),
-                            child: child ?? Container(),
-                          );
-                        },
-                      );
-                      if (newDate != null) {
-                        setState(() {
-                          date = newDate;
-                        });
-                      }
-                    },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      )),
-                    ),
-                    child: Text(
-                        '${numberFormat.format(date.day).toString()}/${numberFormat.format(date.month).toString()}/${numberFormat.format(date.year).toString()}'),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text("Horário da reserva: "),
-                  OutlinedButton(
-                    onPressed: () async {
-                      final newTime = await showTimePicker(
-                        context: context,
-                        initialTime: time,
-                        builder: (context, child) {
-                          return MediaQuery(
-                            data: MediaQuery.of(context)
-                                .copyWith(alwaysUse24HourFormat: true),
-                            child: child ?? Container(),
-                          );
-                        },
-                      );
-                      if (newTime != null) {
-                        setState(() {
-                          time = newTime;
-                        });
-                      }
-                    },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      )),
-                    ),
-                    child: Text(
-                        '${numberFormat.format(time.hour).toString()}:${numberFormat.format(time.minute).toString()}'),
-                  ),
-                ],
-              ),
-            ],
+            dados: _dataEntradaSaida(),
           ),
           ContainerDados(
-            titulo: "Hora(s)",
-            dados: [
-              Row(
-                children: [
-                  Text("Ficarei por "),
-                  DropdownSelect(
-                    dica: "",
-                    altura: 35.0,
-                    largura: 70.0,
-                    borda: 12.0,
-                    opcoes: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                    valor: horas_reserva,
-                    getRotulo: (int valor) => valor.toString(),
-                    onChanged: (int? valor) => setState(() {
-                      horas_reserva = valor;
-                    }),
-                  ),
-                  Text(" horas."),
-                ],
-              ),
-            ],
-          ),
-          ContainerDados(
-            titulo: "Valor",
-            dados: [
-              Row(
-                children: [
-                  Text("Sua reserva custará ${_calculoReserva()} reais."),
-                ],
-              ),
-            ],
+            titulo: "Saída",
+            dados: _dataEntradaSaida(),
           ),
           Button(
             rotulo: "Reservar",
@@ -160,5 +61,78 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
 
   int _calculoReserva() {
     return horas_reserva! * widget.estacionamento.valorHora;
+  }
+
+  List<Widget> _dataEntradaSaida() {
+    return [
+      Row(
+        children: [
+          Text("Dia: "),
+          OutlinedButton(
+            onPressed: () async {
+              final newDate = await showDatePicker(
+                context: context,
+                initialDate: date,
+                firstDate: DateTime(DateTime.now().year),
+                lastDate: DateTime(DateTime.now().year + 1),
+                builder: (context, child) {
+                  return MediaQuery(
+                    data: MediaQuery.of(context)
+                        .copyWith(alwaysUse24HourFormat: true),
+                    child: child ?? Container(),
+                  );
+                },
+              );
+              if (newDate != null) {
+                setState(() {
+                  date = newDate;
+                });
+              }
+            },
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              )),
+            ),
+            child: Text(
+                '${numberFormat.format(date.day).toString()}/${numberFormat.format(date.month).toString()}/${numberFormat.format(date.year).toString()}'),
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          Text("Horário: "),
+          OutlinedButton(
+            onPressed: () async {
+              final newTime = await showTimePicker(
+                context: context,
+                initialTime: time,
+                builder: (context, child) {
+                  return MediaQuery(
+                    data: MediaQuery.of(context)
+                        .copyWith(alwaysUse24HourFormat: true),
+                    child: child ?? Container(),
+                  );
+                },
+              );
+              if (newTime != null) {
+                setState(() {
+                  time = newTime;
+                });
+              }
+            },
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              )),
+            ),
+            child: Text(
+                '${numberFormat.format(time.hour).toString()}:${numberFormat.format(time.minute).toString()}'),
+          ),
+        ],
+      ),
+    ];
   }
 }
