@@ -144,7 +144,7 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
             dados: [
               Row(
                 children: [
-                  Text("Sua reserva deu ${_calculoReserva()} reais."),
+                  Text("Sua reserva custará ${_calculoReserva()} reais."),
                 ],
               ),
             ],
@@ -159,6 +159,6 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
   }
 
   int _calculoReserva() {
-    return horas_reserva! * 5;
+    return horas_reserva! * widget.estacionamento.valorHora;
   }
 }
