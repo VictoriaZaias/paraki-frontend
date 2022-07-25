@@ -55,22 +55,6 @@ class CadastroEstacionamento extends StatelessWidget {
                 controlador: cep,
               ),
               Editor(
-                rotulo: _rotuloCampoEstado,
-                controlador: estado,
-              ),
-              Editor(
-                rotulo: _rotuloCampoCidade,
-                controlador: cidade,
-              ),
-              Editor(
-                rotulo: _rotuloCampoBairro,
-                controlador: bairro,
-              ),
-              Editor(
-                rotulo: _rotuloCampoLogradouro,
-                controlador: logradouro,
-              ),
-              Editor(
                 rotulo: _rotuloCampoNumero,
                 controlador: numero,
               ),
@@ -83,14 +67,25 @@ class CadastroEstacionamento extends StatelessWidget {
                 controlador: totalVagas,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Text(
-                  "Selecione as caracteristicas:",
-                  style: TextStyle(fontSize: 18),
-                  //textDirection: TextDirection.(ltr,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 30.0, vertical: 10.0),
+                child: SizedBox(
+                  width: 300.0,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Selecione as caracteristicas:",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
                 ),
               ),
-              ListaCaracteristicas(),
+              SizedBox(
+                //width: 300.0,
+                height: 200.0,
+                child: 
+                ListaCaracteristicas(),
+              ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 60.0),
                 child: Button(

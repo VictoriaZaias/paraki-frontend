@@ -9,6 +9,7 @@ import '../models/Usuario.dart';
 
 class PrincipalUsuario extends StatefulWidget {
   final Usuario? user;
+  
   PrincipalUsuario({this.user});
 
   @override
@@ -20,6 +21,7 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
   bool isFavoriteVisible = false;
   static TextEditingController buscaRua = TextEditingController();
   var listar = ListaEstacionamento(buscar(''));
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

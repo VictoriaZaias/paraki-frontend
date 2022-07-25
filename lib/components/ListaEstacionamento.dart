@@ -6,23 +6,22 @@ import 'Progress.dart';
 
 class ListaEstacionamento extends StatefulWidget {
   var buscar;
-  ListaEstacionamento(this.buscar);
-
   
+  ListaEstacionamento(
+    this.buscar,
+  );
+
   @override
   State<ListaEstacionamento> createState() => _ListaEstacionamentoState();
-  
 }
 
 class _ListaEstacionamentoState extends State<ListaEstacionamento> {
   @override
-  
   Widget build(BuildContext context) {
     return Expanded(
       child: FutureBuilder<List<Estacionamento>>(
         future: widget.buscar,
-        builder:
-            (context, AsyncSnapshot<List<Estacionamento>> snapshot) {
+        builder: (context, AsyncSnapshot<List<Estacionamento>> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
               break;

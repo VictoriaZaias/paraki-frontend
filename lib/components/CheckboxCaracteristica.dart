@@ -1,7 +1,10 @@
+import 'package:estacionamento/components/ListaCaracteristicas.dart';
 import 'package:flutter/material.dart';
 
+import '../models/Caracteristica.dart';
+
 class CheckboxCaracteristica extends StatefulWidget {
-  final String caracteristica;
+  final Caracteristica caracteristica;
 
   const CheckboxCaracteristica({
     Key? key,
@@ -30,7 +33,7 @@ class _CheckboxCaracteristicaState extends State<CheckboxCaracteristica> {
               });
             },
           ),
-          Text(widget.caracteristica),
+          Text(widget.caracteristica.caracteristica),
         ],
       ),
     );

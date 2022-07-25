@@ -73,7 +73,7 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
               final newDate = await showDatePicker(
                 context: context,
                 initialDate: date,
-                firstDate: DateTime(DateTime.now().year),
+                firstDate: DateTime.now(),
                 lastDate: DateTime(DateTime.now().year + 1),
                 builder: (context, child) {
                   return MediaQuery(

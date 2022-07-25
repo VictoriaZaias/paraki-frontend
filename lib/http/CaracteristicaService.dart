@@ -39,9 +39,26 @@ class CaracteristicaService {
 
   for (var json in caracteristicaJson['result']){
     final Caracteristica caracteristica = Caracteristica(
-      json['idCaracteristica'],
-      json['caracteristica'],
-      json['estacionamento'],
+      idCaracteristica: json['idCaracteristica'],
+      caracteristica: json['caracteristica'],
+    );
+    caracteristicas.add(caracteristica);
+  }
+  return caracteristicas;
+ }
+
+ Future<List<Caracteristica>> listarTodasCaracteristicas() async {
+  final Client client = InterceptedClient.build(
+    interceptors: [LoggingInterceptor()],
+  );
+  final response = await client.get(Uri.parse('${urlPadrao}caracteristica/listar'));
+  final List<Caracteristica> caracteristicas = [];
+  var caracteristicaJson= jsonDecode(response.body);
+
+  for (var json in caracteristicaJson['result']){
+    final Caracteristica caracteristica = Caracteristica(
+      idCaracteristica: json['idCaracteristica'],
+      caracteristica: json['caracteristica'],
     );
     caracteristicas.add(caracteristica);
   }
