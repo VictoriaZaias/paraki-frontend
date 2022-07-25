@@ -113,26 +113,18 @@ class DadosEstacionamento extends StatelessWidget {
   }
 
   List<Widget> _dadosHorarios() {
-    var test = [];
-    
-   /*HorarioFuncionamentoService().listarHorarios(estacionamento.idEstacionamento).then((value) => 
-    value.forEach((element) {
-      HorarioFuncionamento h = HorarioFuncionamento(
-        element.idHorarioFuncionamento,
-        element.horarioInicio,
-        element.horarioFim,
-        element.diaSemana,
-        element.idEstacionamento
+    List<Widget> a = [];
+    estacionamento.horarios.forEach((element) {
+      a.add(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(element.diaSemana+": "+element.horarioInicio+" - "+element.horarioFim),
+          ],
+        ),
       );
-      test.add(h);
-      print(test);
-    })
-   );*/
-   print('---------------------------');
-   print(test.length);
-    return [
-      Text("asd"),
-    ];
+    });
+    return a;
   }
 
   List<Widget> _dadosPrecos() {

@@ -1,4 +1,5 @@
 import 'package:estacionamento/models/Endereco.dart';
+import 'package:estacionamento/models/HorarioFuncionamento.dart';
 
 class Estacionamento{
   final int idEstacionamento;
@@ -10,6 +11,8 @@ class Estacionamento{
   final String telefone;
   final int valorHora;
   final Endereco endereco;
+  final List<HorarioFuncionamento> horarios;
+  // final list caracteristicas
 
   Estacionamento(
       this.idEstacionamento,
@@ -20,11 +23,12 @@ class Estacionamento{
       this.nroEstacionamento,
       this.telefone,
       this.valorHora,
-      this.endereco
+      this.endereco,
+      this.horarios
       );
 
   @override
   String toString() {
-    return 'Estacionamento{nome: $nomeEstacionamento, cnpj: $cnpj, qtdTotalVagas: $qtdTotalVagas, qtdVagasDisponiveis: $qtdVagasDisponiveis, nroEstacionamento: $nroEstacionamento, telefone: $telefone, valorHora: $valorHora}';
+    return 'Estacionamento{nome: $nomeEstacionamento, cnpj: $cnpj, qtdTotalVagas: $qtdTotalVagas, qtdVagasDisponiveis: $qtdVagasDisponiveis, nroEstacionamento: $nroEstacionamento, telefone: $telefone, valorHora: $valorHora, endereco $endereco}';
   }
 }

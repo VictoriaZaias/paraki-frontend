@@ -1,4 +1,5 @@
-import 'package:estacionamento/models/Endereco.dart';
+import 'package:estacionamento/http/EnderecoService.dart';
+import 'package:estacionamento/http/HorarioFuncionamentoService.dart';
 import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
@@ -55,19 +56,10 @@ class estacionamentoService {
         await client.get(Uri.parse('${urlPadrao}estacionamento/listar'));
     final List<Estacionamento> estacionamentos = [];
     var estacionamentoJson = jsonDecode(response.body);
+
     for (var json in estacionamentoJson['result']) {
-      final enderecoResponse = await client.get(Uri.parse(
-          '${urlPadrao}endereco/buscar/' + json['endereco'].toString()));
-      var jsonEndereco = jsonDecode(enderecoResponse.body);
-      final Endereco endereco = Endereco(
-        jsonEndereco['result']['idEndereco'],
-        jsonEndereco['result']['bairro'],
-        jsonEndereco['result']['logradouro'],
-        jsonEndereco['result']['tipoLogradouro'],
-        jsonEndereco['result']['cidade'],
-        jsonEndereco['result']['uf'],
-        jsonEndereco['result']['cep'],
-      );
+      var endereco = await EnderecoService().buscarEndereco(json['endereco']);
+      var horarios = await HorarioFuncionamentoService().listarHorarios(json['idEstacionamento']);
       final Estacionamento estacionamento = Estacionamento(
           json['idEstacionamento'],
           json['nomeEstacionamento'],
@@ -77,7 +69,8 @@ class estacionamentoService {
           json['nroEstacionamento'],
           json['telefone'],
           json['valorHora'],
-          endereco);
+          endereco,
+          horarios);
       estacionamentos.add(estacionamento);
     }
     return estacionamentos;
@@ -97,24 +90,13 @@ Future<List<Estacionamento>> listarEstacionamentoBusca(String busca) async {
         Uri.parse('${urlPadrao}estacionamento/estacionamentoRua'),
         headers: {"content-type": "application/json"},
         body: jsonBuscarRua);
-
     var estacionamentoJson = jsonDecode(response.body);
-
     final List<Estacionamento> estacionamentos = [];
+
     if (estacionamentoJson['result'] != ' ') {
     for (var json in estacionamentoJson['result']) {
-      final enderecoResponse = await client.get(Uri.parse(
-          '${urlPadrao}endereco/buscar/' + json['endereco'].toString()));
-      var jsonEndereco = jsonDecode(enderecoResponse.body);
-      final Endereco endereco = Endereco(
-        jsonEndereco['result']['idEndereco'],
-        jsonEndereco['result']['bairro'],
-        jsonEndereco['result']['logradouro'],
-        jsonEndereco['result']['tipoLogradouro'],
-        jsonEndereco['result']['cidade'],
-        jsonEndereco['result']['uf'],
-        jsonEndereco['result']['cep'],
-      );
+      var endereco = await EnderecoService().buscarEndereco(json['endereco']);
+      var horarios = await HorarioFuncionamentoService().listarHorarios(json['idEstacionamento']);
       final Estacionamento estacionamento = Estacionamento(
           json['idEstacionamento'],
           json['nomeEstacionamento'],
@@ -124,7 +106,8 @@ Future<List<Estacionamento>> listarEstacionamentoBusca(String busca) async {
           json['nroEstacionamento'],
           json['telefone'],
           json['valorHora'],
-          endereco);
+          endereco,
+          horarios);
       estacionamentos.add(estacionamento);
     }
     }

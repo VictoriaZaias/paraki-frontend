@@ -32,28 +32,23 @@ class HorarioFuncionamentoService{
   String urlPadrao = "http://estacionamento-pedepano.herokuapp.com/paraki/";
 
   Future<List<HorarioFuncionamento>> listarHorarios(int idEstacionamento) async {
-    print('fui chamado---------------------');
   final Client client = InterceptedClient.build(
     interceptors: [LoggingInterceptor()],
   );
   final response = await client.get(Uri.parse('${urlPadrao}horarioFuncionamento/buscar/'+idEstacionamento.toString()));
   final List<HorarioFuncionamento> horarios = [];
   var horarioJson = jsonDecode(response.body);
-  print('antes do for');
+  print('(((((((((((((((((((');
   for (var json in horarioJson['result']){
-    print('dentro do for');
-     final HorarioFuncionamento horarioFuncionamento = HorarioFuncionamento(
+    final HorarioFuncionamento horarioFuncionamento = HorarioFuncionamento(
       json['idHorarioFuncionamento'],
       json['horarioInicio'],
       json['horarioFim'],
       json['diaSemana'],
-      json['estacionamento']
+      json['estacionamento'].toString()
     );
     horarios.add(horarioFuncionamento);
   }
-  print('CALMA');
-  print(horarios);
-  print('calmo');
   return horarios;
  }
 }
