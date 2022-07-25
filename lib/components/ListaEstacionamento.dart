@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
-import '../http/EstacionamentoService.dart';
 import '../models/Estacionamento.dart';
 import 'CardEstacionamento.dart';
 import 'CenteredMessage.dart';
 import 'Progress.dart';
 
 class ListaEstacionamento extends StatefulWidget {
-  const ListaEstacionamento({Key? key}) : super(key: key);
+  var buscar;
+  ListaEstacionamento(this.buscar);
 
+  
   @override
   State<ListaEstacionamento> createState() => _ListaEstacionamentoState();
+  
 }
 
 class _ListaEstacionamentoState extends State<ListaEstacionamento> {
   @override
+  
   Widget build(BuildContext context) {
     return Expanded(
       child: FutureBuilder<List<Estacionamento>>(
-        future: estacionamentoService().listarEstacionamento(),
+        future: widget.buscar,
         builder:
             (context, AsyncSnapshot<List<Estacionamento>> snapshot) {
           switch (snapshot.connectionState) {

@@ -1,9 +1,11 @@
-import 'package:estacionamento/models/Usuario.dart';
+import 'package:estacionamento/screens/PerfilUsuario.dart';
 import 'package:flutter/material.dart';
 import '../components/ActionButton.dart';
 import '../components/Editor.dart';
 import '../components/ListaEstacionamento.dart';
-import 'PerfilUsuario.dart';
+import '../http/EstacionamentoService.dart';
+import '../models/Estacionamento.dart';
+import '../models/Usuario.dart';
 
 class PrincipalUsuario extends StatefulWidget {
   final Usuario? user;
@@ -16,7 +18,8 @@ class PrincipalUsuario extends StatefulWidget {
 class _PrincipalUsuarioState extends State<PrincipalUsuario> {
   static const _tamanhoActionButtons = 55.0;
   bool isFavoriteVisible = false;
-
+  static TextEditingController buscaRua = TextEditingController();
+  var listar = ListaEstacionamento(buscar(''));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +52,10 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
                 ActionButton(
                   tamanhoBotao: _tamanhoActionButtons,
                   simbolo: Icons.manage_search,
-                  onPressed: () {},
+                  onPressed: () {
+                      listar = ListaEstacionamento(buscar(buscaRua.text));
+                      setState((){});
+                  },
                 ),
               ],
             ),
@@ -63,9 +69,10 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
               rotulo: 'Informe a rua de destino',
               largura: 350.0,
               icone: Icons.search,
+              controlador: buscaRua,
             ),
             Visibility(
-              child: ListaEstacionamento(),
+              child: listar,
               visible: !isFavoriteVisible,
             ),
             Visibility(
@@ -76,5 +83,14 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
         ),
       ),
     );
+  }
+}
+
+Future<List<Estacionamento>> buscar(String busca){
+  var lista;
+  if (busca == ""){
+    return lista = estacionamentoService().listarEstacionamento();
+  }else{
+    return lista = estacionamentoService().listarEstacionamentoBusca(busca);
   }
 }

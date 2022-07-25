@@ -82,4 +82,52 @@ class estacionamentoService {
     }
     return estacionamentos;
   }
+
+Future<List<Estacionamento>> listarEstacionamentoBusca(String busca) async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );
+    final Map<String, dynamic> buscarRuaMap = {
+      'logradouro': busca
+    };
+
+    final String jsonBuscarRua = jsonEncode(buscarRuaMap);
+
+     final Response response = await client.post(
+        Uri.parse('${urlPadrao}estacionamento/estacionamentoRua'),
+        headers: {"content-type": "application/json"},
+        body: jsonBuscarRua);
+
+    var estacionamentoJson = jsonDecode(response.body);
+
+    final List<Estacionamento> estacionamentos = [];
+    if (estacionamentoJson['result'] != ' ') {
+    for (var json in estacionamentoJson['result']) {
+      final enderecoResponse = await client.get(Uri.parse(
+          '${urlPadrao}endereco/buscar/' + json['endereco'].toString()));
+      var jsonEndereco = jsonDecode(enderecoResponse.body);
+      final Endereco endereco = Endereco(
+        jsonEndereco['result']['idEndereco'],
+        jsonEndereco['result']['bairro'],
+        jsonEndereco['result']['logradouro'],
+        jsonEndereco['result']['tipoLogradouro'],
+        jsonEndereco['result']['cidade'],
+        jsonEndereco['result']['uf'],
+        jsonEndereco['result']['cep'],
+      );
+      final Estacionamento estacionamento = Estacionamento(
+          json['idEstacionamento'],
+          json['nomeEstacionamento'],
+          json['CNPJ'],
+          json['qtdTotalVagas'],
+          json['qtdVagasDisponiveis'],
+          json['nroEstacionamento'],
+          json['telefone'],
+          json['valorHora'],
+          endereco);
+      estacionamentos.add(estacionamento);
+    }
+    }
+    return estacionamentos;
+  }
 }
