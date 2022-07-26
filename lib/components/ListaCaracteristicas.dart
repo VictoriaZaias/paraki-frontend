@@ -7,8 +7,11 @@ import 'CenteredMessage.dart';
 import 'Progress.dart';
 
 class ListaCaracteristicas extends StatefulWidget {
+  final int? tamanho;
+
   ListaCaracteristicas({
     Key? key,
+    this.tamanho,
   });
 
   @override
@@ -35,7 +38,7 @@ class _ListaCaracteristicasState extends State<ListaCaracteristicas> {
                     snapshot.data ?? [];
                 if (caracteristicas.isNotEmpty) {
                   return ListView.builder(
-                    //physics: NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final Caracteristica caracteristica =
                           caracteristicas[index];

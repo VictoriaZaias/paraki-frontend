@@ -1,3 +1,4 @@
+import 'package:estacionamento/components/DropdownSelect.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../components/Button.dart';
@@ -80,11 +81,27 @@ class CadastroEstacionamento extends StatelessWidget {
                   ),
                 ),
               ),
+              // LISTA PODRE ARRUMA LOGO CARALHO
               SizedBox(
-                //width: 300.0,
-                height: 200.0,
-                child: 
-                ListaCaracteristicas(),
+                width: 300.0,
+                height: 50.0 * 10, // <-- vergonha nacional
+                child: ListaCaracteristicas(),
+              ),
+              Text("Horário(s) de funcionamento"),
+              Text("Abertura"),
+              Row(
+                children: [
+                  Text("Seg-Sex"),
+                  // AQUI VAI O RELÓGIO QUE TEM QUE VIRAR UM COMPONENTE
+                ],
+              ),
+              Text("Preço"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("1 hora"),
+                  Text("editor para receber um double"),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 60.0),
