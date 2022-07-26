@@ -1,3 +1,4 @@
+import 'package:estacionamento/http/reservaService.dart';
 import 'package:estacionamento/models/Reserva.dart';
 import 'package:estacionamento/screens/PrincipalUsuario.dart';
 import 'package:flutter/material.dart';
@@ -164,16 +165,13 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
               Reserva reserva = Reserva(
                 1,
                 date.toString(),
-                timeEntrada.toString(),
-                timeSaida.toString(),
+                timeEntrada.hour.toString()+":"+timeEntrada.minute.toString(),
+                timeSaida.hour.toString()+":"+timeSaida.minute.toString(),
                 //USUARIO,
                 //widget.estacionamento,
                 //widget.estacionamento.valorHora,
               );
-              print(date.toString());
-              print(timeEntrada.toString());
-              print(timeSaida.toString());
-              print(timeEntrada.hour.toString()+":"+timeEntrada.minute.toString()+":00");
+              ReservaService().cadastrarReserva(reserva, widget.estacionamento);
             },
           ),
         ],
