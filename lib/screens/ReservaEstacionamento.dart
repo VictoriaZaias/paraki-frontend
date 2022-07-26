@@ -1,9 +1,11 @@
-import 'package:estacionamento/components/DropdownSelect.dart';
+import 'package:estacionamento/models/Reserva.dart';
+import 'package:estacionamento/screens/PrincipalUsuario.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../components/ActionButton.dart';
 import '../components/Button.dart';
 import '../components/ContainerDados.dart';
+import '../components/DatePicker.dart';
+import '../components/TimePicker.dart';
 import '../components/TopoPadrao.dart';
 import '../http/EstacionamentoService.dart';
 import '../models/Estacionamento.dart';
@@ -21,14 +23,13 @@ class ReservaEstacionamento extends StatefulWidget {
 }
 
 class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
-  TimeOfDay time = TimeOfDay.now();
-  DateTime date = DateTime.now();
   NumberFormat numberFormat = new NumberFormat("00");
+  //Reserva reserva = new Reserva();
+  //TimeOfDay time = new TimeOfDay(hour: 99, minute: 99);
+  TimeOfDay timeEntrada = TimeOfDay.now();
+  TimeOfDay timeSaida = TimeOfDay.now();
+  DateTime date = DateTime.now();
   int? horas_reserva = 0;
-  static TextEditingController dataEntrada = TextEditingController();
-  static TextEditingController horarioEntrada = TextEditingController();
-  static TextEditingController dataSaida = TextEditingController();
-  static TextEditingController horarioSaida = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,97 +49,135 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
           ),
           ContainerDados(
             titulo: "Entrada",
-            dados: _dataEntradaSaida(),
+            dados: [
+              Row(
+                children: [
+                  Text("Dia: "),
+                  OutlinedButton(
+                    onPressed: () async {
+                      final newDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(DateTime.now().year + 1),
+                        builder: (context, child) {
+                          return MediaQuery(
+                            data: MediaQuery.of(context)
+                                .copyWith(alwaysUse24HourFormat: true),
+                            child: child ?? Container(),
+                          );
+                        },
+                      );
+                      if (newDate != null) {
+                        setState(() {
+                          date = newDate;
+                        });
+                      }
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      )),
+                    ),
+                    child: Text(
+                        '${numberFormat.format(date.day).toString()}/${numberFormat.format(date.month).toString()}/${numberFormat.format(date.year).toString()}'),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text("Horário: "),
+                  OutlinedButton(
+                    onPressed: () async {
+                      final newTime = await showTimePicker(
+                        context: context,
+                        initialTime: timeEntrada,
+                        builder: (context, child) {
+                          return MediaQuery(
+                            data: MediaQuery.of(context)
+                                .copyWith(alwaysUse24HourFormat: true),
+                            child: child ?? Container(),
+                          );
+                        },
+                      );
+                      if (newTime != null) {
+                        setState(() {
+                          timeEntrada = newTime;
+                        });
+                      }
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      )),
+                    ),
+                    child: Text(
+                        '${numberFormat.format(timeEntrada.hour).toString()}:${numberFormat.format(timeEntrada.minute).toString()}'),
+                  ),
+                ],
+              ),
+            ],
           ),
           ContainerDados(
             titulo: "Saída",
-            dados: _dataEntradaSaida(),
+            dados: [
+              Row(
+                children: [
+                  Text("Horário: "),
+                  OutlinedButton(
+                    onPressed: () async {
+                      final newTime = await showTimePicker(
+                        context: context,
+                        initialTime: timeSaida,
+                        builder: (context, child) {
+                          return MediaQuery(
+                            data: MediaQuery.of(context)
+                                .copyWith(alwaysUse24HourFormat: true),
+                            child: child ?? Container(),
+                          );
+                        },
+                      );
+                      if (newTime != null) {
+                        setState(() {
+                          timeSaida = newTime;
+                        });
+                      }
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      )),
+                    ),
+                    child: Text(
+                        '${numberFormat.format(timeSaida.hour).toString()}:${numberFormat.format(timeSaida.minute).toString()}'),
+                  ),
+                ],
+              ),
+            ],
           ),
           Button(
             rotulo: "Reservar",
             onPressed: () {
-              
+              Reserva reserva = Reserva(
+                1,
+                date.toString(),
+                timeEntrada.toString(),
+                timeSaida.toString(),
+                //USUARIO,
+                //widget.estacionamento,
+                //widget.estacionamento.valorHora,
+              );
+              print(date.toString());
+              print(timeEntrada.toString());
+              print(timeSaida.toString());
+              print(timeEntrada.hour.toString()+":"+timeEntrada.minute.toString()+":00");
             },
           ),
         ],
       ),
     );
-  }
-
-  int _calculoReserva() {
-    return horas_reserva! * widget.estacionamento.valorHora;
-  }
-
-  List<Widget> _dataEntradaSaida() {
-    return [
-      Row(
-        children: [
-          Text("Dia: "),
-          OutlinedButton(
-            onPressed: () async {
-              final newDate = await showDatePicker(
-                context: context,
-                initialDate: date,
-                firstDate: DateTime.now(),
-                lastDate: DateTime(DateTime.now().year + 1),
-                builder: (context, child) {
-                  return MediaQuery(
-                    data: MediaQuery.of(context)
-                        .copyWith(alwaysUse24HourFormat: true),
-                    child: child ?? Container(),
-                  );
-                },
-              );
-              if (newDate != null) {
-                setState(() {
-                  date = newDate;
-                });
-              }
-            },
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0),
-              )),
-            ),
-            child: Text(
-                '${numberFormat.format(date.day).toString()}/${numberFormat.format(date.month).toString()}/${numberFormat.format(date.year).toString()}'),
-          ),
-        ],
-      ),
-      Row(
-        children: [
-          Text("Horário: "),
-          OutlinedButton(
-            onPressed: () async {
-              final newTime = await showTimePicker(
-                context: context,
-                initialTime: time,
-                builder: (context, child) {
-                  return MediaQuery(
-                    data: MediaQuery.of(context)
-                        .copyWith(alwaysUse24HourFormat: true),
-                    child: child ?? Container(),
-                  );
-                },
-              );
-              if (newTime != null) {
-                setState(() {
-                  time = newTime;
-                });
-              }
-            },
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0),
-              )),
-            ),
-            child: Text(
-                '${numberFormat.format(time.hour).toString()}:${numberFormat.format(time.minute).toString()}'),
-          ),
-        ],
-      ),
-    ];
   }
 }

@@ -2,7 +2,7 @@ import 'package:estacionamento/models/Reserva.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'dart:convert';
-
+/*
 class LoggingInterceptor implements InterceptorContract {
   @override
   Future<RequestData> interceptRequest({required RequestData data}) async {
@@ -46,3 +46,4 @@ class ReservaService{
 
   }
 }
+*/

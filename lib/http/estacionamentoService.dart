@@ -70,7 +70,7 @@ class estacionamentoService {
           json['qtdVagasDisponiveis'],
           json['nroEstacionamento'],
           json['telefone'],
-          json['valorHora'],
+          json['valorHora'].toDouble(),
           endereco,
           horarios,
           caracteristicas);
@@ -109,7 +109,7 @@ Future<List<Estacionamento>> listarEstacionamentoBusca(String busca) async {
           json['qtdVagasDisponiveis'],
           json['nroEstacionamento'],
           json['telefone'],
-          json['valorHora'],
+          json['valorHora'].toDouble(),
           endereco,
           horarios,
           caracteristicas);

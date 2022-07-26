@@ -10,7 +10,7 @@ class Estacionamento{
   final int qtdVagasDisponiveis;
   final int nroEstacionamento;
   final String telefone;
-  final int valorHora;
+  final double valorHora;
   final Endereco endereco;
   final List<HorarioFuncionamento> horarios;
   final List<Caracteristica> caracteristicas;

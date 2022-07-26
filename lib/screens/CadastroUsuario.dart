@@ -16,7 +16,7 @@ class CadastroUsuario extends StatefulWidget {
 
 class _CadastroUsuarioState extends State<CadastroUsuario> {
   static const _tituloTela = 'Boas-vindas!';
-  static const _rotuloCampoNomeUsuario= 'Nome completo';
+  static const _rotuloCampoNomeUsuario = 'Nome completo';
   static const _rotuloCampoCPF = 'CPF';
   static const _dicaCampoCPF = '00000000000';
   static const _rotuloCampoSenha = 'Senha';
