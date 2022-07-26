@@ -25,6 +25,10 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
   DateTime date = DateTime.now();
   NumberFormat numberFormat = new NumberFormat("00");
   int? horas_reserva = 0;
+  static TextEditingController dataEntrada = TextEditingController();
+  static TextEditingController horarioEntrada = TextEditingController();
+  static TextEditingController dataSaida = TextEditingController();
+  static TextEditingController horarioSaida = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +56,9 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
           ),
           Button(
             rotulo: "Reservar",
-            onPressed: () {},
+            onPressed: () {
+              
+            },
           ),
         ],
       ),

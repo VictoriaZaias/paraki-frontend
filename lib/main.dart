@@ -16,7 +16,7 @@ class ParakiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: CadastroEstacionamento(),
+      home: Login(),
       title: 'Paraki',
       theme: appTheme(),
     );

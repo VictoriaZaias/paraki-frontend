@@ -1,5 +1,7 @@
-/*import 'package:http/http.dart';
+import 'package:estacionamento/models/Reserva.dart';
+import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
+import 'dart:convert';
 
 class LoggingInterceptor implements InterceptorContract {
   @override
@@ -22,25 +24,25 @@ class LoggingInterceptor implements InterceptorContract {
     return data;
   }
 }
-Future<List<Reserva>> findAll() async {
-  final Client client = HttpClientWithInterceptor.build(
+
+class ReservaService{
+  String urlPadrao = "http://estacionamento-pedepano.herokuapp.com/paraki/";
+
+  void cadastrarUsuario(Reserva reserva) async{
+   final Client client = InterceptedClient.build(
     interceptors: [LoggingInterceptor()],
   );
-  final Response response =
-      await client.get('URL');
-  final List<dynamic> decodedJson = jsonDecode(response.body);
-  final List<Reserva> reservas = []];
-  for (Map<String, dynamic> reservaJson in decodedJson) {
-    final Reserva reserva = Reserva(
-      reservaJson['dataReserva'],
-      reservaJson['horarioEntradaReserva'],
-      reservaJson['horarioSaidaReserva'],
-      reservaJson['usuarioReserva'],
-      reservaJson['vagaReserva'],
-      reservaJson['valorTotalReserva'],
-    );
-    reservas.add(reserva);
+   final Map<String, dynamic> reservaMap= {
+        'dataReserva': reserva.dataReserva,
+        'horarioEntrada': reserva.horarioEntrada,
+        'horarioSaida': reserva.horarioSaida,
+        'usuario' : reserva.usuario.idUsuario,
+        'estacionamento' : reserva.estacionamento.idEstacionamento,
+        "precoHora": reserva.precoHora
+   };
+    
+   final String jsonReserva = jsonEncode(reservaMap);
+   await client.post(Uri.parse('${urlPadrao}reserva/cadastrar'), headers: {"content-type":"application/json"}, body: jsonReserva); 
+
   }
-  return reservas;
 }
-*/
