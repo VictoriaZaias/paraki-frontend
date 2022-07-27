@@ -1,5 +1,7 @@
+import 'package:estacionamento/http/FavoritoService.dart';
 import 'package:estacionamento/screens/PerfilUsuario.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../components/ActionButton.dart';
 import '../components/Editor.dart';
 import '../components/ListaEstacionamento.dart';
@@ -9,8 +11,11 @@ import '../models/Usuario.dart';
 
 class PrincipalUsuario extends StatefulWidget {
   final Usuario? user;
-  
-  PrincipalUsuario({this.user});
+
+  PrincipalUsuario({
+    Key? key,
+    this.user,
+  }) : super(key: key);
 
   @override
   State<PrincipalUsuario> createState() => _PrincipalUsuarioState();
@@ -21,7 +26,8 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
   bool isFavoriteVisible = false;
   static TextEditingController buscaRua = TextEditingController();
   var listar = ListaEstacionamento(buscar(''));
-  
+  int? idUsuario;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,22 +47,24 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PerfilUsuario(user: widget.user!)));
+                            builder: (context) =>
+                                PerfilUsuario(user: widget.user!)));
                   },
                 ),
                 ActionButton(
                   tamanhoBotao: _tamanhoActionButtons,
                   simbolo: Icons.star,
-                  onPressed: () {
-                    setState(() => isFavoriteVisible = !isFavoriteVisible);
-                  },
+                  corSimbolo: !isFavoriteVisible ? null : Color(0xFF8A67EF),
+                  onPressed: () => setState(() {
+                    isFavoriteVisible = !isFavoriteVisible;
+                  }),
                 ),
                 ActionButton(
                   tamanhoBotao: _tamanhoActionButtons,
                   simbolo: Icons.manage_search,
                   onPressed: () {
-                      listar = ListaEstacionamento(buscar(buscaRua.text));
-                      setState((){});
+                    listar = ListaEstacionamento(buscar(buscaRua.text));
+                    setState(() {});
                   },
                 ),
               ],
@@ -78,7 +86,10 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
               visible: !isFavoriteVisible,
             ),
             Visibility(
-              child: Text("Lista dos estacionamentos favoritados."),
+              child:
+                  Center(child: Text("Lista de estacionamentos favoritados")),
+              /*ListaEstacionamento(FavoritoService()
+                  .listarEstacionamentosFavoritados(4)),*/
               visible: isFavoriteVisible,
             ),
           ],
@@ -88,11 +99,11 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
   }
 }
 
-Future<List<Estacionamento>> buscar(String busca){
+Future<List<Estacionamento>> buscar(String busca) {
   var lista;
-  if (busca == ""){
+  if (busca == "") {
     return lista = estacionamentoService().listarEstacionamento();
-  }else{
+  } else {
     return lista = estacionamentoService().listarEstacionamentoBusca(busca);
   }
 }

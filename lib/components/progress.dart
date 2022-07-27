@@ -5,7 +5,7 @@ class Progress extends StatelessWidget {
 
   final String message;
 
-  Progress({this.message = 'Loading'});
+  Progress({this.message = 'Carregando'});
 
   @override
   Widget build(BuildContext context) {

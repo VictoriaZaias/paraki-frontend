@@ -1,7 +1,8 @@
+/*
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../screens/Login.dart';
-/*
+
 class SharedService {
 
   static Future<bool> isLoggedIn() async {

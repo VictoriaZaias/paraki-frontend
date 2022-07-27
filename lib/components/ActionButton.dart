@@ -6,6 +6,7 @@ class ActionButton extends StatelessWidget {
   final double? tamanhoBotao;
   final IconData? simbolo;
   final double? tamanhoSimbolo;
+  final Color? corSimbolo;
   final Function()? onPressed;
 
   const ActionButton({
@@ -15,6 +16,7 @@ class ActionButton extends StatelessWidget {
     this.tamanhoBotao = 60.0,
     this.simbolo,
     this.tamanhoSimbolo = 25.0,
+    this.corSimbolo,
     required this.onPressed,
   }) : super(key: key);
 
@@ -27,6 +29,7 @@ class ActionButton extends StatelessWidget {
         height: tamanhoBotao,
         child: FloatingActionButton(
           heroTag: null,
+          foregroundColor: corSimbolo,
           onPressed: onPressed,
           child: Center(
             child: Icon(

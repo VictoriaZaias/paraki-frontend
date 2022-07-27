@@ -29,39 +29,43 @@ class LoggingInterceptor implements InterceptorContract {
 class CaracteristicaService {
   String urlPadrao = "http://estacionamento-pedepano.herokuapp.com/paraki/";
 
-  Future<List<Caracteristica>> listarCaracteristicas(int idEstacionamento) async {
-  final Client client = InterceptedClient.build(
-    interceptors: [LoggingInterceptor()],
-  );
-  final response = await client.get(Uri.parse('${urlPadrao}estacionamentoCaracteristica/listarCaracteristicasEstacionamento/'+idEstacionamento.toString()));
-  final List<Caracteristica> caracteristicas = [];
-  var caracteristicaJson= jsonDecode(response.body);
-
-  for (var json in caracteristicaJson['result']){
-    final Caracteristica caracteristica = Caracteristica(
-      idCaracteristica: json['idCaracteristica'],
-      caracteristica: json['caracteristica'],
+  Future<List<Caracteristica>> listarCaracteristicas(
+      int idEstacionamento) async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
     );
-    caracteristicas.add(caracteristica);
+    final response = await client.get(Uri.parse(
+        '${urlPadrao}estacionamentoCaracteristica/listarCaracteristicasEstacionamento/' +
+            idEstacionamento.toString()));
+    final List<Caracteristica> caracteristicas = [];
+    var caracteristicaJson = jsonDecode(response.body);
+
+    for (var json in caracteristicaJson['result']) {
+      final Caracteristica caracteristica = Caracteristica(
+        idCaracteristica: json['idCaracteristica'],
+        caracteristica: json['caracteristica'],
+      );
+      caracteristicas.add(caracteristica);
+    }
+    return caracteristicas;
   }
-  return caracteristicas;
- }
 
- Future<List<Caracteristica>> listarTodasCaracteristicas() async {
-  final Client client = InterceptedClient.build(
-    interceptors: [LoggingInterceptor()],
-  );
-  final response = await client.get(Uri.parse('${urlPadrao}caracteristica/listar'));
-  final List<Caracteristica> caracteristicas = [];
-  var caracteristicaJson= jsonDecode(response.body);
-
-  for (var json in caracteristicaJson['result']){
-    final Caracteristica caracteristica = Caracteristica(
-      idCaracteristica: json['idCaracteristica'],
-      caracteristica: json['caracteristica'],
+  Future<List<Caracteristica>> listarTodasCaracteristicas() async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
     );
-    caracteristicas.add(caracteristica);
+    final response =
+        await client.get(Uri.parse('${urlPadrao}caracteristica/listar'));
+    final List<Caracteristica> caracteristicas = [];
+    var caracteristicaJson = jsonDecode(response.body);
+
+    for (var json in caracteristicaJson['result']) {
+      final Caracteristica caracteristica = Caracteristica(
+        idCaracteristica: json['idCaracteristica'],
+        caracteristica: json['caracteristica'],
+      );
+      caracteristicas.add(caracteristica);
+    }
+    return caracteristicas;
   }
-  return caracteristicas;
- }
 }

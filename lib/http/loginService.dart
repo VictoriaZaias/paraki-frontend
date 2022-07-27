@@ -1,7 +1,10 @@
+import 'package:estacionamento/models/LoginResponseModel.dart';
 import 'package:estacionamento/models/Usuario.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoggingInterceptor implements InterceptorContract {
   @override
@@ -40,10 +43,17 @@ class LoginService {
 
     final String jsonUsuario = jsonEncode(usuarioMap);
     final Response response = await client.post(
-        Uri.parse('${urlPadrao}usuario/login'),
-        headers: {"content-type": "application/json"},
-        body: jsonUsuario);
-
+      Uri.parse('${urlPadrao}usuario/login'),
+      headers: {"content-type": "application/json"},
+      body: jsonUsuario,
+    );
+/*
+    if(response.statusCode == 200) {
+      var jsonString = response.body;
+      LoginResponseModel responseModel = loginResponseFromJson(jsonString);
+      return responseModel.statusCode == 200 ? true: false;
+    }
+*/
     var json = jsonDecode(response.body);
 
     var usuario = Usuario(0, "", "", "", "", "");
@@ -57,6 +67,8 @@ class LoginService {
         json['result']['modeloCarro'],
         json['result']['senha'],
       );
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('USER_ID', usuario.idUsuario);
     }
     return usuario;
   }

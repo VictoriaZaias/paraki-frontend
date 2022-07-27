@@ -43,6 +43,17 @@ class Login extends StatelessWidget {
               Button(
                 rotulo: _textoBotaoEntrar,
                 onPressed: () async {
+                  /*
+                  // Teste pra quando fica sem net
+                  Usuario u = Usuario(1, 'vick', '123', '2', '1', '123');
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PrincipalUsuario(user: u)),
+                  );
+                  */
+                  
                   var usuario = await LoginService().validarLogin(
                       _controladorCpf.text, _controladorSenha.text);
                   if (usuario.tipo == "Motorista") {
@@ -54,22 +65,16 @@ class Login extends StatelessWidget {
                       usuario.modeloCarro,
                       usuario.senha,
                     );
-                    /*
                     Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PrincipalUsuario(user: u)),
-                    );*/
-
-                    Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => PrincipalUsuario(user: u)),
                     );
                   } else if (usuario.tipo == "Administrador") {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => PrincipalAdmin()),
+                      MaterialPageRoute(
+                          builder: (context) => PrincipalAdmin()),
                     );
                   }
                 },

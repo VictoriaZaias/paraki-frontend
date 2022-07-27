@@ -39,7 +39,6 @@ dependencies:
   mysql1: ^0.20.0
   shared_preferences:
   intl:
-  google_maps_flutter: ^2.1.9
 
 flutter_icons:
   image_path: "assets/images/paraki.png"

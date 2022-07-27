@@ -1,5 +1,6 @@
 import 'package:estacionamento/models/Reserva.dart';
 import 'package:estacionamento/screens/PrincipalUsuario.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../components/Button.dart';
@@ -24,8 +25,6 @@ class ReservaEstacionamento extends StatefulWidget {
 
 class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
   NumberFormat numberFormat = new NumberFormat("00");
-  //Reserva reserva = new Reserva();
-  //TimeOfDay time = new TimeOfDay(hour: 99, minute: 99);
   TimeOfDay timeEntrada = TimeOfDay.now();
   TimeOfDay timeSaida = TimeOfDay.now();
   DateTime date = DateTime.now();
@@ -160,20 +159,31 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
           ),
           Button(
             rotulo: "Reservar",
-            onPressed: () {
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              int? idUsuario = await prefs.getInt('USER_ID');
               Reserva reserva = Reserva(
                 1,
                 date.toString(),
                 timeEntrada.toString(),
                 timeSaida.toString(),
-                //USUARIO,
-                //widget.estacionamento,
+                idUsuario,
+                widget.estacionamento.idEstacionamento,
                 //widget.estacionamento.valorHora,
               );
               print(date.toString());
-              print(timeEntrada.toString());
-              print(timeSaida.toString());
-              print(timeEntrada.hour.toString()+":"+timeEntrada.minute.toString()+":00");
+              print(timeEntrada.hour.toString() +
+                  ":" +
+                  timeEntrada.minute.toString() +
+                  ":00");
+              print(timeSaida.hour.toString() +
+                  ":" +
+                  timeSaida.minute.toString() +
+                  ":00");
+              print("$idUsuario");
+              /*
+              Navigator.popUntil(
+                  context, ModalRoute.withName('/principalUsuario'));*/
             },
           ),
         ],

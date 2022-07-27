@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'package:estacionamento/models/Favorito.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../components/ActionButton.dart';
 import '../components/Button.dart';
 import '../components/ContainerDados.dart';
 import '../http/EstacionamentoService.dart';
+import '../http/FavoritoService.dart';
 import '../models/Estacionamento.dart';
 import 'ReservaEstacionamento.dart';
 
@@ -39,7 +42,15 @@ class DadosEstacionamento extends StatelessWidget {
           actions: [
             ActionButton(
               simbolo: Icons.star,
-              onPressed: () {},
+              onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              int? idUsuario = await prefs.getInt('USER_ID');
+                Favorito favorito = Favorito(
+                idUsuario,
+                estacionamento.idEstacionamento,);
+                  FavoritoService().cadastrarFavorito(favorito);
+              },
+              // sinalizar que o estacionamento foi favoritado com sucesso
             ),
           ],
         ),
@@ -117,11 +128,8 @@ class DadosEstacionamento extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(element.diaSemana +
-                ": " +
-                element.horarioInicio +
-                " - " +
-                element.horarioFim),
+            Text(element.diaSemana + ":"),
+            Text(element.horarioInicio + " - " + element.horarioFim),
           ],
         ),
       );

@@ -25,46 +25,44 @@ class LoggingInterceptor implements InterceptorContract {
   }
 }
 
-class usuarioService{
-
+class usuarioService {
   String urlPadrao = "http://estacionamento-pedepano.herokuapp.com/paraki/";
 
-Future<List<Usuario>> listarUsuario() async {
-  final Client client = InterceptedClient.build(
-    interceptors: [LoggingInterceptor()],
-  );
-  final response = await client.get(Uri.parse('${urlPadrao}usuario/listar'));
-  final List<Usuario> usuarios = [];
-  var usuarioJson = jsonDecode(response.body);
-  for (var json in usuarioJson['result']){
-     final Usuario usuario = Usuario(
-      json['idUsuario'],
-      json['nomeUsuario'],
-      json['CPF'],
-      json['tipoUsuario'],
-      json['modeloCarro'],
-      json['senha'],
-      
+  Future<List<Usuario>> listarUsuario() async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
     );
-    usuarios.add(usuario);
-  }  
-  return usuarios;
-}
+    final response = await client.get(Uri.parse('${urlPadrao}usuario/listar'));
+    final List<Usuario> usuarios = [];
+    var usuarioJson = jsonDecode(response.body);
+    for (var json in usuarioJson['result']) {
+      final Usuario usuario = Usuario(
+        json['idUsuario'],
+        json['nomeUsuario'],
+        json['CPF'],
+        json['tipoUsuario'],
+        json['modeloCarro'],
+        json['senha'],
+      );
+      usuarios.add(usuario);
+    }
+    return usuarios;
+  }
 
-void cadastrarUsuario(Usuario usuario) async{
-   final Client client = InterceptedClient.build(
-    interceptors: [LoggingInterceptor()],
-  );
-   final Map<String, dynamic> usuarioMap = {
-        'nomeUsuario': usuario.nomeUsuario,
-        'CPF': usuario.cpf,
-        'senha': usuario.senha,
-        'tipoUsuario' : usuario.tipo,
-        'modeloCarro' : usuario.modeloCarro,
-   };
-    
-   final String jsonUsuario = jsonEncode(usuarioMap);
-   await client.post(Uri.parse('${urlPadrao}usuario/cadastrar'), headers: {"content-type":"application/json"}, body: jsonUsuario); 
+  void cadastrarUsuario(Usuario usuario) async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );
+    final Map<String, dynamic> usuarioMap = {
+      'nomeUsuario': usuario.nomeUsuario,
+      'CPF': usuario.cpf,
+      'senha': usuario.senha,
+      'tipoUsuario': usuario.tipo,
+      'modeloCarro': usuario.modeloCarro,
+    };
 
-}
+    final String jsonUsuario = jsonEncode(usuarioMap);
+    await client.post(Uri.parse('${urlPadrao}usuario/cadastrar'),
+        headers: {"content-type": "application/json"}, body: jsonUsuario);
+  }
 }

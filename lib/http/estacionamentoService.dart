@@ -60,36 +60,37 @@ class estacionamentoService {
 
     for (var json in estacionamentoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
-      var horarios = await HorarioFuncionamentoService().listarHorarios(json['idEstacionamento']);
-      var caracteristicas = await CaracteristicaService().listarCaracteristicas(json['idEstacionamento']);
+      var horarios = await HorarioFuncionamentoService()
+          .listarHorarios(json['idEstacionamento']);
+      var caracteristicas = await CaracteristicaService()
+          .listarCaracteristicas(json['idEstacionamento']);
       final Estacionamento estacionamento = Estacionamento(
-          json['idEstacionamento'],
-          json['nomeEstacionamento'],
-          json['CNPJ'],
-          json['qtdTotalVagas'],
-          json['qtdVagasDisponiveis'],
-          json['nroEstacionamento'],
-          json['telefone'],
-          json['valorHora'].toDouble(),
-          endereco,
-          horarios,
-          caracteristicas);
+        json['idEstacionamento'],
+        json['nomeEstacionamento'],
+        json['CNPJ'],
+        json['qtdTotalVagas'],
+        json['qtdVagasDisponiveis'],
+        json['nroEstacionamento'],
+        json['telefone'],
+        json['valorHora'].toDouble(),
+        endereco,
+        horarios,
+        caracteristicas,
+      );
       estacionamentos.add(estacionamento);
     }
     return estacionamentos;
   }
 
-Future<List<Estacionamento>> listarEstacionamentoBusca(String busca) async {
+  Future<List<Estacionamento>> listarEstacionamentoBusca(String busca) async {
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
     );
-    final Map<String, dynamic> buscarRuaMap = {
-      'logradouro': busca
-    };
+    final Map<String, dynamic> buscarRuaMap = {'logradouro': busca};
 
     final String jsonBuscarRua = jsonEncode(buscarRuaMap);
 
-     final Response response = await client.post(
+    final Response response = await client.post(
         Uri.parse('${urlPadrao}estacionamento/estacionamentoRua'),
         headers: {"content-type": "application/json"},
         body: jsonBuscarRua);
@@ -97,24 +98,26 @@ Future<List<Estacionamento>> listarEstacionamentoBusca(String busca) async {
     final List<Estacionamento> estacionamentos = [];
 
     if (estacionamentoJson['result'] != ' ') {
-    for (var json in estacionamentoJson['result']) {
-      var endereco = await EnderecoService().buscarEndereco(json['endereco']);
-      var horarios = await HorarioFuncionamentoService().listarHorarios(json['idEstacionamento']);
-      var caracteristicas = await CaracteristicaService().listarCaracteristicas(json['idEstacionamento']);
-      final Estacionamento estacionamento = Estacionamento(
-          json['idEstacionamento'],
-          json['nomeEstacionamento'],
-          json['CNPJ'],
-          json['qtdTotalVagas'],
-          json['qtdVagasDisponiveis'],
-          json['nroEstacionamento'],
-          json['telefone'],
-          json['valorHora'].toDouble(),
-          endereco,
-          horarios,
-          caracteristicas);
-      estacionamentos.add(estacionamento);
-    }
+      for (var json in estacionamentoJson['result']) {
+        var endereco = await EnderecoService().buscarEndereco(json['endereco']);
+        var horarios = await HorarioFuncionamentoService()
+            .listarHorarios(json['idEstacionamento']);
+        var caracteristicas = await CaracteristicaService()
+            .listarCaracteristicas(json['idEstacionamento']);
+        final Estacionamento estacionamento = Estacionamento(
+            json['idEstacionamento'],
+            json['nomeEstacionamento'],
+            json['CNPJ'],
+            json['qtdTotalVagas'],
+            json['qtdVagasDisponiveis'],
+            json['nroEstacionamento'],
+            json['telefone'],
+            json['valorHora'].toDouble(),
+            endereco,
+            horarios,
+            caracteristicas);
+        estacionamentos.add(estacionamento);
+      }
     }
     return estacionamentos;
   }
