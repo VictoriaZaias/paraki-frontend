@@ -1,3 +1,4 @@
+import 'package:estacionamento/http/reservaService.dart';
 import 'package:estacionamento/models/Reserva.dart';
 import 'package:estacionamento/screens/PrincipalUsuario.dart';
 import 'package:shared_preferences/shared_preferences.dart';

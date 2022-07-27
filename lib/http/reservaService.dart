@@ -1,8 +1,9 @@
 import 'package:estacionamento/models/Reserva.dart';
+import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'dart:convert';
-/*
+
 class LoggingInterceptor implements InterceptorContract {
   @override
   Future<RequestData> interceptRequest({required RequestData data}) async {
@@ -26,9 +27,9 @@ class LoggingInterceptor implements InterceptorContract {
 }
 
 class ReservaService{
-  String urlPadrao = "http://estacionamento-pedepano.herokuapp.com/paraki/";
+  String urlPadrao = "http://localhost:3000/paraki/";
 
-  void cadastrarUsuario(Reserva reserva) async{
+  void cadastrarReserva(Reserva reserva, Estacionamento estacionamento) async{
    final Client client = InterceptedClient.build(
     interceptors: [LoggingInterceptor()],
   );
@@ -36,9 +37,9 @@ class ReservaService{
         'dataReserva': reserva.dataReserva,
         'horarioEntrada': reserva.horarioEntrada,
         'horarioSaida': reserva.horarioSaida,
-        'usuario' : reserva.usuario.idUsuario,
-        'estacionamento' : reserva.estacionamento.idEstacionamento,
-        "precoHora": reserva.precoHora
+        'usuario' : 1,
+        'estacionamento' : estacionamento.idEstacionamento,
+        'precoHora': estacionamento.valorHora,
    };
     
    final String jsonReserva = jsonEncode(reservaMap);
@@ -46,4 +47,3 @@ class ReservaService{
 
   }
 }
-*/
