@@ -1,10 +1,10 @@
 import 'package:estacionamento/http/LoginService.dart';
 import 'package:estacionamento/models/Usuario.dart';
-import 'package:estacionamento/screens/PrincipalAdmin.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../components/Button.dart';
 import '../components/Editor.dart';
+import 'Admin/PrincipalAdmin.dart';
 import 'CadastroUsuario.dart';
 import 'PrincipalUsuario.dart';
 

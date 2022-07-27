@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../components/ActionButton.dart';
-import '../components/Button.dart';
-import 'Agradecimento.dart';
+
+import '../../components/ActionButton.dart';
+import '../../components/Button.dart';
+import '../Agradecimento.dart';
 
 class AdminValidacao extends StatefulWidget {
   const AdminValidacao({Key? key}) : super(key: key);

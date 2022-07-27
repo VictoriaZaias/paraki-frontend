@@ -1,11 +1,12 @@
-import 'package:estacionamento/http/UsuarioService.dart';
-import 'package:estacionamento/screens/Agradecimento.dart';
 import 'package:flutter/material.dart';
-import '../components/ActionButton.dart';
-import '../components/Button.dart';
-import '../components/DropdownSelect.dart';
-import '../components/Editor.dart';
-import '../models/Usuario.dart';
+
+import '../../components/ActionButton.dart';
+import '../../components/Button.dart';
+import '../../components/DropdownSelect.dart';
+import '../../components/Editor.dart';
+import '../../http/UsuarioService.dart';
+import '../../models/Usuario.dart';
+import '../Agradecimento.dart';
 
 class AdminCadastro extends StatefulWidget {
   const AdminCadastro({Key? key}) : super(key: key);
@@ -127,7 +128,7 @@ class _AdminCadastroState extends State<AdminCadastro> {
                     }
                     Usuario usuario = Usuario(1, nomeUsuario.text, cpf.text,
                         vinculoId, carroId, senha.text);
-                    usuarioService().cadastrarUsuario(usuario);
+                    UsuarioService().cadastrarUsuario(usuario);
 
                     Navigator.pushReplacement(
                       context,

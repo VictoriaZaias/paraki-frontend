@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../components/ActionButton.dart';
-import '../components/Button.dart';
-import '../components/DropdownSelect.dart';
-import '../components/Editor.dart';
-import 'Agradecimento.dart';
+import '../../components/ActionButton.dart';
+import '../../components/Button.dart';
+import '../../components/DropdownSelect.dart';
+import '../../components/Editor.dart';
+import '../Agradecimento.dart';
 
 class AdminProcura extends StatefulWidget {
   const AdminProcura({Key? key}) : super(key: key);
@@ -118,6 +118,7 @@ class _AdminProcuraState extends State<AdminProcura> {
                                   Agradecimento("atualizado")));
                     },
                   ),
+                  /*
                   Button(
                     rotulo: _textoBotaoInativar,
                     onPressed: () {
@@ -128,6 +129,7 @@ class _AdminProcuraState extends State<AdminProcura> {
                                   Agradecimento("inativado")));
                     },
                   ),
+                  */
                 ],
               ),
             ),

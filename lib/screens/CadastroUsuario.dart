@@ -92,7 +92,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                   }
                   Usuario usuario = Usuario(
                       1, nomeUsuario.text, cpf.text, "2", carroId, senha.text);
-                  usuarioService().cadastrarUsuario(usuario);
+                  UsuarioService().cadastrarUsuario(usuario);
 
                   Navigator.push(
                     context,

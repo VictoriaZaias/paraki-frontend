@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/Button.dart';
+import '../../components/Button.dart';
 import 'AdminCadastro.dart';
 import 'AdminProcura.dart';
 

@@ -1,15 +1,14 @@
 import 'dart:convert';
-import 'package:estacionamento/components/ListaCaracteristicas.dart';
-import 'package:estacionamento/http/CaracteristicaService.dart';
-import 'package:estacionamento/models/Favorito.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../components/ActionButton.dart';
 import '../components/Button.dart';
 import '../components/ContainerDados.dart';
+import '../components/ListaHorariosFuncionamento.dart';
 import '../http/EstacionamentoService.dart';
 import '../http/FavoritoService.dart';
 import '../models/Estacionamento.dart';
+import '../models/Favorito.dart';
 import 'ReservaEstacionamento.dart';
 
 class DadosEstacionamento extends StatelessWidget {
@@ -70,11 +69,13 @@ class DadosEstacionamento extends StatelessWidget {
               dados: _dadosVagas(),
             ),
             /*
+            SizedBox(
+              child: ListaHorariosFuncionamento(estacionamento.idEstacionamento)),
+            */
             ContainerDados(
               titulo: "Horario de funcionamento",
-              dados: _dadosHorarios(),
+              dados: _dadosHorarios(estacionamento.idEstacionamento),
             ),
-            */
             ContainerDados(
               titulo: "Preços",
               dados: _dadosPrecos(),
@@ -140,23 +141,18 @@ class DadosEstacionamento extends StatelessWidget {
       ),
     ];
   }
-/*
-  List<Widget> _dadosHorarios() {
-    List<Widget> h = [];
-    estacionamento.horarios.forEach((element) {
-      h.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(element.diaSemana + ":"),
-            Text(element.horarioInicio + " - " + element.horarioFim),
-          ],
-        ),
-      );
-    });
+
+  List<Widget> _dadosHorarios(int idEstacionamento) {
+    List<Widget> h = [
+      FractionallySizedBox(
+        widthFactor: 1.0,
+        heightFactor: 0.5,
+        child: ListaHorariosFuncionamento(idEstacionamento),
+      ),
+    ];
     return h;
   }
-*/
+
   List<Widget> _dadosPrecos() {
     return [
       Row(

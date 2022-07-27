@@ -76,7 +76,7 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
           children: [
             Editor(
               rotulo: 'Informe o logradouro de destino',
-              largura: 380.0,
+              largura: 370.0,
               icone: Icons.search,
               controlador: buscaRua,
               onSubmitted: (buscaRua) {

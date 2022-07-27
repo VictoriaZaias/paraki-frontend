@@ -1,4 +1,4 @@
-import 'package:estacionamento/screens/PrincipalAdmin.dart';
+import 'package:estacionamento/screens/Admin/PrincipalAdmin.dart';
 import 'package:flutter/material.dart';
 import '../components/ActionButton.dart';
 

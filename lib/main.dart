@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:estacionamento/screens/Login.dart';
 import 'package:estacionamento/screens/Pagamento.dart';
-import 'package:estacionamento/screens/PrincipalAdmin.dart';
+import 'package:estacionamento/screens/Admin/PrincipalAdmin.dart';
 import 'package:estacionamento/screens/PrincipalUsuario.dart';
 import 'package:flutter/material.dart';
 import 'screens/Login.dart';
