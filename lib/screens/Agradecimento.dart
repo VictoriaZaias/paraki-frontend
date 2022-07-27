@@ -26,6 +26,9 @@ class Agradecimento extends StatelessWidget {
               padding: 0.0,
               tamanhoBotao: 120.0,
               onPressed: () {
+                if (acao == "cadastrado") {
+                  Navigator.pop(context);
+                }
                 //Navigator.popUntil(context, ModalRoute.withName("/tres"));
                 //Navigator.of(context).popUntil(ModalRoute.withName("PrincipalAdmin"));
               },

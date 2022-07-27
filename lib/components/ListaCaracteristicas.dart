@@ -7,12 +7,13 @@ import 'CenteredMessage.dart';
 import 'Progress.dart';
 
 class ListaCaracteristicas extends StatefulWidget {
-  final int? tamanho;
+  var buscar;
+  //final int? tamanho;
 
-  ListaCaracteristicas({
-    Key? key,
-    this.tamanho,
-  });
+  ListaCaracteristicas(
+    this.buscar,
+    //this.tamanho,
+  );
 
   @override
   State<ListaCaracteristicas> createState() => _ListaCaracteristicasState();
@@ -23,7 +24,7 @@ class _ListaCaracteristicasState extends State<ListaCaracteristicas> {
   Widget build(BuildContext context) {
     return Expanded(
       child: FutureBuilder<List<Caracteristica>>(
-        future: CaracteristicaService().listarTodasCaracteristicas(),
+        future: widget.buscar,
         builder: (context, AsyncSnapshot<List<Caracteristica>> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -43,7 +44,8 @@ class _ListaCaracteristicasState extends State<ListaCaracteristicas> {
                       final Caracteristica caracteristica =
                           caracteristicas[index];
                       return CheckboxCaracteristica(
-                          caracteristica: caracteristica);
+                        caracteristica: caracteristica,
+                      );
                     },
                     itemCount: caracteristicas.length,
                   );

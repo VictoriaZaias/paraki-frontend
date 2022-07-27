@@ -42,7 +42,7 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
           ContainerDados(
             titulo: widget.estacionamento.nomeEstacionamento,
             dados: [
-              Text(estacionamentoService()
+              Text(EstacionamentoService()
                   .enderecoCompleto(widget.estacionamento)),
               Text("Telefone: " + widget.estacionamento.telefone),
             ],

@@ -96,42 +96,46 @@ class _AdminCadastroState extends State<AdminCadastro> {
                 dica: _dicaCampoConfirmaSenha,
                 senha: true,
               ),
-              Button(
-                rotulo: _textoBotaoCadastrar,
-                onPressed: () {
-                  String carroId, vinculoId;
-                  switch (vinculoUsuario) {
-                    case 'Motorista':
-                      vinculoId = '2';
-                      break;
-                    case 'Dono de estacionamento':
-                      vinculoId = '3';
-                      break;
-                    default:
-                      vinculoId = '4';
-                  }
-                  switch (carro) {
-                    case 'Elétrico':
-                      carroId = '1';
-                      break;
-                    case 'Combustão':
-                      carroId = '2';
-                      break;
-                    case 'Combustão e elétrico':
-                      carroId = '3';
-                      break;
-                    default:
-                      carroId = '4';
-                  }
-                  Usuario usuario = Usuario(1, nomeUsuario.text, cpf.text,
-                      vinculoId, carroId, senha.text);
-                  usuarioService().cadastrarUsuario(usuario);
-                  
-                  Navigator.push(
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30.0),
+                child: Button(
+                  rotulo: _textoBotaoCadastrar,
+                  onPressed: () {
+                    String carroId, vinculoId;
+                    switch (vinculoUsuario) {
+                      case 'Motorista':
+                        vinculoId = '2';
+                        break;
+                      case 'Dono de estacionamento':
+                        vinculoId = '3';
+                        break;
+                      default:
+                        vinculoId = '4';
+                    }
+                    switch (carro) {
+                      case 'Elétrico':
+                        carroId = '1';
+                        break;
+                      case 'Combustão':
+                        carroId = '2';
+                        break;
+                      case 'Combustão e elétrico':
+                        carroId = '3';
+                        break;
+                      default:
+                        carroId = '4';
+                    }
+                    Usuario usuario = Usuario(1, nomeUsuario.text, cpf.text,
+                        vinculoId, carroId, senha.text);
+                    usuarioService().cadastrarUsuario(usuario);
+
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Agradecimento("cadastrado")));
-                },
+                          builder: (context) => Agradecimento("cadastrado")),
+                    );
+                  },
+                ),
               ),
             ],
           ),

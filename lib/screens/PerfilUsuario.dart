@@ -1,15 +1,40 @@
 import 'package:estacionamento/components/ActionButton.dart';
 import 'package:estacionamento/models/Usuario.dart';
-import 'package:mysql1/mysql1.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Login.dart';
 
-class PerfilUsuario extends StatelessWidget {
+class PerfilUsuario extends StatefulWidget {
   final Usuario user;
+
   PerfilUsuario({
     required this.user,
   });
 
+  @override
+  State<PerfilUsuario> createState() => _PerfilUsuarioState();
+}
+
+class _PerfilUsuarioState extends State<PerfilUsuario> {
+  //
+  late SharedPreferences logindata;
+  late String username;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initial();
+  }
+
+  void initial() async {
+    logindata = await SharedPreferences.getInstance();
+    setState(() {
+      username = logindata.getString('username')!;
+    });
+  }
+
+  //
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +62,7 @@ class PerfilUsuario extends StatelessWidget {
                     onPressed: null,
                   ),
                   Text(
-                    user.nomeUsuario,
+                    widget.user.nomeUsuario,
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -50,19 +75,18 @@ class PerfilUsuario extends StatelessWidget {
       ),
       body: Column(
         children: [
-          dadosUsuario("CPF", user.cpf, Icons.edit, null),
-          dadosUsuario("Senha", user.senha, Icons.edit, null),
-          dadosUsuario(
-              "Modelo do(s) carro(s)", user.modeloCarro, Icons.edit, null),
-          dadosUsuario(
-              "Sair do app", null, Icons.logout_rounded, null),
+          dadosUsuario("CPF", widget.user.cpf, Icons.edit, null),
+          dadosUsuario("Senha", widget.user.senha, Icons.edit, null),
+          dadosUsuario("Modelo do(s) carro(s)", widget.user.modeloCarro,
+              Icons.edit, null),
+          dadosUsuario("Sair do app", null, Icons.logout_rounded, _logOut()),
         ],
       ),
     );
   }
 
   Container dadosUsuario(
-      String titulo, String? dado, IconData? icone, Function()? acao) {
+      String titulo, String? dado, IconData? icone, Function()? onPressed) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -77,9 +101,7 @@ class PerfilUsuario extends StatelessWidget {
         subtitle: dado != null ? Text(dado) : null,
         trailing: icone != null
             ? IconButton(
-                onPressed: () {
-                  acao;
-                },
+                onPressed: onPressed,
                 icon: Icon(
                   icone,
                   color: Color(0xFFEDE4E2),
@@ -90,9 +112,11 @@ class PerfilUsuario extends StatelessWidget {
     );
   }
 
-  signOut(BuildContext context) async {
-    //await signOut(context);
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Login()));
+  Function()? _logOut() {
+    return () {
+      logindata.setBool('login', true);
+      Navigator.pushReplacement(
+          context, new MaterialPageRoute(builder: (context) => Login()));
+    };
   }
 }

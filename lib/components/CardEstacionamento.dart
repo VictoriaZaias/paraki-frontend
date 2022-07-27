@@ -11,13 +11,14 @@ import 'ActionButton.dart';
 class CardEstacionamento extends StatelessWidget {
   final Estacionamento estacionamento;
 
-  const CardEstacionamento({Key? key, required this.estacionamento})
-      : super(key: key);
+  const CardEstacionamento({
+    Key? key,
+    required this.estacionamento,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 150.0,
       child: Card(
         child: ListTile(
           textColor: Colors.black,
@@ -38,14 +39,18 @@ class CardEstacionamento extends StatelessWidget {
             ],
           ),
           title: Text(estacionamento.nomeEstacionamento),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(estacionamentoService().enderecoCompleto(estacionamento)),
-              Text("Quantidade de vagas disponíveis: " +
-                  estacionamento.qtdVagasDisponiveis.toString()),
-              Text("Valor por hora: " + estacionamento.valorHora.toString()),
-            ],
+          subtitle: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(EstacionamentoService().enderecoCompleto(estacionamento)),
+                Text("Quantidade de vagas disponíveis: " +
+                    estacionamento.qtdVagasDisponiveis.toString()),
+                Text("Valor por hora: " + estacionamento.valorHora.toString()),
+              ],
+            ),
           ),
         ),
       ),

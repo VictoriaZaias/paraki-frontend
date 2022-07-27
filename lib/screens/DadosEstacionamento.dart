@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:estacionamento/components/ListaCaracteristicas.dart';
+import 'package:estacionamento/http/CaracteristicaService.dart';
 import 'package:estacionamento/models/Favorito.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,12 +45,13 @@ class DadosEstacionamento extends StatelessWidget {
             ActionButton(
               simbolo: Icons.star,
               onPressed: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              int? idUsuario = await prefs.getInt('USER_ID');
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                int? idUsuario = await prefs.getInt('USER_ID');
                 Favorito favorito = Favorito(
-                idUsuario,
-                estacionamento.idEstacionamento,);
-                  FavoritoService().cadastrarFavorito(favorito);
+                  idUsuario,
+                  estacionamento.idEstacionamento,
+                );
+                FavoritoService().cadastrarFavorito(favorito);
               },
               // sinalizar que o estacionamento foi favoritado com sucesso
             ),
@@ -66,18 +69,35 @@ class DadosEstacionamento extends StatelessWidget {
               titulo: "Vagas",
               dados: _dadosVagas(),
             ),
+            /*
             ContainerDados(
               titulo: "Horario de funcionamento",
               dados: _dadosHorarios(),
             ),
+            */
             ContainerDados(
               titulo: "Preços",
               dados: _dadosPrecos(),
             ),
+            /*
+            SizedBox(
+              height: 50.0 * 10,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListaCaracteristicas(CaracteristicaService()
+                      .listarCaracteristicas(estacionamento.idEstacionamento)),
+                ],
+              ),
+            ),
+            */
+            /*
             ContainerDados(
               titulo: "Características",
-              dados: _dadosCaracteristicas(),
-            ),
+              dados: ListaCaracteristicas(CaracteristicaService()
+                  .listarCaracteristicas(estacionamento.idEstacionamento)),
+              //_dadosCaracteristicas(),
+            ),*/
             Button(
               rotulo: "Reservar",
               onPressed: () {
@@ -97,7 +117,7 @@ class DadosEstacionamento extends StatelessWidget {
 
   List<Widget> _dadosGerais() {
     return [
-      Text(estacionamentoService().enderecoCompleto(estacionamento)),
+      Text(EstacionamentoService().enderecoCompleto(estacionamento)),
       Text("Telefone: " + estacionamento.telefone),
     ];
   }
@@ -120,7 +140,7 @@ class DadosEstacionamento extends StatelessWidget {
       ),
     ];
   }
-
+/*
   List<Widget> _dadosHorarios() {
     List<Widget> h = [];
     estacionamento.horarios.forEach((element) {
@@ -136,7 +156,7 @@ class DadosEstacionamento extends StatelessWidget {
     });
     return h;
   }
-
+*/
   List<Widget> _dadosPrecos() {
     return [
       Row(
@@ -148,7 +168,7 @@ class DadosEstacionamento extends StatelessWidget {
       ),
     ];
   }
-
+/*
   List<Widget> _dadosCaracteristicas() {
     List<Widget> c = [];
     estacionamento.caracteristicas.forEach((element) {
@@ -163,4 +183,5 @@ class DadosEstacionamento extends StatelessWidget {
     });
     return c;
   }
+  */
 }

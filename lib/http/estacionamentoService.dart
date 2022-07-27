@@ -28,7 +28,7 @@ class LoggingInterceptor implements InterceptorContract {
   }
 }
 
-class estacionamentoService {
+class EstacionamentoService {
   String urlPadrao = "http://estacionamento-pedepano.herokuapp.com/paraki/";
 
   String enderecoCompleto(Estacionamento estacionamento) {
@@ -60,10 +60,6 @@ class estacionamentoService {
 
     for (var json in estacionamentoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
-      var horarios = await HorarioFuncionamentoService()
-          .listarHorarios(json['idEstacionamento']);
-      var caracteristicas = await CaracteristicaService()
-          .listarCaracteristicas(json['idEstacionamento']);
       final Estacionamento estacionamento = Estacionamento(
         json['idEstacionamento'],
         json['nomeEstacionamento'],
@@ -74,8 +70,6 @@ class estacionamentoService {
         json['telefone'],
         json['valorHora'].toDouble(),
         endereco,
-        horarios,
-        caracteristicas,
       );
       estacionamentos.add(estacionamento);
     }
@@ -100,22 +94,17 @@ class estacionamentoService {
     if (estacionamentoJson['result'] != ' ') {
       for (var json in estacionamentoJson['result']) {
         var endereco = await EnderecoService().buscarEndereco(json['endereco']);
-        var horarios = await HorarioFuncionamentoService()
-            .listarHorarios(json['idEstacionamento']);
-        var caracteristicas = await CaracteristicaService()
-            .listarCaracteristicas(json['idEstacionamento']);
         final Estacionamento estacionamento = Estacionamento(
-            json['idEstacionamento'],
-            json['nomeEstacionamento'],
-            json['CNPJ'],
-            json['qtdTotalVagas'],
-            json['qtdVagasDisponiveis'],
-            json['nroEstacionamento'],
-            json['telefone'],
-            json['valorHora'].toDouble(),
-            endereco,
-            horarios,
-            caracteristicas);
+          json['idEstacionamento'],
+          json['nomeEstacionamento'],
+          json['CNPJ'],
+          json['qtdTotalVagas'],
+          json['qtdVagasDisponiveis'],
+          json['nroEstacionamento'],
+          json['telefone'],
+          json['valorHora'].toDouble(),
+          endereco,
+        );
         estacionamentos.add(estacionamento);
       }
     }

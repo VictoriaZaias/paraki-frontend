@@ -38,7 +38,7 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(90),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ActionButton(
                   tamanhoBotao: _tamanhoActionButtons,
@@ -59,14 +59,13 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
                     isFavoriteVisible = !isFavoriteVisible;
                   }),
                 ),
+                /*
                 ActionButton(
                   tamanhoBotao: _tamanhoActionButtons,
                   simbolo: Icons.manage_search,
-                  onPressed: () {
-                    listar = ListaEstacionamento(buscar(buscaRua.text));
-                    setState(() {});
-                  },
+                  onPressed: () {},
                 ),
+                */
               ],
             ),
           ),
@@ -76,20 +75,24 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
         child: Column(
           children: [
             Editor(
-              rotulo: 'Informe a rua de destino',
-              largura: 350.0,
+              rotulo: 'Informe o logradouro de destino',
+              largura: 380.0,
               icone: Icons.search,
               controlador: buscaRua,
+              onSubmitted: (buscaRua) {
+                setState(() {
+                  listar = ListaEstacionamento(EstacionamentoService()
+                      .listarEstacionamentoBusca(buscaRua));
+                });
+              },
             ),
             Visibility(
               child: listar,
               visible: !isFavoriteVisible,
             ),
             Visibility(
-              child:
-                  Center(child: Text("Lista de estacionamentos favoritados")),
-              /*ListaEstacionamento(FavoritoService()
-                  .listarEstacionamentosFavoritados(4)),*/
+              child: ListaEstacionamento(
+                  FavoritoService().listarEstacionamentosFavoritados(4)),
               visible: isFavoriteVisible,
             ),
           ],
@@ -102,8 +105,8 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
 Future<List<Estacionamento>> buscar(String busca) {
   var lista;
   if (busca == "") {
-    return lista = estacionamentoService().listarEstacionamento();
+    return lista = EstacionamentoService().listarEstacionamento();
   } else {
-    return lista = estacionamentoService().listarEstacionamentoBusca(busca);
+    return lista = EstacionamentoService().listarEstacionamentoBusca(busca);
   }
 }

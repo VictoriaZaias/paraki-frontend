@@ -9,29 +9,32 @@ class Editor extends StatelessWidget {
   final String? dica;
   final IconData? icone;
   final TextInputType? teclado;
+  final Function(String)? onSubmitted;
   final bool? senha;
 
-  const Editor(
-      {Key? key,
-      this.controlador,
-      this.validacao,
-      this.rotulo,
-      this.altura = 50.0,
-      this.largura = 300.0,
-      this.dica,
-      this.icone,
-      this.teclado,
-      this.senha = false})
-      : super(key: key);
+  const Editor({
+    Key? key,
+    this.controlador,
+    this.validacao,
+    this.rotulo,
+    this.altura = 50.0,
+    this.largura = 300.0,
+    this.dica,
+    this.icone,
+    this.teclado,
+    this.onSubmitted,
+    this.senha = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: SizedBox(
         width: largura,
         height: altura,
         child: TextFormField(
+          onFieldSubmitted: onSubmitted,
           obscureText: senha!,
           controller: controlador,
           validator: validacao,

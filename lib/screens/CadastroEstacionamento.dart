@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../components/Button.dart';
 import '../components/Editor.dart';
 import '../components/ListaCaracteristicas.dart';
+import '../http/CaracteristicaService.dart';
 
 class CadastroEstacionamento extends StatelessWidget {
   static const _tituloTela = 'Estacionamento';
@@ -85,7 +86,7 @@ class CadastroEstacionamento extends StatelessWidget {
               SizedBox(
                 width: 300.0,
                 height: 50.0 * 10, // <-- vergonha nacional
-                child: ListaCaracteristicas(),
+                child: ListaCaracteristicas(CaracteristicaService().listarTodasCaracteristicas()),
               ),
               Text("Horário(s) de funcionamento"),
               Text("Abertura"),

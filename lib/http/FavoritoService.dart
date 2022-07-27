@@ -57,13 +57,8 @@ class FavoritoService {
         .get(Uri.parse('${urlPadrao}favorito/listar/' + idUsuario.toString()));
     final List<Estacionamento> estacionamentos = [];
     var favoritoJson = jsonDecode(response.body);
-
     for (var json in favoritoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
-      var horarios = await HorarioFuncionamentoService()
-          .listarHorarios(json['idEstacionamento']);
-      var caracteristicas = await CaracteristicaService()
-          .listarCaracteristicas(json['idEstacionamento']);
       final Estacionamento estacionamento = Estacionamento(
         json['idEstacionamento'],
         json['nomeEstacionamento'],
@@ -74,8 +69,6 @@ class FavoritoService {
         json['telefone'],
         json['valorHora'].toDouble(),
         endereco,
-        horarios,
-        caracteristicas,
       );
       estacionamentos.add(estacionamento);
     }
