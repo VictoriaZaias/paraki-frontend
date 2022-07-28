@@ -42,7 +42,7 @@ class _AdminProcuraState extends State<AdminProcura> {
           ),
           centerTitle: true,
           title: Text(
-            "Alterar/Inativar",
+            "Alterar",
             style: TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.bold,
@@ -69,7 +69,7 @@ class _AdminProcuraState extends State<AdminProcura> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Editor(
               rotulo: _rotuloCampoNomeUsuarioCadastroUsuario,

@@ -40,7 +40,6 @@ class EnderecoService {
         jsonEndereco['result']['idEndereco'],
         jsonEndereco['result']['bairro'],
         jsonEndereco['result']['logradouro'],
-        jsonEndereco['result']['tipoLogradouro'],
         jsonEndereco['result']['cidade'],
         jsonEndereco['result']['uf'],
         jsonEndereco['result']['cep'],

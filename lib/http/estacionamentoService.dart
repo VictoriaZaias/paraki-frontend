@@ -33,9 +33,7 @@ class EstacionamentoService {
 
   String enderecoCompleto(Estacionamento estacionamento) {
     String enderecoCompleto;
-    enderecoCompleto = estacionamento.endereco.tipoLogradouro +
-        " " +
-        estacionamento.endereco.logradouro +
+    enderecoCompleto = estacionamento.endereco.logradouro +
         ", " +
         estacionamento.nroEstacionamento.toString() +
         " - " +

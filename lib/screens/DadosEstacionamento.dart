@@ -68,10 +68,6 @@ class DadosEstacionamento extends StatelessWidget {
               titulo: "Vagas",
               dados: _dadosVagas(),
             ),
-            /*
-            SizedBox(
-              child: ListaHorariosFuncionamento(estacionamento.idEstacionamento)),
-            */
             ContainerDados(
               titulo: "Horario de funcionamento",
               dados: _dadosHorarios(estacionamento.idEstacionamento),
@@ -145,9 +141,14 @@ class DadosEstacionamento extends StatelessWidget {
   List<Widget> _dadosHorarios(int idEstacionamento) {
     List<Widget> h = [
       FractionallySizedBox(
-        widthFactor: 1.0,
+       widthFactor: 1.0,
         heightFactor: 0.5,
+      child:
+      SizedBox(
+        width: 300.0,
+        height: 90 * 7,
         child: ListaHorariosFuncionamento(idEstacionamento),
+      ),
       ),
     ];
     return h;

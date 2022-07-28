@@ -8,10 +8,12 @@ import 'Progress.dart';
 
 class ListaHorariosFuncionamento extends StatefulWidget {
   final int idEstacionamento;
+  final int tamanho;
 
   const ListaHorariosFuncionamento(
     this.idEstacionamento, {
     Key? key,
+    this.tamanho = 0,
   }) : super(key: key);
 
   @override
@@ -21,10 +23,9 @@ class ListaHorariosFuncionamento extends StatefulWidget {
 
 class _ListaHorariosFuncionamentoState
     extends State<ListaHorariosFuncionamento> {
-  //NumberFormat numberFormat = new NumberFormat("00");
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SizedBox(
       child: FutureBuilder<List<HorarioFuncionamento>>(
         future: HorarioFuncionamentoService()
             .listarHorarios(widget.idEstacionamento),
@@ -44,6 +45,7 @@ class _ListaHorariosFuncionamentoState
                   return ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
+                      int tamanho = 0;
                       final HorarioFuncionamento horarioFuncionamento =
                           horarioFuncionamentos[index];
                       return Row(
@@ -55,6 +57,7 @@ class _ListaHorariosFuncionamentoState
                               horarioFuncionamento.horarioFim),
                         ],
                       );
+                      tamanho = horarioFuncionamentos.length;
                     },
                     itemCount: horarioFuncionamentos.length,
                   );

@@ -1,7 +1,8 @@
+import 'package:estacionamento/components/ContainerDados.dart';
 import 'package:flutter/material.dart';
 import '../../components/Button.dart';
 import 'AdminCadastro.dart';
-import 'AdminProcura.dart';
+import 'AdminAlterar.dart';
 
 class PrincipalAdmin extends StatelessWidget {
   const PrincipalAdmin({Key? key}) : super(key: key);
@@ -24,33 +25,58 @@ class PrincipalAdmin extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
-        child: Center(
-          child: Column(
-            children: [
-              Text(
-                "Usuário",
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: Color(0xFFB497F2), width: 1.5),
                 ),
               ),
-              Button(
-                rotulo: "Inserir",
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AdminCadastro()));
-                },
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(15.0, 15.0, 0.0, 0.0),
+                          child: Text(
+                            "Usuário",
+                            style: TextStyle(
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Button(
+                      rotulo: "Inserir",
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AdminCadastro()));
+                      },
+                    ),
+                    Button(
+                      rotulo: "Alterar",
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AdminProcura()));
+                      },
+                    ),
+                  ],
+                ),
               ),
-              Button(
-                rotulo: "Alterar/Inativar",
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AdminProcura()));
-                },
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
