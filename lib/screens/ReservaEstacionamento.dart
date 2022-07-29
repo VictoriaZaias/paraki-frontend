@@ -1,4 +1,4 @@
-import 'package:estacionamento/http/reservaService.dart';
+import 'package:estacionamento/http/ReservaService.dart';
 import 'package:estacionamento/models/Reserva.dart';
 import 'package:estacionamento/screens/PrincipalUsuario.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -163,25 +163,20 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
             onPressed: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               int? idUsuario = await prefs.getInt('USER_ID');
+              var dataReserva = date.year.toString()+"-"+date.month.toString()+"-"+date.day.toString();
+              var horarioEntrada = timeEntrada.hour.toString()+":"+timeEntrada.minute.toString()+":00";
+              var horarioSaida = timeSaida.hour.toString()+":"+timeSaida.minute.toString()+":00";
               Reserva reserva = Reserva(
                 1,
-                date.toString(),
-                timeEntrada.toString(),
-                timeSaida.toString(),
+                dataReserva,
+                horarioEntrada,
+                horarioSaida,
                 idUsuario,
                 widget.estacionamento.idEstacionamento,
                 //widget.estacionamento.valorHora,
               );
-              print(date.toString());
-              print(timeEntrada.hour.toString() +
-                  ":" +
-                  timeEntrada.minute.toString() +
-                  ":00");
-              print(timeSaida.hour.toString() +
-                  ":" +
-                  timeSaida.minute.toString() +
-                  ":00");
-              print("$idUsuario");
+              ReservaService().cadastrarReserva(reserva, widget.estacionamento.valorHora);
+              
               /*
               Navigator.popUntil(
                   context, ModalRoute.withName('/principalUsuario'));*/

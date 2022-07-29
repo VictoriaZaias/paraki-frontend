@@ -68,10 +68,11 @@ class DadosEstacionamento extends StatelessWidget {
               titulo: "Vagas",
               dados: _dadosVagas(),
             ),
+            /*
             ContainerDados(
               titulo: "Horario de funcionamento",
               dados: _dadosHorarios(estacionamento.idEstacionamento),
-            ),
+            ),*/
             ContainerDados(
               titulo: "Preços",
               dados: _dadosPrecos(),
