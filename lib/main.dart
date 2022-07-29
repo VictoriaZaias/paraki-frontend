@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:estacionamento/screens/CadastroEstacionamento.dart';
 import 'package:estacionamento/screens/Login.dart';
 import 'package:estacionamento/screens/Pagamento.dart';
 import 'package:estacionamento/screens/Admin/PrincipalAdmin.dart';

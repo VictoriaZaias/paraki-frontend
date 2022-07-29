@@ -1,34 +1,25 @@
 import 'package:estacionamento/http/HorarioFuncionamentoService.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/HorarioFuncionamento.dart';
 import 'CenteredMessage.dart';
 import 'Progress.dart';
 
-class ListaHorariosFuncionamento extends StatefulWidget {
+class ListaHorariosFuncionamento extends StatelessWidget {
   final int idEstacionamento;
-  final int tamanho;
 
-  const ListaHorariosFuncionamento(
+  ListaHorariosFuncionamento(
     this.idEstacionamento, {
     Key? key,
-    this.tamanho = 0,
   }) : super(key: key);
-
-  @override
-  State<ListaHorariosFuncionamento> createState() =>
-      _ListaHorariosFuncionamentoState();
-}
-
-class _ListaHorariosFuncionamentoState
-    extends State<ListaHorariosFuncionamento> {
+  
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 150.0,
       child: FutureBuilder<List<HorarioFuncionamento>>(
-        future: HorarioFuncionamentoService()
-            .listarHorarios(widget.idEstacionamento),
+        future: HorarioFuncionamentoService().listarHorarios(idEstacionamento),
         builder: (context, AsyncSnapshot<List<HorarioFuncionamento>> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -39,29 +30,8 @@ class _ListaHorariosFuncionamentoState
               break;
             case ConnectionState.done:
               if (snapshot.hasData) {
-                final List<HorarioFuncionamento> horarioFuncionamentos =
-                    snapshot.data ?? [];
-                if (horarioFuncionamentos.isNotEmpty) {
-                  return ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      int tamanho = 0;
-                      final HorarioFuncionamento horarioFuncionamento =
-                          horarioFuncionamentos[index];
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(horarioFuncionamento.diaSemana + ":"),
-                          Text(horarioFuncionamento.horarioInicio +
-                              " - " +
-                              horarioFuncionamento.horarioFim),
-                        ],
-                      );
-                      tamanho = horarioFuncionamentos.length;
-                    },
-                    itemCount: horarioFuncionamentos.length,
-                  );
-                }
+                final horariosFuncionamento = snapshot.data!;
+                return buildHorariosFuncionamento(horariosFuncionamento);
               }
               return CenteredMessage(
                 'Nenhuma HorarioFuncionamento encontrada',
@@ -71,6 +41,25 @@ class _ListaHorariosFuncionamentoState
           return CenteredMessage('Unknown error');
         },
       ),
+    );
+  }
+
+  Widget buildHorariosFuncionamento(List<HorarioFuncionamento> horariosFuncionamento) {
+    return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: horariosFuncionamento.length,
+      itemBuilder: (context, index) {
+        final horarioFuncionamento = horariosFuncionamento[index];
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(horarioFuncionamento.diaSemana + ":"),
+            Text(horarioFuncionamento.horarioInicio +
+                " - " +
+                horarioFuncionamento.horarioFim),
+          ],
+        );
+      },
     );
   }
 }

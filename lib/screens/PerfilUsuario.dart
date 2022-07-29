@@ -115,8 +115,10 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
   Function()? _logOut() {
     return () {
       logindata.setBool('login', true);
-      Navigator.pushReplacement(
-          context, new MaterialPageRoute(builder: (context) => Login()));
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => Login()),
+          (Route<dynamic> route) => false);
     };
   }
 }

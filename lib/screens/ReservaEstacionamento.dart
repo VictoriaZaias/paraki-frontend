@@ -182,9 +182,6 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
                   timeSaida.minute.toString() +
                   ":00");
               print("$idUsuario");
-              /*
-              Navigator.popUntil(
-                  context, ModalRoute.withName('/principalUsuario'));*/
             },
           ),
         ],

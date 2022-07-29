@@ -17,7 +17,6 @@ class DatePicker extends StatefulWidget {
 
 class _DatePickerState extends State<DatePicker> {
   NumberFormat numberFormat = new NumberFormat("00");
-  //DateTime? selectedDate;
   DateTime date = DateTime.now();
 
   @override

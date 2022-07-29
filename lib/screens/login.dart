@@ -39,20 +39,34 @@ class _LoginState extends State<Login> {
   void check_if_already_login() async {
     logindata = await SharedPreferences.getInstance();
     newuser = (logindata.getBool('login') ?? true);
-    print(newuser);
     if (newuser == false) {
-      Usuario u = Usuario(
+      Usuario usuario = Usuario(
         logindata.getInt('id_user')!,
         logindata.getString('username')!,
         logindata.getString('cpf')!,
-        logindata.getString('tipo_usere')!,
+        logindata.getString('tipo_user')!,
         logindata.getString('modelo_carro')!,
         logindata.getString('senha_user')!,
       );
-      Navigator.pushReplacement(
+      if (usuario.tipo == "Motorista") {
+        Usuario u = Usuario(
+          usuario.idUsuario,
+          usuario.nomeUsuario,
+          usuario.cpf,
+          usuario.tipo,
+          usuario.modeloCarro,
+          usuario.senha,
+        );
+        Navigator.pushReplacement(
           context,
-          new MaterialPageRoute(
-              builder: (context) => PrincipalUsuario(user: u)));
+          MaterialPageRoute(builder: (context) => PrincipalUsuario(user: u)),
+        );
+      } else if (usuario.tipo == "Administrador") {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => PrincipalAdmin()),
+        );
+      }
     }
   }
 
@@ -113,7 +127,7 @@ class _LoginState extends State<Login> {
                     logindata.setInt('id_user', usuario.idUsuario);
                     logindata.setString('username', usuario.nomeUsuario);
                     logindata.setString('cpf', usuario.cpf);
-                    logindata.setString('tipo_usere', usuario.tipo);
+                    logindata.setString('tipo_user', usuario.tipo);
                     logindata.setString('modelo_carro', usuario.modeloCarro);
                     logindata.setString('senha_user', usuario.senha);
                     Navigator.pushReplacement(
@@ -122,6 +136,9 @@ class _LoginState extends State<Login> {
                           builder: (context) => PrincipalUsuario(user: u)),
                     );
                   } else if (usuario.tipo == "Administrador") {
+                    logindata.setBool('login', false);
+                    logindata.setString('username', usuario.nomeUsuario);
+                    logindata.setString('tipo_user', usuario.tipo);
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => PrincipalAdmin()),

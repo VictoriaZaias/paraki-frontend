@@ -1,23 +1,48 @@
 import 'dart:convert';
+import 'package:estacionamento/http/HorarioFuncionamentoService.dart';
+import 'package:estacionamento/models/Caracteristica.dart';
+import 'package:estacionamento/models/HorarioFuncionamento.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../components/ActionButton.dart';
 import '../components/Button.dart';
 import '../components/ContainerDados.dart';
+import '../components/ListaCaracteristicas.dart';
 import '../components/ListaHorariosFuncionamento.dart';
+import '../http/CaracteristicaService.dart';
 import '../http/EstacionamentoService.dart';
 import '../http/FavoritoService.dart';
 import '../models/Estacionamento.dart';
 import '../models/Favorito.dart';
 import 'ReservaEstacionamento.dart';
 
-class DadosEstacionamento extends StatelessWidget {
+class DadosEstacionamento extends StatefulWidget {
   final Estacionamento estacionamento;
 
   DadosEstacionamento({
     Key? key,
     required this.estacionamento,
   }) : super(key: key);
+
+  @override
+  State<DadosEstacionamento> createState() => _DadosEstacionamentoState();
+}
+
+class _DadosEstacionamentoState extends State<DadosEstacionamento> {
+  bool _isLoading = false;
+
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    List<Caracteristica> listaCaracteristicas = await CaracteristicaService()
+        .listarCaracteristicas(widget.estacionamento.idEstacionamento);
+    List<HorarioFuncionamento> listaHorarios =
+        await HorarioFuncionamentoService()
+            .listarHorarios(widget.estacionamento.idEstacionamento);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +73,7 @@ class DadosEstacionamento extends StatelessWidget {
                 int? idUsuario = await prefs.getInt('USER_ID');
                 Favorito favorito = Favorito(
                   idUsuario,
-                  estacionamento.idEstacionamento,
+                  widget.estacionamento.idEstacionamento,
                 );
                 FavoritoService().cadastrarFavorito(favorito);
               },
@@ -61,7 +86,7 @@ class DadosEstacionamento extends StatelessWidget {
         child: Column(
           children: [
             ContainerDados(
-              titulo: estacionamento.nomeEstacionamento,
+              titulo: widget.estacionamento.nomeEstacionamento,
               dados: _dadosGerais(),
             ),
             ContainerDados(
@@ -70,41 +95,39 @@ class DadosEstacionamento extends StatelessWidget {
             ),
             ContainerDados(
               titulo: "Horario de funcionamento",
-              dados: _dadosHorarios(estacionamento.idEstacionamento),
+              dados: [
+                ListaHorariosFuncionamento(
+                    widget.estacionamento.idEstacionamento),
+              ],
             ),
             ContainerDados(
               titulo: "Preços",
               dados: _dadosPrecos(),
             ),
-            /*
-            SizedBox(
-              height: 50.0 * 10,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListaCaracteristicas(CaracteristicaService()
-                      .listarCaracteristicas(estacionamento.idEstacionamento)),
-                ],
-              ),
-            ),
-            */
-            /*
             ContainerDados(
-              titulo: "Características",
-              dados: ListaCaracteristicas(CaracteristicaService()
-                  .listarCaracteristicas(estacionamento.idEstacionamento)),
-              //_dadosCaracteristicas(),
-            ),*/
-            Button(
-              rotulo: "Reservar",
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ReservaEstacionamento(
-                          estacionamento: estacionamento)),
-                );
-              },
+              titulo: "Caracteristicas",
+              dados: [
+                SizedBox(
+                  height: 90.0,
+                  child: ListaCaracteristicas(CaracteristicaService()
+                      .listarCaracteristicas(
+                          widget.estacionamento.idEstacionamento)),
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 30.0),
+              child: Button(
+                rotulo: "Reservar",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ReservaEstacionamento(
+                            estacionamento: widget.estacionamento)),
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -114,8 +137,8 @@ class DadosEstacionamento extends StatelessWidget {
 
   List<Widget> _dadosGerais() {
     return [
-      Text(EstacionamentoService().enderecoCompleto(estacionamento)),
-      Text("Telefone: " + estacionamento.telefone),
+      Text(EstacionamentoService().enderecoCompleto(widget.estacionamento)),
+      Text("Telefone: " + widget.estacionamento.telefone),
     ];
   }
 
@@ -125,33 +148,17 @@ class DadosEstacionamento extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text("Total de vagas"),
-          Text(estacionamento.qtdTotalVagas.toString() + " vagas"),
+          Text(widget.estacionamento.qtdTotalVagas.toString() + " vagas"),
         ],
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text("Vagas disponíveis"),
-          Text(estacionamento.qtdVagasDisponiveis.toString() + " vagas"),
+          Text(widget.estacionamento.qtdVagasDisponiveis.toString() + " vagas"),
         ],
       ),
     ];
-  }
-
-  List<Widget> _dadosHorarios(int idEstacionamento) {
-    List<Widget> h = [
-      FractionallySizedBox(
-       widthFactor: 1.0,
-        heightFactor: 0.5,
-      child:
-      SizedBox(
-        width: 300.0,
-        height: 90 * 7,
-        child: ListaHorariosFuncionamento(idEstacionamento),
-      ),
-      ),
-    ];
-    return h;
   }
 
   List<Widget> _dadosPrecos() {
@@ -160,25 +167,9 @@ class DadosEstacionamento extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text("1 hora"),
-          Text("R\$ " + estacionamento.valorHora.toString()),
+          Text("R\$ " + widget.estacionamento.valorHora.toString()),
         ],
       ),
     ];
   }
-/*
-  List<Widget> _dadosCaracteristicas() {
-    List<Widget> c = [];
-    estacionamento.caracteristicas.forEach((element) {
-      c.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(element.caracteristica),
-          ],
-        ),
-      );
-    });
-    return c;
-  }
-  */
 }

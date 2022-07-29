@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ContainerDados extends StatelessWidget {
-  final String titulo;
+  final String? titulo;
   final List<Widget> dados;
 
   const ContainerDados({
     Key? key,
-    required this.titulo,
+    this.titulo,
     required this.dados,
   }) : super(key: key);
 
@@ -22,16 +22,18 @@ class ContainerDados extends StatelessWidget {
         ),
       ),
       child: ListTile(
-        title: Padding(
-          padding: const EdgeInsets.only(bottom: 2.0),
-          child: Text(
-            titulo,
-            style: TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
+        title: titulo != null
+            ? Padding(
+                padding: const EdgeInsets.only(bottom: 2.0),
+                child: Text(
+                  titulo!,
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              )
+            : null,
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: dados,

@@ -4,14 +4,14 @@ import '../../components/ActionButton.dart';
 import '../../components/Button.dart';
 import '../Agradecimento.dart';
 
-class AdminValidacao extends StatefulWidget {
-  const AdminValidacao({Key? key}) : super(key: key);
+class AdminValida extends StatefulWidget {
+  const AdminValida({Key? key}) : super(key: key);
 
   @override
-  State<AdminValidacao> createState() => _AdminValidacaoState();
+  State<AdminValida> createState() => _AdminValidaState();
 }
 
-class _AdminValidacaoState extends State<AdminValidacao> {
+class _AdminValidaState extends State<AdminValida> {
   static const _textoBotaoValidar = 'Validar';
 
   @override

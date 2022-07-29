@@ -5,14 +5,14 @@ import '../../components/DropdownSelect.dart';
 import '../../components/Editor.dart';
 import '../Agradecimento.dart';
 
-class AdminProcura extends StatefulWidget {
-  const AdminProcura({Key? key}) : super(key: key);
+class AdminAltera extends StatefulWidget {
+  const AdminAltera({Key? key}) : super(key: key);
 
   @override
-  State<AdminProcura> createState() => _AdminProcuraState();
+  State<AdminAltera> createState() => _AdminAlteraState();
 }
 
-class _AdminProcuraState extends State<AdminProcura> {
+class _AdminAlteraState extends State<AdminAltera> {
   static const _rotuloCampoNomeUsuarioCadastroUsuario = 'Nome completo';
   static const _rotuloCampoCPF = 'CPF';
   static const _dicaCampoCPF = '00000000000';
