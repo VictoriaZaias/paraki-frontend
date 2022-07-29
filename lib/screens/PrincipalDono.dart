@@ -1,32 +1,32 @@
-import 'package:estacionamento/http/FavoritoService.dart';
+import 'package:estacionamento/screens/EstacionamentosDono.dart';
 import 'package:estacionamento/screens/PerfilUsuario.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../components/ActionButton.dart';
 import '../components/Editor.dart';
 import '../components/ListaEstacionamento.dart';
 import '../http/EstacionamentoService.dart';
+import '../http/FavoritoService.dart';
 import '../models/Estacionamento.dart';
 import '../models/Usuario.dart';
 
-class PrincipalUsuario extends StatefulWidget {
+class PrincipalDono extends StatefulWidget {
   final Usuario user;
 
-  PrincipalUsuario({
+  PrincipalDono({
     Key? key,
     required this.user,
   }) : super(key: key);
 
   @override
-  State<PrincipalUsuario> createState() => _PrincipalUsuarioState();
+  State<PrincipalDono> createState() => _PrincipalDonoState();
 }
 
-class _PrincipalUsuarioState extends State<PrincipalUsuario> {
+class _PrincipalDonoState extends State<PrincipalDono> {
   static const _tamanhoActionButtons = 55.0;
   bool isFavoriteVisible = false;
   static TextEditingController buscaRua = TextEditingController();
   var listar = ListaEstacionamento(buscar(''));
-  int? idUsuario;
+  int? idDono;
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +59,17 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
                     isFavoriteVisible = !isFavoriteVisible;
                   }),
                 ),
-                /*
                 ActionButton(
                   tamanhoBotao: _tamanhoActionButtons,
-                  simbolo: Icons.manage_search,
-                  onPressed: () {},
+                  simbolo: Icons.car_rental,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                EstacionamentosDono(user: widget.user)));
+                  },
                 ),
-                */
               ],
             ),
           ),
@@ -92,7 +96,7 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
             ),
             Visibility(
               child: ListaEstacionamento(
-                  FavoritoService().listarEstacionamentosFavoritados(widget.user.idUsuario)),
+                  FavoritoService().listarEstacionamentosFavoritados(4)),
               visible: isFavoriteVisible,
             ),
           ],

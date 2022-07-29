@@ -74,6 +74,34 @@ class EstacionamentoService {
     return estacionamentos;
   }
 
+  Future<List<Estacionamento>> listarEstacionamentosDono(int idUsuario) async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );
+    final response = await client.get(Uri.parse(
+        '${urlPadrao}estacionamento/listarEstacionamentosDono' +
+            idUsuario.toString()));
+    final List<Estacionamento> estacionamentos = [];
+    var estacionamentoJson = jsonDecode(response.body);
+
+    for (var json in estacionamentoJson['result']) {
+      var endereco = await EnderecoService().buscarEndereco(json['endereco']);
+      final Estacionamento estacionamento = Estacionamento(
+        json['idEstacionamento'],
+        json['nomeEstacionamento'],
+        json['CNPJ'],
+        json['qtdTotalVagas'],
+        json['qtdVagasDisponiveis'],
+        json['nroEstacionamento'],
+        json['telefone'],
+        json['valorHora'].toDouble(),
+        endereco,
+      );
+      estacionamentos.add(estacionamento);
+    }
+    return estacionamentos;
+  }
+
   Future<List<Estacionamento>> listarEstacionamentoBusca(String busca) async {
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],

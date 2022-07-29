@@ -22,11 +22,6 @@ class ParakiApp extends StatelessWidget {
       title: 'Paraki',
       theme: appTheme(),
       debugShowCheckedModeBanner: false,
-      routes: {
-        '/login': (context) => Login(),
-        '/principalUsuario': (context) => PrincipalUsuario(),
-        '/principalAdmin': (context) => PrincipalAdmin(),
-      },
     );
   }
 }

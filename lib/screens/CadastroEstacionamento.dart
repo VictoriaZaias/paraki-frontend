@@ -13,6 +13,13 @@ import '../components/Progress.dart';
 import '../http/CaracteristicaService.dart';
 
 class CadastroEstacionamento extends StatefulWidget {
+  final int idUsuario;
+
+  CadastroEstacionamento(
+    this.idUsuario, {
+    Key? key,
+  }) : super(key: key);
+
   @override
   State<CadastroEstacionamento> createState() => _CadastroEstacionamentoState();
 }

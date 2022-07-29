@@ -1,5 +1,6 @@
 import 'package:estacionamento/http/LoginService.dart';
 import 'package:estacionamento/models/Usuario.dart';
+import 'package:estacionamento/screens/PrincipalDono.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../components/Button.dart';
@@ -85,7 +86,10 @@ class _LoginState extends State<Login> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              //Image.asset('assets/images/paraki.png'),
+              Image.asset(
+                'assets/images/paraki.png',
+                scale: 2.2,
+              ),
               Editor(
                 controlador: _controladorCpf,
                 rotulo: _rotuloCampoCPF,
@@ -101,20 +105,18 @@ class _LoginState extends State<Login> {
               Button(
                 rotulo: _textoBotaoEntrar,
                 onPressed: () async {
-                  /*
-                  // Teste pra quando fica sem net
-                  Usuario u = Usuario(1, 'vick', '123', '2', '1', '123');
-
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PrincipalUsuario(user: u)),
-                  );
-                  */
-
                   var usuario = await LoginService().validarLogin(
                       _controladorCpf.text, _controladorSenha.text);
-                  if (usuario.tipo == "Motorista") {
+
+                  if (usuario.tipo == "Administrador") {
+                    logindata.setBool('login', false);
+                    logindata.setString('username', usuario.nomeUsuario);
+                    logindata.setString('tipo_user', usuario.tipo);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => PrincipalAdmin()),
+                    );
+                  } else {
                     Usuario u = Usuario(
                       usuario.idUsuario,
                       usuario.nomeUsuario,
@@ -130,19 +132,19 @@ class _LoginState extends State<Login> {
                     logindata.setString('tipo_user', usuario.tipo);
                     logindata.setString('modelo_carro', usuario.modeloCarro);
                     logindata.setString('senha_user', usuario.senha);
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PrincipalUsuario(user: u)),
-                    );
-                  } else if (usuario.tipo == "Administrador") {
-                    logindata.setBool('login', false);
-                    logindata.setString('username', usuario.nomeUsuario);
-                    logindata.setString('tipo_user', usuario.tipo);
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => PrincipalAdmin()),
-                    );
+                    if (usuario.tipo == "Motorista") {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PrincipalUsuario(user: u)),
+                      );
+                    } else if (usuario.tipo == "Dono de estacionamento") {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PrincipalDono(user: u)),
+                      );
+                    }
                   }
                 },
               ),
