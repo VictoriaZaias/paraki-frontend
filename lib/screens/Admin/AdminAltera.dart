@@ -3,7 +3,7 @@ import '../../components/ActionButton.dart';
 import '../../components/Button.dart';
 import '../../components/DropdownSelect.dart';
 import '../../components/Editor.dart';
-import '../Agradecimento.dart';
+import '../AcaoBemSucedida.dart';
 
 class AdminAltera extends StatefulWidget {
   const AdminAltera({Key? key}) : super(key: key);
@@ -111,11 +111,11 @@ class _AdminAlteraState extends State<AdminAltera> {
                   Button(
                     rotulo: _textoBotaoAtualizar,
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  Agradecimento("atualizado")));
+                                  AcaoBemSucedida("Motorista atualizado com sucesso!")));
                     },
                   ),
                   /*

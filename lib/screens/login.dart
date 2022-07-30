@@ -92,6 +92,7 @@ class _LoginState extends State<Login> {
               ),
               Editor(
                 controlador: _controladorCpf,
+                //validacao: _validaCPF(),
                 rotulo: _rotuloCampoCPF,
                 dica: _dicaCampoCPF,
                 teclado: TextInputType.number,
@@ -162,5 +163,12 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  String? _validaCPF(String cpf) {
+    if(cpf.isEmpty) {
+      return "O CPF não pode ser vazio";
+    }
+    return null;
   }
 }

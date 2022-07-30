@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'dart:async';
 
+import '../http/PeriodicRequester.dart';
 import '../screens/DadosEstacionamento.dart';
 import 'ActionButton.dart';
 
@@ -18,42 +19,73 @@ class CardEstacionamento extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Card(
-        child: ListTile(
-          textColor: Colors.black,
-          leading: Stack(
-            alignment: Alignment.center,
-            children: [
-              ActionButton(
-                padding: 0.0,
-                tamanhoBotao: 70.0,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DadosEstacionamento(
-                              estacionamento: estacionamento)));
-                },
-              ),
-            ],
-          ),
-          title: Text(estacionamento.nomeEstacionamento),
-          subtitle: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      child: SizedBox(
+        child: Card(
+          child: ListTile(
+            textColor: Colors.black,
+            leading: Stack(
               children: [
-                Text(EstacionamentoService().enderecoCompleto(estacionamento)),
-                Text("Quantidade de vagas disponíveis: " +
-                    estacionamento.qtdVagasDisponiveis.toString()),
-                Text("Valor por hora: " + estacionamento.valorHora.toString()),
+                Container(
+                  width: 80,
+                  height: 80,
+                  color: Colors.amber,
+                ),
+                /*
+                ActionButton(
+                  padding: 0.0,
+                  tamanhoBotao: 70.0,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DadosEstacionamento(
+                                estacionamento: estacionamento)));
+                  },
+                ),
+                */
+                //showVagasDisponiveis(),
               ],
+            ),
+            title: Text(estacionamento.nomeEstacionamento),
+            subtitle: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      EstacionamentoService().enderecoCompleto(estacionamento)),
+                  Text("Quantidade de vagas disponíveis: " +
+                      estacionamento.qtdVagasDisponiveis.toString()),
+                  Text(
+                      "Valor por hora: " + estacionamento.valorHora.toString()),
+                ],
+              ),
             ),
           ),
         ),
       ),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    DadosEstacionamento(estacionamento: estacionamento)));
+      },
+    );
+  }
+
+  Widget showVagasDisponiveis() {
+    return StreamBuilder<http.Response>(
+      stream: PeriodicRequester.getVagasDisponiveis(),
+      builder: (context, snapshot) => snapshot.hasData
+          ? Text(
+              snapshot.data!.body,
+            )
+          : Text(
+              estacionamento.qtdVagasDisponiveis.toString(),
+            ),
     );
   }
 }

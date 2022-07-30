@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../components/ActionButton.dart';
 import '../../components/Button.dart';
-import '../Agradecimento.dart';
+import '../AcaoBemSucedida.dart';
 
 class AdminValida extends StatefulWidget {
   const AdminValida({Key? key}) : super(key: key);
@@ -45,10 +45,10 @@ class _AdminValidaState extends State<AdminValida> {
               Button(
                 rotulo: _textoBotaoValidar,
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Agradecimento("validado")));
+                          builder: (context) => AcaoBemSucedida("Motorista validado com sucesso!")));
                 },
               ),
             ],

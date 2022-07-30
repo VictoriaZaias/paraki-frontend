@@ -6,7 +6,7 @@ import '../../components/DropdownSelect.dart';
 import '../../components/Editor.dart';
 import '../../http/UsuarioService.dart';
 import '../../models/Usuario.dart';
-import '../Agradecimento.dart';
+import '../AcaoBemSucedida.dart';
 
 class AdminCadastro extends StatefulWidget {
   const AdminCadastro({Key? key}) : super(key: key);
@@ -133,7 +133,7 @@ class _AdminCadastroState extends State<AdminCadastro> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Agradecimento("cadastrado")),
+                          builder: (context) => AcaoBemSucedida("Motorista cadastrado com sucesso!")),
                     );
                   },
                 ),

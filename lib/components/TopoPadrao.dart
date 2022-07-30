@@ -26,7 +26,7 @@ class TopoPadrao extends StatelessWidget implements PreferredSizeWidget {
         ),
         title: titulo != null
             ? Text(
-                "Reserva",
+                titulo!,
                 style: TextStyle(
                   fontWeight: FontWeight.w300,
                 ),
