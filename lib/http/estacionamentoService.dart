@@ -136,4 +136,22 @@ class EstacionamentoService {
     }
     return estacionamentos;
   }
+
+  void cadastrarEstacionamento(Estacionamento estacionamento, idEndereco) async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );
+    final Map<String, dynamic> estacionamentoMap = {
+      'cnpj': estacionamento.cnpj,
+      'nomeEstacionamento': estacionamento.nomeEstacionamento,
+      'qtdVagas': estacionamento.qtdTotalVagas,
+      'idEndereco': idEndereco,
+      'telefone': estacionamento.telefone,
+      'valorHora': estacionamento.valorHora
+    };
+
+    final String jsonEstacionamento = jsonEncode(estacionamentoMap);
+    await client.post(Uri.parse('${urlPadrao}estacionamento/cadastrar'),
+        headers: {"content-type": "application/json"}, body: jsonEstacionamento);
+  }
 }

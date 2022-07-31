@@ -96,7 +96,7 @@ class _PrincipalDonoState extends State<PrincipalDono> {
             ),
             Visibility(
               child: ListaEstacionamento(
-                  FavoritoService().listarEstacionamentosFavoritados(4)),
+                  FavoritoService().listarEstacionamentosFavoritados(widget.user.idUsuario)),
               visible: isFavoriteVisible,
             ),
           ],

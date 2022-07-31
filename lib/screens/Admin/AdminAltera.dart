@@ -1,8 +1,10 @@
+import 'package:estacionamento/models/Usuario.dart';
 import 'package:flutter/material.dart';
 import '../../components/ActionButton.dart';
 import '../../components/Button.dart';
 import '../../components/DropdownSelect.dart';
 import '../../components/Editor.dart';
+import '../../http/UsuarioService.dart';
 import '../AcaoBemSucedida.dart';
 
 class AdminAltera extends StatefulWidget {
@@ -62,6 +64,12 @@ class _AdminAlteraState extends State<AdminAltera> {
                 rotulo: 'Pesquise pelo CPF',
                 largura: 350.0,
                 icone: Icons.search,
+                controlador: cpf,
+                onSubmitted: (cpf) {
+                setState(() async {
+                  Usuario usuario = await UsuarioService().buscarUsuario(cpf);
+                });
+                }
               ),
             ),
           ),

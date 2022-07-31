@@ -47,4 +47,53 @@ class EnderecoService {
       return endereco;
       }
   }
+
+  Future<Endereco> buscarPorCEP(String CEP) async{
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );{
+      final enderecoResponse = await client.get(Uri.parse("http://viacep.com.br/ws/$CEP/json/"));
+
+      var jsonEndereco = jsonDecode(enderecoResponse.body);
+      final Endereco endereco = Endereco(
+        1,
+        jsonEndereco['bairro'],
+        jsonEndereco['logradouro'],
+        jsonEndereco['localidade'],
+        jsonEndereco['uf'],
+        CEP,
+      );
+  
+    return endereco;
+    }
+  }
+
+  void cadastrarEndereco(Endereco endereco) async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );
+    final Map<String, dynamic> enderecoMap = {
+      'logradouro': endereco.logradouro,
+      'cidade': endereco.cidade,
+      'uf': endereco.unidadeFederativa,
+      'bairro': endereco.bairro,
+      'cep': endereco.cep,
+    };
+
+    final String jsonEndereco = jsonEncode(enderecoMap);
+    await client.post(Uri.parse('${urlPadrao}endereco/cadastrar'),
+        headers: {"content-type": "application/json"}, body: jsonEndereco);
+  }
+
+  Future<int> buscarIdCEP(String CEP) async{
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );{
+      final enderecoResponse = await client.get(Uri.parse('${urlPadrao}endereco/verificaEndereco/$CEP'));
+
+      var jsonEndereco = jsonDecode(enderecoResponse.body);
+      final int idEndereco = jsonEndereco['result']['idEndereco'];
+       return idEndereco;
+    }
+  }
 }

@@ -67,6 +67,19 @@ class _LoginState extends State<Login> {
           context,
           MaterialPageRoute(builder: (context) => PrincipalAdmin()),
         );
+      } else if (usuario.tipo == "Dono de estacionamento") {
+        Usuario u = Usuario(
+          usuario.idUsuario,
+          usuario.nomeUsuario,
+          usuario.cpf,
+          usuario.tipo,
+          usuario.modeloCarro,
+          usuario.senha,
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => PrincipalDono(user: u)),
+        );
       }
     }
   }

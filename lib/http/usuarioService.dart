@@ -65,4 +65,46 @@ class UsuarioService {
     await client.post(Uri.parse('${urlPadrao}usuario/cadastrar'),
         headers: {"content-type": "application/json"}, body: jsonUsuario);
   }
+
+  Future<Usuario> buscarUsuario(String CPF) async{
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );{
+      final usuarioResponse = await client.get(Uri.parse('${urlPadrao}usuario/buscar/$CPF'));
+
+      var jsonUsuario = jsonDecode(usuarioResponse.body);
+      final Usuario usuario = Usuario(
+        jsonUsuario['result']['idUsuario'],
+        jsonUsuario['result']['nomeUsuario'],
+        CPF,
+        jsonUsuario['result']['tipoUsuario'],
+        jsonUsuario['result']['modeloCarro'],
+        jsonUsuario['result']['senha']
+
+      );
+  
+    return usuario;
+    }
+  }
+
+  Future<void> alterarPermissao(Usuario usuario) async {
+   final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );
+    String tipo = "";
+    if(usuario.tipo == "Dono de estacionamento"){
+        tipo = "Motorista";
+    }else if(usuario.tipo == "Motorista"){
+       tipo = "Dono de estacionamento";
+    }
+
+    final Map<String, dynamic> usuarioMap = {
+      'idUsuario': usuario.idUsuario,
+      'tipoUsuario': tipo
+    };
+
+    final String jsonUsuario = jsonEncode(usuarioMap);
+    await client.post(Uri.parse('${urlPadrao}usuario/alterar'),
+        headers: {"content-type": "application/json"}, body: jsonUsuario);
+  }
 }

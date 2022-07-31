@@ -1,6 +1,7 @@
 import 'package:estacionamento/components/ActionButton.dart';
 import 'package:estacionamento/components/ContainerDados.dart';
 import 'package:estacionamento/components/DropdownSelect.dart';
+import 'package:estacionamento/http/EnderecoService.dart';
 import 'package:estacionamento/models/Caracteristica.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +12,7 @@ import '../components/Editor.dart';
 import '../components/ListaCaracteristicas.dart';
 import '../components/Progress.dart';
 import '../http/CaracteristicaService.dart';
+import '../models/Endereco.dart';
 
 class CadastroEstacionamento extends StatefulWidget {
   final int idUsuario;
@@ -135,7 +137,13 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                 padding: const EdgeInsets.only(bottom: 60.0),
                 child: Button(
                   rotulo: _textoBotaoCadastrar,
-                  onPressed: () {},
+                  onPressed: () async{
+                    Endereco endereco = await EnderecoService().buscarPorCEP(cep.text);
+                    EnderecoService().cadastrarEndereco(endereco);
+                    int idEndereco = await EnderecoService().buscarIdCEP(endereco.cep);
+
+                    print('Testeeeeeeeeeee $idEndereco');
+                  },
                 ),
               ),
             ],
