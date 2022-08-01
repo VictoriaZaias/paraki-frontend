@@ -100,8 +100,8 @@ class _LoginState extends State<Login> {
           child: Column(
             children: <Widget>[
               Image.asset(
-                'assets/images/paraki.png',
-                scale: 2.2,
+                'assets/images/paraki-logo.png',
+                scale: 2.5,
               ),
               Editor(
                 controlador: _controladorCpf,

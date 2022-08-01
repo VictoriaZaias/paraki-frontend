@@ -26,42 +26,26 @@ class CardEstacionamento extends StatelessWidget {
             textColor: Colors.black,
             leading: Stack(
               children: [
-                Container(
-                  width: 80,
-                  height: 80,
-                  color: Colors.amber,
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: 100,
+                    maxWidth: 100,
+                  ),
+                  child: Image.asset(
+                    'assets/images/carro.png',
+                    scale: 2,
+                  ),
                 ),
-                /*
-                ActionButton(
-                  padding: 0.0,
-                  tamanhoBotao: 70.0,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DadosEstacionamento(
-                                estacionamento: estacionamento)));
-                  },
-                ),
-                */
                 //showVagasDisponiveis(),
               ],
             ),
             title: Text(estacionamento.nomeEstacionamento),
             subtitle: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      EstacionamentoService().enderecoCompleto(estacionamento)),
-                  Text("Quantidade de vagas disponíveis: " +
-                      estacionamento.qtdVagasDisponiveis.toString()),
-                  Text(
-                      "Valor por hora: " + estacionamento.valorHora.toString()),
-                ],
-              ),
+              child: Text(
+                  EstacionamentoService().enderecoCompleto(estacionamento) +
+                      "\nValor por hora: R\$" +
+                      estacionamento.valorHora.toString()),
             ),
           ),
         ),

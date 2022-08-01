@@ -21,6 +21,10 @@ class AcaoBemSucedida extends StatelessWidget {
               style: TextStyle(fontSize: 36.0),
               textAlign: TextAlign.center,
             ),
+            Image.asset(
+              'assets/images/carro.png',
+              scale: 1.4,
+            ),
             Button(
               rotulo: "Página inicial",
               altura: 40.0,
