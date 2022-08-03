@@ -1,4 +1,3 @@
-import 'package:estacionamento/models/LoginResponseModel.dart';
 import 'package:estacionamento/models/Usuario.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
@@ -47,28 +46,23 @@ class LoginService {
       headers: {"content-type": "application/json"},
       body: jsonUsuario,
     );
-/*
-    if(response.statusCode == 200) {
-      var jsonString = response.body;
-      LoginResponseModel responseModel = loginResponseFromJson(jsonString);
-      return responseModel.statusCode == 200 ? true: false;
-    }
-*/
+    
     var json = jsonDecode(response.body);
 
-    var usuario = Usuario(0, "", "", "", "", "");
+    var usuario = Usuario("", "", "", "", "");
 
     if (json['result'] != 'CPF ou senha inválidos!') {
       usuario = Usuario(
-        json['result']['idUsuario'],
         json['result']['nomeUsuario'],
         json['result']['CPF'],
         json['result']['tipoUsuario'],
         json['result']['modeloCarro'],
         json['result']['senha'],
+        idUsuario: 
+        json['result']['idUsuario'],
       );
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setInt('USER_ID', usuario.idUsuario);
+      await prefs.setInt('USER_ID', usuario.idUsuario!);
     }
     return usuario;
   }

@@ -1,6 +1,6 @@
 import 'package:estacionamento/http/HorarioFuncionamentoService.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skeletons/skeletons.dart';
 import '../models/HorarioFuncionamento.dart';
 import 'CenteredMessage.dart';
 import 'Progress.dart';
@@ -12,7 +12,7 @@ class ListaHorariosFuncionamento extends StatelessWidget {
     this.idEstacionamento, {
     Key? key,
   }) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,9 +25,13 @@ class ListaHorariosFuncionamento extends StatelessWidget {
             case ConnectionState.none:
               break;
             case ConnectionState.waiting:
-              return Progress();
+              return ListView.builder(
+                itemCount: 7,
+                itemBuilder: (context, index) => horariosEsqueleto(context),
+              );
             case ConnectionState.active:
               break;
+
             case ConnectionState.done:
               if (snapshot.hasData) {
                 final horariosFuncionamento = snapshot.data!;
@@ -44,7 +48,8 @@ class ListaHorariosFuncionamento extends StatelessWidget {
     );
   }
 
-  Widget buildHorariosFuncionamento(List<HorarioFuncionamento> horariosFuncionamento) {
+  Widget buildHorariosFuncionamento(
+      List<HorarioFuncionamento> horariosFuncionamento) {
     return ListView.builder(
       physics: NeverScrollableScrollPhysics(),
       itemCount: horariosFuncionamento.length,
@@ -60,6 +65,57 @@ class ListaHorariosFuncionamento extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget horariosEsqueleto(BuildContext context) {
+    return SkeletonItem(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SkeletonLine(
+                        style: SkeletonLineStyle(
+                          randomLength: true,
+                          height: 14,
+                          borderRadius: BorderRadius.circular(8),
+                          minLength: MediaQuery.of(context).size.width / 5,
+                          maxLength: MediaQuery.of(context).size.width / 3,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          SkeletonLine(
+                            style: SkeletonLineStyle(
+                              width: 55,
+                              height: 14,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          SkeletonLine(
+                            style: SkeletonLineStyle(
+                              width: 55,
+                              height: 14,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

@@ -78,10 +78,10 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 onPressed: () {
                   String carroId;
                   switch (carro) {
-                    case 'Elétrico':
+                    case 'Combustão':
                       carroId = '1';
                       break;
-                    case 'Combustão':
+                    case 'Elétrico':
                       carroId = '2';
                       break;
                     case 'Combustão e elétrico':
@@ -90,8 +90,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     default:
                       carroId = '4';
                   }
-                  Usuario usuario = Usuario(
-                      1, nomeUsuario.text, cpf.text, "2", carroId, senha.text);
+                  Usuario usuario = Usuario(nomeUsuario.text, cpf.text, "2", carroId, senha.text);
                   UsuarioService().cadastrarUsuario(usuario);
 
                   Navigator.push(

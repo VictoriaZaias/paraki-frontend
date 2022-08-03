@@ -1,10 +1,6 @@
-import 'dart:async';
-import 'package:estacionamento/screens/CadastroEstacionamento.dart';
-import 'package:estacionamento/screens/Login.dart';
-import 'package:estacionamento/screens/Pagamento.dart';
-import 'package:estacionamento/screens/Admin/PrincipalAdmin.dart';
-import 'package:estacionamento/screens/PrincipalUsuario.dart';
+import 'package:estacionamento/screens/Inicial.dart';
 import 'package:flutter/material.dart';
+import 'screens/Admin/PrincipalAdmin.dart';
 import 'screens/Login.dart';
 import 'theme/style_one.dart';
 

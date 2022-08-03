@@ -44,7 +44,7 @@ class HorarioFuncionamentoService{
       json['horarioInicio'],
       json['horarioFim'],
       json['diaSemana'],
-      json['estacionamento'].toString()
+      idEstacionamento: json['estacionamento'].toString()
     );
     horarios.add(horarioFuncionamento);
   }

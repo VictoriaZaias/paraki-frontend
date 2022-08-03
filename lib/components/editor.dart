@@ -10,7 +10,8 @@ class Editor extends StatelessWidget {
   final IconData? icone;
   final TextInputType? teclado;
   final Function(String)? onSubmitted;
-  final bool? senha;
+  final bool senha;
+  final String? textoErro;
 
   const Editor({
     Key? key,
@@ -24,6 +25,7 @@ class Editor extends StatelessWidget {
     this.teclado,
     this.onSubmitted,
     this.senha = false,
+    this.textoErro,
   }) : super(key: key);
 
   @override
@@ -32,19 +34,21 @@ class Editor extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: SizedBox(
         width: largura,
-        height: altura,
+        //height: altura,
         child: TextFormField(
           onFieldSubmitted: onSubmitted,
-          obscureText: senha!,
+          obscureText: senha,
           controller: controlador,
           validator: validacao,
+
           keyboardType: teclado,
           decoration: InputDecoration(
             prefixIcon: icone != null ? Icon(icone) : null,
             labelText: rotulo,
             hintText: dica,
+            helperText: textoErro,
             contentPadding:
-                EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                EdgeInsets.symmetric(vertical: 0, horizontal: 15.0),
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(20.0),

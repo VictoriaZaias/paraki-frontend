@@ -37,12 +37,12 @@ class UsuarioService {
     var usuarioJson = jsonDecode(response.body);
     for (var json in usuarioJson['result']) {
       final Usuario usuario = Usuario(
-        json['idUsuario'],
         json['nomeUsuario'],
         json['CPF'],
         json['tipoUsuario'],
         json['modeloCarro'],
         json['senha'],
+        idUsuario: json['idUsuario'],
       );
       usuarios.add(usuario);
     }
@@ -66,45 +66,45 @@ class UsuarioService {
         headers: {"content-type": "application/json"}, body: jsonUsuario);
   }
 
-  Future<Usuario> buscarUsuario(String CPF) async{
+  Future<Usuario> buscarUsuario(String CPF) async {
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
-    );{
-      final usuarioResponse = await client.get(Uri.parse('${urlPadrao}usuario/buscar/$CPF'));
+    );
+    {
+      final usuarioResponse =
+          await client.get(Uri.parse('${urlPadrao}usuario/buscaPorCPF/$CPF'));
 
       var jsonUsuario = jsonDecode(usuarioResponse.body);
       final Usuario usuario = Usuario(
-        jsonUsuario['result']['idUsuario'],
         jsonUsuario['result']['nomeUsuario'],
         CPF,
         jsonUsuario['result']['tipoUsuario'],
         jsonUsuario['result']['modeloCarro'],
-        jsonUsuario['result']['senha']
-
+        jsonUsuario['result']['senha'],
+        idUsuario: jsonUsuario['result']['idUsuario'],
       );
-  
-    return usuario;
+
+      return usuario;
     }
   }
 
   Future<void> alterarPermissao(Usuario usuario) async {
-   final Client client = InterceptedClient.build(
+    final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
     );
-    String tipo = "";
-    if(usuario.tipo == "Dono de estacionamento"){
-        tipo = "Motorista";
-    }else if(usuario.tipo == "Motorista"){
-       tipo = "Dono de estacionamento";
+    int tipo = 0;
+    if (usuario.tipo == "Dono de estacionamento") {
+      tipo = 2;
+    } else if (usuario.tipo == "Motorista") {
+      tipo = 3;
     }
 
-    final Map<String, dynamic> usuarioMap = {
-      'idUsuario': usuario.idUsuario,
-      'tipoUsuario': tipo
-    };
-
+    final Map<String, dynamic> usuarioMap = {'tipoUsuario': tipo};
     final String jsonUsuario = jsonEncode(usuarioMap);
-    await client.post(Uri.parse('${urlPadrao}usuario/alterar'),
-        headers: {"content-type": "application/json"}, body: jsonUsuario);
+    await client.put(
+        Uri.parse('${urlPadrao}usuario/alteraTipoUsuario/' +
+            usuario.idUsuario.toString()),
+        headers: {"content-type": "application/json"},
+        body: jsonUsuario);
   }
 }

@@ -47,19 +47,18 @@ class EstacionamentoService {
     return enderecoCompleto;
   }
 
-  Future<List<Estacionamento>> listarEstacionamento() async {
+  Future<List<Estacionamento>> listarEstacionamento(int idUsuario) async {
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
     );
-    final response =
-        await client.get(Uri.parse('${urlPadrao}estacionamento/listar'));
+    final response = await client.get(
+        Uri.parse('${urlPadrao}estacionamento/listar' + idUsuario.toString()));
     final List<Estacionamento> estacionamentos = [];
     var estacionamentoJson = jsonDecode(response.body);
 
     for (var json in estacionamentoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       final Estacionamento estacionamento = Estacionamento(
-        json['idEstacionamento'],
         json['nomeEstacionamento'],
         json['CNPJ'],
         json['qtdTotalVagas'],
@@ -68,6 +67,9 @@ class EstacionamentoService {
         json['telefone'],
         json['valorHora'].toDouble(),
         endereco,
+        idEstacionamento: json['idEstacionamento'],
+        isFavoritado: json['favorito'],
+        hasCarregamentoEletrico: json['caracteristica'],
       );
       estacionamentos.add(estacionamento);
     }
@@ -87,7 +89,6 @@ class EstacionamentoService {
     for (var json in estacionamentoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       final Estacionamento estacionamento = Estacionamento(
-        json['idEstacionamento'],
         json['nomeEstacionamento'],
         json['CNPJ'],
         json['qtdTotalVagas'],
@@ -96,6 +97,7 @@ class EstacionamentoService {
         json['telefone'],
         json['valorHora'].toDouble(),
         endereco,
+        idEstacionamento: json['idEstacionamento'],
       );
       estacionamentos.add(estacionamento);
     }
@@ -121,7 +123,6 @@ class EstacionamentoService {
       for (var json in estacionamentoJson['result']) {
         var endereco = await EnderecoService().buscarEndereco(json['endereco']);
         final Estacionamento estacionamento = Estacionamento(
-          json['idEstacionamento'],
           json['nomeEstacionamento'],
           json['CNPJ'],
           json['qtdTotalVagas'],
@@ -130,6 +131,7 @@ class EstacionamentoService {
           json['telefone'],
           json['valorHora'].toDouble(),
           endereco,
+          idEstacionamento: json['idEstacionamento'],
         );
         estacionamentos.add(estacionamento);
       }
@@ -137,21 +139,57 @@ class EstacionamentoService {
     return estacionamentos;
   }
 
-  void cadastrarEstacionamento(Estacionamento estacionamento, idEndereco) async {
+  Future<List<Estacionamento>> listarEstacionamentoValidacao() async {
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
     );
+    final response = await client.get(Uri.parse('${urlPadrao}estacionamento/'));
+    final List<Estacionamento> estacionamentos = [];
+    var estacionamentoJson = jsonDecode(response.body);
+
+    for (var json in estacionamentoJson['result']) {
+      var endereco = await EnderecoService().buscarEndereco(json['endereco']);
+      final Estacionamento estacionamento = Estacionamento(
+        json['nomeEstacionamento'],
+        json['CNPJ'],
+        json['qtdTotalVagas'],
+        json['qtdVagasDisponiveis'],
+        json['nroEstacionamento'],
+        json['telefone'],
+        json['valorHora'].toDouble(),
+        endereco,
+        idEstacionamento: json['idEstacionamento'],
+      );
+      estacionamentos.add(estacionamento);
+    }
+    return estacionamentos;
+  }
+
+  void cadastrarEstacionamento(
+      Estacionamento estacionamento, idEndereco) async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );
+    print("-------------------");
+    print(estacionamento.horarios);
+    print("-------------------");
+    print(estacionamento.caracteristicas);
     final Map<String, dynamic> estacionamentoMap = {
       'cnpj': estacionamento.cnpj,
       'nomeEstacionamento': estacionamento.nomeEstacionamento,
       'qtdVagas': estacionamento.qtdTotalVagas,
       'idEndereco': idEndereco,
       'telefone': estacionamento.telefone,
-      'valorHora': estacionamento.valorHora
+      'valorHora': estacionamento.valorHora,
+      'caracteristica': estacionamento.caracteristicas,
+      'horario': estacionamento.horarios
     };
 
+    //CaracteristicaService().cadastrarCaracteristica(estacionamento.caracteristicas!, estacionamento.idEstacionamento);
+    print("-----------------");
     final String jsonEstacionamento = jsonEncode(estacionamentoMap);
-    await client.post(Uri.parse('${urlPadrao}estacionamento/cadastrar'),
-        headers: {"content-type": "application/json"}, body: jsonEstacionamento);
+    print(jsonEstacionamento);
+    //await client.post(Uri.parse('${urlPadrao}estacionamento/cadastrar'),
+    //headers: {"content-type": "application/json"}, body: jsonEstacionamento);
   }
 }

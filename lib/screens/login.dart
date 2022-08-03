@@ -3,6 +3,7 @@ import 'package:estacionamento/models/Usuario.dart';
 import 'package:estacionamento/screens/PrincipalDono.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import '../components/Button.dart';
 import '../components/Editor.dart';
 import 'Admin/PrincipalAdmin.dart';
@@ -23,7 +24,9 @@ class _LoginState extends State<Login> {
   static const _dicaCampoSenha = '00000000';
   static const _textoBotaoEntrar = 'Entrar';
   static const _textoBotaoCadastrar = 'Cadastrar';
+  String? textoErro = null;
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _controladorCpf = TextEditingController();
   final TextEditingController _controladorSenha = TextEditingController();
 
@@ -37,53 +40,6 @@ class _LoginState extends State<Login> {
     check_if_already_login();
   }
 
-  void check_if_already_login() async {
-    logindata = await SharedPreferences.getInstance();
-    newuser = (logindata.getBool('login') ?? true);
-    if (newuser == false) {
-      Usuario usuario = Usuario(
-        logindata.getInt('id_user')!,
-        logindata.getString('username')!,
-        logindata.getString('cpf')!,
-        logindata.getString('tipo_user')!,
-        logindata.getString('modelo_carro')!,
-        logindata.getString('senha_user')!,
-      );
-      if (usuario.tipo == "Motorista") {
-        Usuario u = Usuario(
-          usuario.idUsuario,
-          usuario.nomeUsuario,
-          usuario.cpf,
-          usuario.tipo,
-          usuario.modeloCarro,
-          usuario.senha,
-        );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => PrincipalUsuario(user: u)),
-        );
-      } else if (usuario.tipo == "Administrador") {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => PrincipalAdmin()),
-        );
-      } else if (usuario.tipo == "Dono de estacionamento") {
-        Usuario u = Usuario(
-          usuario.idUsuario,
-          usuario.nomeUsuario,
-          usuario.cpf,
-          usuario.tipo,
-          usuario.modeloCarro,
-          usuario.senha,
-        );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => PrincipalDono(user: u)),
-        );
-      }
-    }
-  }
-
   @override
   void dispose() {
     _controladorCpf.dispose();
@@ -91,6 +47,10 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
   //
+
+  void validateAndSave() {
+    final FormState? form = _formKey.currentState;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,27 +61,42 @@ class _LoginState extends State<Login> {
             children: <Widget>[
               Image.asset(
                 'assets/images/paraki-logo.png',
-                scale: 2.5,
+                scale: 3,
               ),
-              Editor(
-                controlador: _controladorCpf,
-                //validacao: _validaCPF(),
-                rotulo: _rotuloCampoCPF,
-                dica: _dicaCampoCPF,
-                teclado: TextInputType.number,
-              ),
-              Editor(
-                controlador: _controladorSenha,
-                rotulo: _rotuloCampoSenha,
-                dica: _dicaCampoSenha,
-                senha: true,
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Editor(
+                      controlador: _controladorCpf,
+                      //validacao: validaCPF,
+                      rotulo: _rotuloCampoCPF,
+                      dica: _dicaCampoCPF,
+                      teclado: TextInputType.number,
+                    ),
+                    Editor(
+                      controlador: _controladorSenha,
+                      //validacao: validaSenha,
+                      textoErro: textoErro,
+                      rotulo: _rotuloCampoSenha,
+                      dica: _dicaCampoSenha,
+                      senha: true,
+                    ),
+                  ],
+                ),
               ),
               Button(
                 rotulo: _textoBotaoEntrar,
                 onPressed: () async {
+                  //validateAndSave();
                   var usuario = await LoginService().validarLogin(
                       _controladorCpf.text, _controladorSenha.text);
-
+                  if (usuario.idUsuario == 0) {
+                    setState(() {
+                      textoErro = "CPF ou senha inválidos!";
+                    });
+                  }
+                  print(usuario);
                   if (usuario.tipo == "Administrador") {
                     logindata.setBool('login', false);
                     logindata.setString('username', usuario.nomeUsuario);
@@ -132,15 +107,15 @@ class _LoginState extends State<Login> {
                     );
                   } else {
                     Usuario u = Usuario(
-                      usuario.idUsuario,
                       usuario.nomeUsuario,
                       usuario.cpf,
                       usuario.tipo,
                       usuario.modeloCarro,
                       usuario.senha,
+                      idUsuario: usuario.idUsuario,
                     );
                     logindata.setBool('login', false);
-                    logindata.setInt('id_user', usuario.idUsuario);
+                    logindata.setInt('id_user', usuario.idUsuario!);
                     logindata.setString('username', usuario.nomeUsuario);
                     logindata.setString('cpf', usuario.cpf);
                     logindata.setString('tipo_user', usuario.tipo);
@@ -178,10 +153,64 @@ class _LoginState extends State<Login> {
     );
   }
 
-  String? _validaCPF(String cpf) {
-    if(cpf.isEmpty) {
+  String? validaCPF(cpf) {
+    if (cpf == null || cpf.isEmpty) {
       return "O CPF não pode ser vazio";
     }
     return null;
+  }
+
+  String? validaSenha(cpf) {
+    if (cpf == null || cpf.isEmpty) {
+      return "A senha não pode ser vazia";
+    }
+    return null;
+  }
+
+  void check_if_already_login() async {
+    logindata = await SharedPreferences.getInstance();
+    newuser = (logindata.getBool('login') ?? true);
+    if (newuser == false) {
+      Usuario usuario = Usuario(
+        logindata.getString('username')!,
+        logindata.getString('cpf')!,
+        logindata.getString('tipo_user')!,
+        logindata.getString('modelo_carro')!,
+        logindata.getString('senha_user')!,
+        idUsuario: logindata.getInt('id_user')!,
+      );
+      if (usuario.tipo == "Motorista") {
+        Usuario u = Usuario(
+          usuario.nomeUsuario,
+          usuario.cpf,
+          usuario.tipo,
+          usuario.modeloCarro,
+          usuario.senha,
+          idUsuario: usuario.idUsuario,
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => PrincipalUsuario(user: u)),
+        );
+      } else if (usuario.tipo == "Administrador") {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => PrincipalAdmin()),
+        );
+      } else if (usuario.tipo == "Dono de estacionamento") {
+        Usuario u = Usuario(
+          usuario.nomeUsuario,
+          usuario.cpf,
+          usuario.tipo,
+          usuario.modeloCarro,
+          usuario.senha,
+          idUsuario: usuario.idUsuario,
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => PrincipalDono(user: u)),
+        );
+      }
+    }
   }
 }

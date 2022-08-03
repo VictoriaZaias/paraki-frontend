@@ -60,7 +60,6 @@ class FavoritoService {
     for (var json in favoritoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       final Estacionamento estacionamento = Estacionamento(
-        json['idEstacionamento'],
         json['nomeEstacionamento'],
         json['CNPJ'],
         json['qtdTotalVagas'],
@@ -69,6 +68,7 @@ class FavoritoService {
         json['telefone'],
         json['valorHora'].toDouble(),
         endereco,
+        idEstacionamento: json['idEstacionamento'],
       );
       estacionamentos.add(estacionamento);
     }

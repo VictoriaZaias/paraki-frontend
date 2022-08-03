@@ -59,7 +59,7 @@ class _EstacionamentosDonoState extends State<EstacionamentosDono> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CadastroEstacionamento(widget.user.idUsuario)));
+                        builder: (context) => CadastroEstacionamento(widget.user.idUsuario!)));
               },
             ),
           ],

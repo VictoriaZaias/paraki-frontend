@@ -1,10 +1,9 @@
+import 'package:estacionamento/http/usuarioService.dart';
 import 'package:estacionamento/models/Usuario.dart';
 import 'package:flutter/material.dart';
 import '../../components/ActionButton.dart';
 import '../../components/Button.dart';
-import '../../components/DropdownSelect.dart';
 import '../../components/Editor.dart';
-import '../../http/UsuarioService.dart';
 import '../AcaoBemSucedida.dart';
 
 class AdminAltera extends StatefulWidget {
@@ -16,17 +15,12 @@ class AdminAltera extends StatefulWidget {
 
 class _AdminAlteraState extends State<AdminAltera> {
   static const _rotuloCampoNomeUsuarioCadastroUsuario = 'Nome completo';
-  static const _rotuloCampoCPF = 'CPF';
-  static const _dicaCampoCPF = '00000000000';
-  static const _rotuloCampoSenha = 'Senha';
-  static const _dicaCampoSenha = '00000000';
+  static const _rotuloTipoUsuario = 'Tipo usuário';
   static const _textoBotaoAtualizar = 'Atualizar';
-  static const _textoBotaoInativar = 'Inativar';
-  static TextEditingController nomeUsuario = TextEditingController();
-  static TextEditingController cpf = TextEditingController();
-  static TextEditingController senha = TextEditingController();
-  static String? carro;
-  static String? vinculoUsuario;
+  static TextEditingController nomeUsuarioControlador = TextEditingController();
+  static TextEditingController cpfControlador = TextEditingController();
+  static TextEditingController tipoUsuarioControlador = TextEditingController();
+  Usuario usuario = Usuario("", "", "", "", "");
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +58,12 @@ class _AdminAlteraState extends State<AdminAltera> {
                 rotulo: 'Pesquise pelo CPF',
                 largura: 350.0,
                 icone: Icons.search,
-                controlador: cpf,
+                controlador: cpfControlador,
                 onSubmitted: (cpf) {
-                setState(() async {
-                  Usuario usuario = await UsuarioService().buscarUsuario(cpf);
-                });
-                }
+                  setState(() {
+                    _fetchUsuario(cpf, nomeUsuarioControlador, tipoUsuarioControlador);
+                  });
+                },
               ),
             ),
           ),
@@ -77,41 +71,16 @@ class _AdminAlteraState extends State<AdminAltera> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Editor(
               rotulo: _rotuloCampoNomeUsuarioCadastroUsuario,
-              controlador: nomeUsuario,
+              controlador: nomeUsuarioControlador,
             ),
             Editor(
-              rotulo: _rotuloCampoCPF,
-              dica: _dicaCampoCPF,
+              rotulo: _rotuloTipoUsuario,
               teclado: TextInputType.number,
-              controlador: cpf,
-            ),
-            DropdownSelect(
-              dica: "Tipo(s) de carro(s)",
-              opcoes: ["Combustão", "Elétrico", "Combustão e elétrico"],
-              valor: carro,
-              onChanged: (String? valor) => setState(() {
-                carro = valor;
-              }),
-              getRotulo: (String valor) => valor,
-            ),
-            DropdownSelect(
-              dica: "Tipo usuário",
-              opcoes: ["Motorista", "Dono de estacionamento"],
-              valor: vinculoUsuario,
-              onChanged: (String? valor) => setState(() {
-                vinculoUsuario = valor;
-              }),
-              getRotulo: (String valor) => valor,
-            ),
-            Editor(
-              rotulo: _rotuloCampoSenha,
-              dica: _dicaCampoSenha,
-              controlador: senha,
-              senha: true,
+              controlador: tipoUsuarioControlador,
             ),
             SizedBox(
               child: Column(
@@ -119,25 +88,14 @@ class _AdminAlteraState extends State<AdminAltera> {
                   Button(
                     rotulo: _textoBotaoAtualizar,
                     onPressed: () {
+                      UsuarioService().alterarPermissao(usuario);
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  AcaoBemSucedida("Motorista atualizado com sucesso!")));
+                              builder: (context) => AcaoBemSucedida(
+                                  "Usuário atualizado com sucesso!")));
                     },
                   ),
-                  /*
-                  Button(
-                    rotulo: _textoBotaoInativar,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Agradecimento("inativado")));
-                    },
-                  ),
-                  */
                 ],
               ),
             ),
@@ -145,5 +103,11 @@ class _AdminAlteraState extends State<AdminAltera> {
         ),
       ),
     );
+  }
+
+  Future _fetchUsuario(String cpf, TextEditingController nome, TextEditingController tipo) async {
+    Usuario usuario = await UsuarioService().buscarUsuario(cpf);
+    nome.text = usuario.nomeUsuario;
+    tipo.text = usuario.tipo;
   }
 }

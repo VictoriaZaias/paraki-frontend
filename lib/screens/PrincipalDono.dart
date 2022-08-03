@@ -25,8 +25,13 @@ class _PrincipalDonoState extends State<PrincipalDono> {
   static const _tamanhoActionButtons = 55.0;
   bool isFavoriteVisible = false;
   static TextEditingController buscaRua = TextEditingController();
-  var listar = ListaEstacionamento(buscar(''));
-  int? idDono;
+  var listar;
+  
+  @override
+  void initState() {
+    listar = ListaEstacionamento(buscar('', widget.user.idUsuario!));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +101,7 @@ class _PrincipalDonoState extends State<PrincipalDono> {
             ),
             Visibility(
               child: ListaEstacionamento(
-                  FavoritoService().listarEstacionamentosFavoritados(widget.user.idUsuario)),
+                  FavoritoService().listarEstacionamentosFavoritados(widget.user.idUsuario!)),
               visible: isFavoriteVisible,
             ),
           ],
@@ -106,10 +111,10 @@ class _PrincipalDonoState extends State<PrincipalDono> {
   }
 }
 
-Future<List<Estacionamento>> buscar(String busca) {
+Future<List<Estacionamento>> buscar(String busca, int idUsuario) {
   var lista;
   if (busca == "") {
-    return lista = EstacionamentoService().listarEstacionamento();
+    return lista = EstacionamentoService().listarEstacionamento(idUsuario);
   } else {
     return lista = EstacionamentoService().listarEstacionamentoBusca(busca);
   }

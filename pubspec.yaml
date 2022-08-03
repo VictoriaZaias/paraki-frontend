@@ -39,6 +39,8 @@ dependencies:
   mysql1: ^0.20.0
   shared_preferences:
   intl:
+  form_field_validator: ^1.1.0
+  skeletons: ^0.0.3
 
 flutter_icons:
   image_path: "assets/images/paraki-logo.png"

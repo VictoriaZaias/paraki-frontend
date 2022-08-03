@@ -3,14 +3,11 @@ class HorarioFuncionamento {
   final String horarioInicio;
   final String horarioFim;
   final String diaSemana;
-  final String idEstacionamento;
+  final String? idEstacionamento;
 
-  HorarioFuncionamento(
-      this.idHorarioFuncionamento,
-      this.horarioInicio,
-      this.horarioFim,
-      this.diaSemana,
-      this.idEstacionamento);
+  HorarioFuncionamento(this.idHorarioFuncionamento, this.horarioInicio,
+      this.horarioFim, this.diaSemana,
+      {this.idEstacionamento});
 
   @override
   String toString() {

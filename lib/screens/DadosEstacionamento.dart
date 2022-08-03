@@ -29,19 +29,14 @@ class DadosEstacionamento extends StatefulWidget {
 }
 
 class _DadosEstacionamentoState extends State<DadosEstacionamento> {
-  bool _isLoading = false;
-
-  void initState() {
-    super.initState();
-    _fetchData();
-  }
+  bool isFavorited = false;
 
   void _fetchData() async {
     List<Caracteristica> listaCaracteristicas = await CaracteristicaService()
-        .listarCaracteristicas(widget.estacionamento.idEstacionamento);
+        .listarCaracteristicas(widget.estacionamento.idEstacionamento!);
     List<HorarioFuncionamento> listaHorarios =
         await HorarioFuncionamentoService()
-            .listarHorarios(widget.estacionamento.idEstacionamento);
+            .listarHorarios(widget.estacionamento.idEstacionamento!);
   }
 
   @override
@@ -68,6 +63,7 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
           actions: [
             ActionButton(
               simbolo: Icons.star,
+              corSimbolo: isFavorited ? Color(0xFF8A67EF) : null,
               onPressed: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 int? idUsuario = await prefs.getInt('USER_ID');
@@ -76,6 +72,7 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
                   widget.estacionamento.idEstacionamento,
                 );
                 FavoritoService().cadastrarFavorito(favorito);
+                isFavorited = !isFavorited;
               },
               // sinalizar que o estacionamento foi favoritado com sucesso
             ),
@@ -94,15 +91,15 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
               dados: _dadosVagas(),
             ),
             ContainerDados(
+              titulo: "Preços",
+              dados: _dadosPrecos(),
+            ),
+            ContainerDados(
               titulo: "Horario de funcionamento",
               dados: [
                 ListaHorariosFuncionamento(
-                    widget.estacionamento.idEstacionamento),
+                    widget.estacionamento.idEstacionamento!),
               ],
-            ),
-            ContainerDados(
-              titulo: "Preços",
-              dados: _dadosPrecos(),
             ),
             ContainerDados(
               titulo: "Caracteristicas",
@@ -111,7 +108,7 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
                   height: 90.0,
                   child: ListaCaracteristicas(CaracteristicaService()
                       .listarCaracteristicas(
-                          widget.estacionamento.idEstacionamento)),
+                          widget.estacionamento.idEstacionamento!)),
                 )
               ],
             ),

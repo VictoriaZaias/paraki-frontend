@@ -1,3 +1,5 @@
+import 'package:estacionamento/components/ListaEstacionamento.dart';
+import 'package:estacionamento/http/estacionamentoService.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/ActionButton.dart';
@@ -42,6 +44,7 @@ class _AdminValidaState extends State<AdminValida> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              //ListaEstacionamento(EstacionamentoService().listarEstacionamentoValidacao()),
               Button(
                 rotulo: _textoBotaoValidar,
                 onPressed: () {

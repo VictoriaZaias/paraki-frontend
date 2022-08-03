@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:estacionamento/http/EstacionamentoService.dart';
 import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:flutter/material.dart';
@@ -62,14 +64,24 @@ class CardEstacionamento extends StatelessWidget {
 
   Widget showVagasDisponiveis() {
     return StreamBuilder<http.Response>(
-      stream: PeriodicRequester.getVagasDisponiveis(),
-      builder: (context, snapshot) => snapshot.hasData
-          ? Text(
-              snapshot.data!.body,
-            )
-          : Text(
-              estacionamento.qtdVagasDisponiveis.toString(),
-            ),
+      stream: PeriodicRequester.getVagasDisponiveis(estacionamento.idEstacionamento!),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          var json = jsonDecode(snapshot.data!.body);
+          print("--------------------------------");
+          print(json['result']['vagasLivres'].toString());
+          print("--------------------------------");
+          return Text(
+            json['result']['vagasLivres'].toString(),
+          );
+        }else{
+          return Text("alo",
+          );
+        }
+        return Text(
+            "nada",
+          );
+      }
     );
   }
 }

@@ -1,14 +1,11 @@
 import 'package:estacionamento/http/ReservaService.dart';
 import 'package:estacionamento/models/Reserva.dart';
 import 'package:estacionamento/screens/Pagamento.dart';
-import 'package:estacionamento/screens/PrincipalUsuario.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../components/Button.dart';
 import '../components/ContainerDados.dart';
-import '../components/DatePicker.dart';
-import '../components/TimePicker.dart';
 import '../components/TopoPadrao.dart';
 import '../http/EstacionamentoService.dart';
 import '../models/Estacionamento.dart';

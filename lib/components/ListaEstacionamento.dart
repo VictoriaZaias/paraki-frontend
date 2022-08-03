@@ -1,12 +1,14 @@
-import 'package:estacionamento/components/CardEstacionamento.dart';
+import 'package:estacionamento/components/CardEstacionamentoEsqueleto.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletons/skeletons.dart';
+import '../models/Endereco.dart';
 import '../models/Estacionamento.dart';
+import 'CardEstacionamento.dart';
 import 'CenteredMessage.dart';
-import 'Progress.dart';
 
 class ListaEstacionamento extends StatefulWidget {
   var buscar;
-  
+
   ListaEstacionamento(
     this.buscar,
   );
@@ -26,7 +28,10 @@ class _ListaEstacionamentoState extends State<ListaEstacionamento> {
             case ConnectionState.none:
               break;
             case ConnectionState.waiting:
-              return Progress();
+              return ListView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) => CardEstacionamentoEsqueleto(),
+              );
             case ConnectionState.active:
               break;
             case ConnectionState.done:

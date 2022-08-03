@@ -126,7 +126,7 @@ class _AdminCadastroState extends State<AdminCadastro> {
                       default:
                         carroId = '4';
                     }
-                    Usuario usuario = Usuario(1, nomeUsuario.text, cpf.text,
+                    Usuario usuario = Usuario(nomeUsuario.text, cpf.text,
                         vinculoId, carroId, senha.text);
                     UsuarioService().cadastrarUsuario(usuario);
 
