@@ -1,6 +1,7 @@
 import 'package:estacionamento/screens/Inicial.dart';
 import 'package:flutter/material.dart';
 import 'screens/Admin/PrincipalAdmin.dart';
+import 'screens/CadastroEstacionamento.dart';
 import 'screens/Login.dart';
 import 'theme/style_one.dart';
 
@@ -14,7 +15,7 @@ class ParakiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Login(),
+      home: CadastroEstacionamento(4),
       title: 'Paraki',
       theme: appTheme(),
       debugShowCheckedModeBanner: false,

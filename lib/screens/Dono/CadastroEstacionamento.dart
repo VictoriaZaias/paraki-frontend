@@ -448,15 +448,21 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                             ":" +
                             fechamentosEstacionamento[2].minute.toString() +
                             ":00";
-
+                    print("----------------------");
+                    print(horarioAberturaSemana);
+                    print(horarioFechamentoSemana);
+                    print(horarioAberturaSab);
+                    print(horarioFechamentoSab);
+                    print(horarioAberturaDom);
+                    print(horarioFechamentoDom);
+                    print("----------------------");
                     List<HorarioFuncionamento> horarios = [];
-                    horarios.length = 3;
-                    horarios[0] = HorarioFuncionamento(0, horarioAberturaSemana,
-                        horarioFechamentoSemana, "Seg-Sex");
-                    horarios[1] = HorarioFuncionamento(
-                        0, horarioAberturaSab, horarioFechamentoSab, "Sáb");
-                    horarios[2] = HorarioFuncionamento(
-                        0, horarioAberturaDom, horarioFechamentoDom, "Dom");
+                    horarios.add(HorarioFuncionamento(0, horarioAberturaSemana,
+                        horarioFechamentoSemana, "Seg-Sex"));
+                    horarios.add(HorarioFuncionamento(
+                        0, horarioAberturaSab, horarioFechamentoSab, "Sáb"));
+                    horarios.add(HorarioFuncionamento(
+                        0, horarioAberturaDom, horarioFechamentoDom, "Dom"));
 
                     print('Testeeeeeeeeeee $idEndereco');
                     Estacionamento estacionamento = Estacionamento(
@@ -470,6 +476,7 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                       horarios: horarios,
                       caracteristicas: caracteristicas,
                     );
+                    print(horarios);
                     EstacionamentoService()
                         .cadastrarEstacionamento(estacionamento, idEndereco);
                   },
