@@ -413,9 +413,6 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                 child: Button(
                   rotulo: _textoBotaoCadastrar,
                   onPressed: () async {
-                    print('-------------------------------');
-                    print(caracteristicas);
-                    print('-------------------------------');
 
                     Endereco endereco =
                         await EnderecoService().buscarPorCEP(cep.text);
@@ -453,23 +450,15 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                             ":" +
                             fechamentosEstacionamento[2].minute.toString() +
                             ":00";
-                    print("----------------------");
-                    print(horarioAberturaSemana);
-                    print(horarioFechamentoSemana);
-                    print(horarioAberturaSab);
-                    print(horarioFechamentoSab);
-                    print(horarioAberturaDom);
-                    print(horarioFechamentoDom);
-                    print("----------------------");
+    
                     List<HorarioFuncionamento> horarios = [];
                     horarios.add(HorarioFuncionamento(0, horarioAberturaSemana,
                         horarioFechamentoSemana, "Seg-Sex"));
                     horarios.add(HorarioFuncionamento(
-                        0, horarioAberturaSab, horarioFechamentoSab, "Sáb"));
+                        0, horarioAberturaSab, horarioFechamentoSab, "Sab"));
                     horarios.add(HorarioFuncionamento(
                         0, horarioAberturaDom, horarioFechamentoDom, "Dom"));
 
-                    print('Testeeeeeeeeeee $idEndereco');
                     Estacionamento estacionamento = Estacionamento(
                       nomeEstacionamento: nomeEstacionamento.text,
                       cnpj: cnpj.text,
@@ -481,7 +470,6 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                       horarios: horarios,
                       caracteristicas: caracteristicas,
                     );
-                    print(horarios);
                     EstacionamentoService()
                         .cadastrarEstacionamento(estacionamento, idEndereco);
                   },

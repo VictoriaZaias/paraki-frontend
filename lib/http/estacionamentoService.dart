@@ -174,6 +174,25 @@ class EstacionamentoService {
       caracteristicaMap.putIfAbsent(i.toString(), () => e.idCaracteristica);
       i++;
     }
+
+    final Map<String, dynamic> horarioSemanalMap = {};
+    final Map<String, dynamic> horarioSabMap = {};
+    final Map<String, dynamic> horarioDomMap = {};
+    for (var e in estacionamento.horarios!){
+      if (e.diaSemana == "Seg-Sex") {
+        horarioSemanalMap.putIfAbsent("horarioInicio", () => e.horarioInicio);
+         horarioSemanalMap.putIfAbsent("horarioFim", () => e.horarioFim);
+      } else if (e.diaSemana == "Dom") {
+        horarioDomMap.putIfAbsent("horarioInicio", () => e.horarioInicio);
+         horarioDomMap.putIfAbsent("horarioFim", () => e.horarioFim);
+      } else if (e.diaSemana == "Sab") {
+        horarioSabMap.putIfAbsent("horarioInicio", () => e.horarioInicio);
+         horarioSabMap.putIfAbsent("horarioFim", () => e.horarioFim);
+      }
+      
+      i++;
+    }
+
     final Map<String, dynamic> estacionamentoMap = {
       'cnpj': estacionamento.cnpj,
       'nomeEstacionamento': estacionamento.nomeEstacionamento,
@@ -182,7 +201,9 @@ class EstacionamentoService {
       'telefone': estacionamento.telefone,
       'valorHora': estacionamento.valorHora,
       'caracteristica' : caracteristicaMap,
-      //'horario': estacionamento.horarios
+      'seg-sex' : horarioSemanalMap,
+      'dom' : horarioDomMap,
+      'sab' : horarioSabMap
     };
 
     print(estacionamentoMap);
