@@ -41,7 +41,18 @@ class CardEstacionamento extends StatelessWidget {
                 //showVagasDisponiveis(),
               ],
             ),
-            title: Text(estacionamento.nomeEstacionamento),
+            title: Row(
+              children: [
+                Text(estacionamento.nomeEstacionamento!),
+                Spacer(),
+                estacionamento.hasCarregamentoEletrico == true
+                    ? Icon(
+                        Icons.electric_car_rounded,
+                        color: Colors.black,
+                      )
+                    : Icon(null),
+              ],
+            ),
             subtitle: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Text(
@@ -64,24 +75,25 @@ class CardEstacionamento extends StatelessWidget {
 
   Widget showVagasDisponiveis() {
     return StreamBuilder<http.Response>(
-      stream: PeriodicRequester.getVagasDisponiveis(estacionamento.idEstacionamento),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          var json = jsonDecode(snapshot.data!.body);
-          print("--------------------------------");
-          print(json['result']['vagasLivres'].toString());
-          print("--------------------------------");
+        stream: PeriodicRequester.getVagasDisponiveis(
+            estacionamento.idEstacionamento!),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var json = jsonDecode(snapshot.data!.body);
+            print("--------------------------------");
+            print(json['result']['vagasLivres'].toString());
+            print("--------------------------------");
+            return Text(
+              json['result']['vagasLivres'].toString(),
+            );
+          } else {
+            return Text(
+              "alo",
+            );
+          }
           return Text(
-            json['result']['vagasLivres'].toString(),
-          );
-        }else{
-          return Text("alo",
-          );
-        }
-        return Text(
             "nada",
           );
-      }
-    );
+        });
   }
 }

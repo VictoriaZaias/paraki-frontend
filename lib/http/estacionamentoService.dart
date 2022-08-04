@@ -31,17 +31,17 @@ class EstacionamentoService {
 
   String enderecoCompleto(Estacionamento estacionamento) {
     String enderecoCompleto;
-    enderecoCompleto = estacionamento.endereco.logradouro +
+    enderecoCompleto = estacionamento.endereco!.logradouro +
         ", " +
         estacionamento.nroEstacionamento.toString() +
         " - " +
-        estacionamento.endereco.bairro +
+        estacionamento.endereco!.bairro +
         "\n" +
-        estacionamento.endereco.cidade +
+        estacionamento.endereco!.cidade +
         " - " +
-        estacionamento.endereco.unidadeFederativa +
+        estacionamento.endereco!.unidadeFederativa +
         ", " +
-        estacionamento.endereco.cep;
+        estacionamento.endereco!.cep;
     return enderecoCompleto;
   }
 
@@ -57,15 +57,15 @@ class EstacionamentoService {
     for (var json in estacionamentoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       final Estacionamento estacionamento = Estacionamento(
-        json['idEstacionamento'],
-        json['nomeEstacionamento'],
-        json['CNPJ'],
-        json['qtdTotalVagas'],
-        json['qtdVagasDisponiveis'],
-        json['nroEstacionamento'],
-        json['telefone'],
-        json['valorHora'].toDouble(),
-        endereco,
+        idEstacionamento: json['idEstacionamento'],
+        nomeEstacionamento: json['nomeEstacionamento'],
+        cnpj: json['CNPJ'],
+        qtdTotalVagas: json['qtdTotalVagas'],
+        qtdVagasDisponiveis: json['qtdVagasDisponiveis'],
+        nroEstacionamento: json['nroEstacionamento'],
+        telefone: json['telefone'],
+        valorHora: json['valorHora'].toDouble(),
+        endereco: endereco,
         isFavoritado: json['favorito'],
         hasCarregamentoEletrico: json['caracteristica'],
       );
@@ -87,15 +87,15 @@ class EstacionamentoService {
     for (var json in estacionamentoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       final Estacionamento estacionamento = Estacionamento(
-        json['idEstacionamento'],
-        json['nomeEstacionamento'],
-        json['CNPJ'],
-        json['qtdTotalVagas'],
-        json['qtdVagasDisponiveis'],
-        json['nroEstacionamento'],
-        json['telefone'],
-        json['valorHora'].toDouble(),
-        endereco,
+        idEstacionamento: json['idEstacionamento'],
+        nomeEstacionamento: json['nomeEstacionamento'],
+        cnpj: json['CNPJ'],
+        qtdTotalVagas: json['qtdTotalVagas'],
+        qtdVagasDisponiveis: json['qtdVagasDisponiveis'],
+        nroEstacionamento: json['nroEstacionamento'],
+        telefone: json['telefone'],
+        valorHora: json['valorHora'].toDouble(),
+        endereco: endereco,
       );
       estacionamentos.add(estacionamento);
     }
@@ -121,15 +121,15 @@ class EstacionamentoService {
       for (var json in estacionamentoJson['result']) {
         var endereco = await EnderecoService().buscarEndereco(json['endereco']);
         final Estacionamento estacionamento = Estacionamento(
-          json['idEstacionamento'],
-          json['nomeEstacionamento'],
-          json['CNPJ'],
-          json['qtdTotalVagas'],
-          json['qtdVagasDisponiveis'],
-          json['nroEstacionamento'],
-          json['telefone'],
-          json['valorHora'].toDouble(),
-          endereco,
+          idEstacionamento: json['idEstacionamento'],
+          nomeEstacionamento: json['nomeEstacionamento'],
+          cnpj: json['CNPJ'],
+          qtdTotalVagas: json['qtdTotalVagas'],
+          qtdVagasDisponiveis: json['qtdVagasDisponiveis'],
+          nroEstacionamento: json['nroEstacionamento'],
+          telefone: json['telefone'],
+          valorHora: json['valorHora'].toDouble(),
+          endereco: endereco,
         );
         estacionamentos.add(estacionamento);
       }
@@ -148,15 +148,15 @@ class EstacionamentoService {
     for (var json in estacionamentoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       final Estacionamento estacionamento = Estacionamento(
-        json['idEstacionamento'],
-        json['nomeEstacionamento'],
-        json['CNPJ'],
-        json['qtdTotalVagas'],
-        json['qtdVagasDisponiveis'],
-        json['nroEstacionamento'],
-        json['telefone'],
-        json['valorHora'].toDouble(),
-        endereco,
+        idEstacionamento: json['idEstacionamento'],
+        nomeEstacionamento: json['nomeEstacionamento'],
+        cnpj: json['CNPJ'],
+        qtdTotalVagas: json['qtdTotalVagas'],
+        qtdVagasDisponiveis: json['qtdVagasDisponiveis'],
+        nroEstacionamento: json['nroEstacionamento'],
+        telefone: json['telefone'],
+        valorHora: json['valorHora'].toDouble(),
+        endereco: endereco,
       );
       estacionamentos.add(estacionamento);
     }

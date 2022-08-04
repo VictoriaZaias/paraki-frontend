@@ -1,4 +1,4 @@
-import 'package:estacionamento/components/CardEstacionamentoEsqueleto.dart';
+import 'package:estacionamento/components/CardEsqueleto.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletons/skeletons.dart';
 import '../models/Endereco.dart';
@@ -30,7 +30,12 @@ class _ListaEstacionamentoState extends State<ListaEstacionamento> {
             case ConnectionState.waiting:
               return ListView.builder(
                 itemCount: 5,
-                itemBuilder: (context, index) => CardEstacionamentoEsqueleto(),
+                itemBuilder: (context, index) => CardEsqueleto(
+                  icone: Image.asset(
+                    'assets/images/carro.png',
+                    scale: 3,
+                  ),
+                ),
               );
             case ConnectionState.active:
               break;

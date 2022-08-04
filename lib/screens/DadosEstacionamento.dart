@@ -33,10 +33,10 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
 
   void _fetchData() async {
     List<Caracteristica> listaCaracteristicas = await CaracteristicaService()
-        .listarCaracteristicas(widget.estacionamento.idEstacionamento);
+        .listarCaracteristicas(widget.estacionamento.idEstacionamento!);
     List<HorarioFuncionamento> listaHorarios =
         await HorarioFuncionamentoService()
-            .listarHorarios(widget.estacionamento.idEstacionamento);
+            .listarHorarios(widget.estacionamento.idEstacionamento!);
   }
 
   @override
@@ -98,7 +98,7 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
               titulo: "Horario de funcionamento",
               dados: [
                 ListaHorariosFuncionamento(
-                    widget.estacionamento.idEstacionamento),
+                    widget.estacionamento.idEstacionamento!),
               ],
             ),
             ContainerDados(
@@ -108,7 +108,7 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
                   height: 90.0,
                   child: ListaCaracteristicas(CaracteristicaService()
                       .listarCaracteristicas(
-                          widget.estacionamento.idEstacionamento)),
+                          widget.estacionamento.idEstacionamento!)),
                 )
               ],
             ),
@@ -135,7 +135,7 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
   List<Widget> _dadosGerais() {
     return [
       Text(EstacionamentoService().enderecoCompleto(widget.estacionamento)),
-      Text("Telefone: " + widget.estacionamento.telefone),
+      Text("Telefone: " + widget.estacionamento.telefone!),
     ];
   }
 

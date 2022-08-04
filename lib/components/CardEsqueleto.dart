@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:skeletons/skeletons.dart';
 
-class CardEstacionamentoEsqueleto extends StatelessWidget {
-  const CardEstacionamentoEsqueleto({Key? key}) : super(key: key);
+class CardEsqueleto extends StatelessWidget {
+  final Widget icone;
+
+  const CardEsqueleto({
+    Key? key,
+    required this.icone,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +25,7 @@ class CardEstacionamentoEsqueleto extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(width: 8),
-                  Image.asset(
-                    'assets/images/carro.png',
-                    scale: 3,
-                  ),
+                  icone,
                   SizedBox(width: 8),
                   Expanded(
                     child: SkeletonParagraph(

@@ -43,7 +43,7 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
             dados: [
               Text(EstacionamentoService()
                   .enderecoCompleto(widget.estacionamento)),
-              Text("Telefone: " + widget.estacionamento.telefone),
+              Text("Telefone: " + widget.estacionamento.telefone!),
             ],
           ),
           ContainerDados(
@@ -204,6 +204,7 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
                 horarioEntrada,
                 horarioSaida,
                 idUsuario,
+                estacionamento: widget.estacionamento,
                 //widget.estacionamento.valorHora,
               );
               print('---------------------');
@@ -211,7 +212,7 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
                   reserva.horarioSaida.toString());
               print('---------------------------------');
               ReservaService()
-                  .cadastrarReserva(reserva, widget.estacionamento.valorHora, widget.estacionamento.idEstacionamento);
+                  .cadastrarReserva(reserva, widget.estacionamento.valorHora!, widget.estacionamento.idEstacionamento!);
               Navigator.push(
                   context,
                   MaterialPageRoute(

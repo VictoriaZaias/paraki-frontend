@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../http/EstacionamentoService.dart';
 import '../models/Reserva.dart';
 
 class CardReserva extends StatelessWidget {
@@ -12,34 +13,37 @@ class CardReserva extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: SizedBox(
-        child: Card(
-          child: ListTile(
-            textColor: Colors.black,
-            leading: Stack(
+    return SizedBox(
+      child: Card(
+        child: ListTile(
+          textColor: Colors.black,
+          leading: Icon(
+            Icons.calendar_month,
+            size: 80.0,
+            color: Color(0xFFB497F2),
+          ),
+          title: Text("Reserva " + reserva.idReserva.toString()),
+          subtitle: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: 100,
-                    maxWidth: 100,
-                  ), /*
-                  child: Image.asset(
-                    'assets/images/carro.png',
-                    scale: 2,
-                  ),*/
-                ),
+                Text(reserva.estacionamento!.nomeEstacionamento!),
+                Text(EstacionamentoService()
+                    .enderecoCompleto(reserva.estacionamento!)),
+                Text("Telefone: " + reserva.estacionamento!.telefone!),
+                Text("Dia: " +
+                    reserva.dataReserva! +
+                    "     " +
+                    "Horário: " +
+                    reserva.horarioEntrada! +
+                    " - " +
+                    reserva.horarioSaida!),
               ],
-            ),
-            title: Text("info"),
-            subtitle: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child: Text("info"),
             ),
           ),
         ),
       ),
-      onTap: () {},
     );
   }
 }

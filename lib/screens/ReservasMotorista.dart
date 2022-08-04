@@ -26,7 +26,9 @@ class _ReservasMotoristaState extends State<ReservasMotorista> {
         titulo: "Minhas reservas",
       ),
       body: Center(
-        child: ListaReservas(user: widget.user,)
+        child: ListaReservas(
+          user: widget.user,
+        ),
       ),
     );
   }

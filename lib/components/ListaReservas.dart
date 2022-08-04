@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../http/ReservaService.dart';
 import '../models/Reserva.dart';
 import '../models/Usuario.dart';
-import 'CardEstacionamentoEsqueleto.dart';
+import 'CardEsqueleto.dart';
 import 'CardReserva.dart';
 import 'CenteredMessage.dart';
 
@@ -31,7 +31,12 @@ class _ListaReservasState extends State<ListaReservas> {
             case ConnectionState.waiting:
               return ListView.builder(
                 itemCount: 6,
-                itemBuilder: (context, index) => CardEstacionamentoEsqueleto(),
+                itemBuilder: (context, index) => CardEsqueleto(
+                  icone: Icon(
+                    Icons.calendar_month,
+                    size: 80.0,
+                  ),
+                ),
               );
             case ConnectionState.active:
               break;
