@@ -1,10 +1,10 @@
-import 'package:estacionamento/screens/CadastroEstacionamento.dart';
+import 'package:estacionamento/screens/Dono/CadastroEstacionamento.dart';
 import 'package:flutter/material.dart';
-import '../components/ActionButton.dart';
-import '../components/ListaEstacionamento.dart';
-import '../http/EstacionamentoService.dart';
-import '../http/EstacionamentoService.dart';
-import '../models/Usuario.dart';
+import '../../components/ActionButton.dart';
+import '../../components/ListaEstacionamento.dart';
+import '../../http/EstacionamentoService.dart';
+import '../../http/EstacionamentoService.dart';
+import '../../models/Usuario.dart';
 
 class EstacionamentosDono extends StatefulWidget {
   final Usuario user;
@@ -59,20 +59,22 @@ class _EstacionamentosDonoState extends State<EstacionamentosDono> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CadastroEstacionamento(widget.user.idUsuario!)));
+                        builder: (context) =>
+                            CadastroEstacionamento(widget.user.idUsuario!)));
               },
             ),
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
+      body:// SingleChildScrollView(
+       // child:
+         Column(
           children: [
-            //ListaEstacionamento(
-            //    EstacionamentoService().listarEstacionamentosDono()),
+            ListaEstacionamento(EstacionamentoService()
+                .listarEstacionamentosDono(widget.user.idUsuario!)),
           ],
         ),
-      ),
+     // ),
     );
   }
 }

@@ -7,11 +7,11 @@ import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:estacionamento/models/HorarioFuncionamento.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../components/Button.dart';
-import '../components/Editor.dart';
-import '../components/ListaCaracteristicas.dart';
-import '../http/CaracteristicaService.dart';
-import '../models/Endereco.dart';
+import '../../components/Button.dart';
+import '../../components/Editor.dart';
+import '../../components/ListaCaracteristicas.dart';
+import '../../http/CaracteristicaService.dart';
+import '../../models/Endereco.dart';
 
 class CadastroEstacionamento extends StatefulWidget {
   final int idUsuario;
@@ -96,11 +96,6 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                 child: SizedBox(
                   width: 300.0,
                   child: Column(
-                    /*
-                    children: _dadosHorarios(
-                        aberturasEstacionamento, fechamentosEstacionamento),
-                        */
-
                     // TENTAR REFATORAR PELO AMORR
                     children: [
                       Padding(

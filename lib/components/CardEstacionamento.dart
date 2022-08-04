@@ -41,24 +41,29 @@ class CardEstacionamento extends StatelessWidget {
                 //showVagasDisponiveis(),
               ],
             ),
-            title: Row(
-              children: [
-                Text(estacionamento.nomeEstacionamento!),
-                Spacer(),
-                estacionamento.hasCarregamentoEletrico == true
-                    ? Icon(
-                        Icons.electric_car_rounded,
-                        color: Colors.black,
-                      )
-                    : Icon(null),
-              ],
-            ),
+            title: Text(estacionamento.nomeEstacionamento!),
             subtitle: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child: Text(
-                  EstacionamentoService().enderecoCompleto(estacionamento) +
-                      "\nValor por hora: R\$" +
-                      estacionamento.valorHora.toString()),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      EstacionamentoService().enderecoCompleto(estacionamento)),
+                  Row(
+                    children: [
+                      Text("Valor por hora: R\$" +
+                          estacionamento.valorHora.toString()),
+                      Spacer(),
+                      estacionamento.hasCarregamentoEletrico == true
+                          ? Icon(
+                              Icons.electric_car_rounded,
+                              color: Colors.black,
+                            )
+                          : Icon(null),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
