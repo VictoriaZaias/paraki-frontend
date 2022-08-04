@@ -38,7 +38,7 @@ class ListaHorariosFuncionamento extends StatelessWidget {
                 return buildHorariosFuncionamento(horariosFuncionamento);
               }
               return CenteredMessage(
-                'Nenhuma HorarioFuncionamento encontrada',
+                'Nenhum horario encontrado',
                 icon: Icons.block,
               );
           }

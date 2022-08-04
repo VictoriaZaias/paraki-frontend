@@ -34,6 +34,19 @@ class LoggingInterceptor implements InterceptorContract {
 class FavoritoService {
   String urlPadrao = "http://estacionamento-pedepano.herokuapp.com/paraki/";
 
+  void excluirFavorito(Favorito favorito) async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );
+    final Map<String, dynamic> favoritoMap = {
+      'estacionamento': favorito.idEstacionamento,
+    };
+
+    final String jsonUsuario = jsonEncode(favoritoMap);
+    await client.delete(Uri.parse('${urlPadrao}/favorito/excluir/' + favorito.idUsuario.toString()),
+        headers: {"content-type": "application/json"}, body: jsonUsuario);
+  }
+
   void cadastrarFavorito(Favorito favorito) async {
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
@@ -57,6 +70,7 @@ class FavoritoService {
         .get(Uri.parse('${urlPadrao}favorito/listar/' + idUsuario.toString()));
     final List<Estacionamento> estacionamentos = [];
     var favoritoJson = jsonDecode(response.body);
+    
     for (var json in favoritoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       final Estacionamento estacionamento = Estacionamento(
@@ -69,6 +83,8 @@ class FavoritoService {
         telefone: json['telefone'],
         valorHora: json['valorHora'].toDouble(),
         endereco: endereco,
+        isFavoritado: json['favorito'],
+        hasCarregamentoEletrico: json['caracteristica'],
       );
       estacionamentos.add(estacionamento);
     }

@@ -102,13 +102,17 @@ class EstacionamentoService {
     return estacionamentos;
   }
 
-  Future<List<Estacionamento>> listarEstacionamentoBusca(String busca) async {
+  Future<List<Estacionamento>> listarEstacionamentoBusca(
+      String buscaCidade, String buscaRua) async {
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
     );
-    final Map<String, dynamic> buscarRuaMap = {'logradouro': busca};
+    final Map<String, dynamic> buscarCidadeRuaMap = {
+      'cidade': buscaCidade,
+      'logradouro': buscaRua,
+    };
 
-    final String jsonBuscarRua = jsonEncode(buscarRuaMap);
+    final String jsonBuscarRua = jsonEncode(buscarCidadeRuaMap);
 
     final Response response = await client.post(
         Uri.parse('${urlPadrao}estacionamento/estacionamentoRua'),

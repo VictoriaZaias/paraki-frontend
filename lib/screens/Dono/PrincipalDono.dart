@@ -1,14 +1,14 @@
-import 'package:estacionamento/screens/EstacionamentosDono.dart';
+import 'package:estacionamento/screens/Dono/EstacionamentosDono.dart';
 import 'package:estacionamento/screens/PerfilUsuario.dart';
 import 'package:estacionamento/screens/ReservasMotorista.dart';
 import 'package:flutter/material.dart';
-import '../components/ActionButton.dart';
-import '../components/Editor.dart';
-import '../components/ListaEstacionamento.dart';
-import '../http/EstacionamentoService.dart';
-import '../http/FavoritoService.dart';
-import '../models/Estacionamento.dart';
-import '../models/Usuario.dart';
+import '../../components/ActionButton.dart';
+import '../../components/Editor.dart';
+import '../../components/ListaEstacionamento.dart';
+import '../../http/EstacionamentoService.dart';
+import '../../http/FavoritoService.dart';
+import '../../models/Estacionamento.dart';
+import '../../models/Usuario.dart';
 
 class PrincipalDono extends StatefulWidget {
   final Usuario user;
@@ -25,12 +25,13 @@ class PrincipalDono extends StatefulWidget {
 class _PrincipalDonoState extends State<PrincipalDono> {
   static const _tamanhoActionButtons = 55.0;
   bool isFavoriteVisible = false;
+  static TextEditingController buscaCidade = TextEditingController();
   static TextEditingController buscaRua = TextEditingController();
   var listar;
-  
+
   @override
   void initState() {
-    listar = ListaEstacionamento(buscar('', widget.user.idUsuario!));
+    listar = ListaEstacionamento(buscar('', '', widget.user.idUsuario!));
     super.initState();
   }
 
@@ -96,6 +97,18 @@ class _PrincipalDonoState extends State<PrincipalDono> {
         child: Column(
           children: [
             Editor(
+              rotulo: 'Informe sua cidade',
+              largura: 370.0,
+              icone: Icons.search,
+              controlador: buscaCidade,
+              onSubmitted: (buscaCidade) {
+                setState(() {
+                  listar = ListaEstacionamento(EstacionamentoService()
+                      .listarEstacionamentoBusca(buscaCidade, ''));
+                });
+              },
+            ),
+            Editor(
               rotulo: 'Informe o logradouro de destino',
               largura: 370.0,
               icone: Icons.search,
@@ -103,7 +116,7 @@ class _PrincipalDonoState extends State<PrincipalDono> {
               onSubmitted: (buscaRua) {
                 setState(() {
                   listar = ListaEstacionamento(EstacionamentoService()
-                      .listarEstacionamentoBusca(buscaRua));
+                      .listarEstacionamentoBusca('', buscaRua));
                 });
               },
             ),
@@ -112,8 +125,8 @@ class _PrincipalDonoState extends State<PrincipalDono> {
               visible: !isFavoriteVisible,
             ),
             Visibility(
-              child: ListaEstacionamento(
-                  FavoritoService().listarEstacionamentosFavoritados(widget.user.idUsuario!)),
+              child: ListaEstacionamento(FavoritoService()
+                  .listarEstacionamentosFavoritados(widget.user.idUsuario!)),
               visible: isFavoriteVisible,
             ),
           ],
@@ -123,11 +136,13 @@ class _PrincipalDonoState extends State<PrincipalDono> {
   }
 }
 
-Future<List<Estacionamento>> buscar(String busca, int idUsuario) {
+Future<List<Estacionamento>> buscar(
+    String buscaCidade, String buscaRua, int idUsuario) {
   var lista;
-  if (busca == "") {
+  if (buscaCidade == "" && buscaRua == "") {
     return lista = EstacionamentoService().listarEstacionamento(idUsuario);
   } else {
-    return lista = EstacionamentoService().listarEstacionamentoBusca(busca);
+    return lista = EstacionamentoService()
+        .listarEstacionamentoBusca(buscaCidade, buscaRua);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:estacionamento/http/LoginService.dart';
 import 'package:estacionamento/models/Usuario.dart';
-import 'package:estacionamento/screens/PrincipalDono.dart';
+import 'package:estacionamento/screens/Dono/PrincipalDono.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:form_field_validator/form_field_validator.dart';

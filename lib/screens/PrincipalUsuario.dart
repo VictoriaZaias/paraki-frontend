@@ -24,12 +24,13 @@ class PrincipalUsuario extends StatefulWidget {
 class _PrincipalUsuarioState extends State<PrincipalUsuario> {
   static const _tamanhoActionButtons = 55.0;
   bool isFavoriteVisible = false;
+  static TextEditingController buscaCidade = TextEditingController();
   static TextEditingController buscaRua = TextEditingController();
   var listar;
 
   @override
   void initState() {
-    listar = ListaEstacionamento(buscar('', widget.user.idUsuario!));
+    listar = ListaEstacionamento(buscar('', '', widget.user.idUsuario!));
     super.initState();
   }
 
@@ -84,6 +85,18 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
         child: Column(
           children: [
             Editor(
+              rotulo: 'Informe sua cidade',
+              largura: 370.0,
+              icone: Icons.search,
+              controlador: buscaCidade,
+              onSubmitted: (buscaCidade) {
+                setState(() {
+                  listar = ListaEstacionamento(EstacionamentoService()
+                      .listarEstacionamentoBusca(buscaCidade, ''));
+                });
+              },
+            ),
+            Editor(
               rotulo: 'Informe o logradouro de destino',
               largura: 370.0,
               icone: Icons.search,
@@ -91,7 +104,7 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
               onSubmitted: (buscaRua) {
                 setState(() {
                   listar = ListaEstacionamento(EstacionamentoService()
-                      .listarEstacionamentoBusca(buscaRua));
+                      .listarEstacionamentoBusca('', buscaRua));
                 });
               },
             ),
@@ -110,12 +123,12 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
     );
   }
 
-  Future<List<Estacionamento>> buscar(String busca, int idUsuario) {
+  Future<List<Estacionamento>> buscar(String buscaCidade, String buscaRua, int idUsuario) {
     var lista;
-    if (busca == "") {
+    if (buscaCidade == "" && buscaRua == "") {
       return lista = EstacionamentoService().listarEstacionamento(idUsuario);
     } else {
-      return lista = EstacionamentoService().listarEstacionamentoBusca(busca);
+      return lista = EstacionamentoService().listarEstacionamentoBusca(buscaCidade, buscaRua);
     }
   }
 }

@@ -40,7 +40,6 @@ class Editor extends StatelessWidget {
           obscureText: senha,
           controller: controlador,
           validator: validacao,
-
           keyboardType: teclado,
           decoration: InputDecoration(
             prefixIcon: icone != null ? Icon(icone) : null,

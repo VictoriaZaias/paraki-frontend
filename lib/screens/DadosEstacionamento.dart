@@ -29,7 +29,13 @@ class DadosEstacionamento extends StatefulWidget {
 }
 
 class _DadosEstacionamentoState extends State<DadosEstacionamento> {
-  bool isFavorited = false;
+  bool isFavoritado = false;
+
+  @override
+  void initState() {
+    isFavoritado = widget.estacionamento.isFavoritado!;
+    super.initState();
+  }
 
   void _fetchData() async {
     List<Caracteristica> listaCaracteristicas = await CaracteristicaService()
@@ -63,7 +69,7 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
           actions: [
             ActionButton(
               simbolo: Icons.star,
-              corSimbolo: isFavorited ? Color(0xFF8A67EF) : null,
+              corSimbolo: isFavoritado ? Color(0xFF8A67EF) : null,
               onPressed: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 int? idUsuario = await prefs.getInt('USER_ID');
@@ -71,8 +77,13 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
                   idUsuario,
                   widget.estacionamento.idEstacionamento,
                 );
-                FavoritoService().cadastrarFavorito(favorito);
-                isFavorited = !isFavorited;
+                if (isFavoritado)
+                  FavoritoService().excluirFavorito(favorito);
+                else
+                  FavoritoService().cadastrarFavorito(favorito);
+                setState(() {
+                  isFavoritado = !isFavoritado;
+                });
               },
               // sinalizar que o estacionamento foi favoritado com sucesso
             ),
@@ -105,7 +116,7 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
               titulo: "Caracteristicas",
               dados: [
                 SizedBox(
-                  height: 90.0,
+                  height: 120.0,
                   child: ListaCaracteristicas(CaracteristicaService()
                       .listarCaracteristicas(
                           widget.estacionamento.idEstacionamento!)),
