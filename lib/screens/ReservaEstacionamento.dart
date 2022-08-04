@@ -29,7 +29,6 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
   TimeOfDay timeEntrada = TimeOfDay.now();
   TimeOfDay timeSaida = TimeOfDay.now();
   DateTime date = DateTime.now();
-  int? horas_reserva = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +52,18 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
               Row(
                 children: [
                   Text("Dia: "),
+
+                  /*
                   DatePicker(
                     selectedDate: date,
                   ),
-/*
+                  */
+
                   OutlinedButton(
                     onPressed: () async {
                       final newDate = await showDatePicker(
                         context: context,
-                        initialDate: DateTime.now(),
+                        initialDate: date,
                         firstDate: DateTime.now(),
                         lastDate: DateTime(DateTime.now().year + 1),
                         builder: (context, child) {
@@ -86,16 +88,19 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
                     ),
                     child: Text(
                         '${numberFormat.format(date.day).toString()}/${numberFormat.format(date.month).toString()}/${numberFormat.format(date.year).toString()}'),
-                  ),*/
+                  ),
                 ],
               ),
               Row(
                 children: [
                   Text("Horário: "),
+
+                  /*
                   TimePicker(
                     selectedTime: timeEntrada,
                   ),
-/*
+                  */
+
                   OutlinedButton(
                     onPressed: () async {
                       final newTime = await showTimePicker(
@@ -123,7 +128,7 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
                     ),
                     child: Text(
                         '${numberFormat.format(timeEntrada.hour).toString()}:${numberFormat.format(timeEntrada.minute).toString()}'),
-                  ),*/
+                  ),
                 ],
               ),
             ],
@@ -134,13 +139,15 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
               Row(
                 children: [
                   Text("Horário: "),
+
+                  /*
                   TimePicker(
                     selectedTime: timeSaida,
                     onChanged: (TimeOfDay? newTime) => setState(() {
                       timeSaida = newTime!;
                     }),
                   ),
-/*
+*/
                   OutlinedButton(
                     onPressed: () async {
                       final newTime = await showTimePicker(
@@ -168,7 +175,7 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
                     ),
                     child: Text(
                         '${numberFormat.format(timeSaida.hour).toString()}:${numberFormat.format(timeSaida.minute).toString()}'),
-                  ),*/
+                  ),
                 ],
               ),
             ],

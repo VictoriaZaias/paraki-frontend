@@ -1,7 +1,6 @@
 import 'package:estacionamento/http/FavoritoService.dart';
 import 'package:estacionamento/screens/PerfilUsuario.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../components/ActionButton.dart';
 import '../components/Editor.dart';
 import '../components/ListaEstacionamento.dart';
@@ -110,13 +109,13 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
       ),
     );
   }
-}
 
-Future<List<Estacionamento>> buscar(String busca, int idUsuario) {
-  var lista;
-  if (busca == "") {
-    return lista = EstacionamentoService().listarEstacionamento(idUsuario);
-  } else {
-    return lista = EstacionamentoService().listarEstacionamentoBusca(busca);
+  Future<List<Estacionamento>> buscar(String busca, int idUsuario) {
+    var lista;
+    if (busca == "") {
+      return lista = EstacionamentoService().listarEstacionamento(idUsuario);
+    } else {
+      return lista = EstacionamentoService().listarEstacionamentoBusca(busca);
+    }
   }
 }

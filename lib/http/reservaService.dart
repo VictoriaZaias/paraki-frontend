@@ -34,7 +34,7 @@ class ReservaService {
     );
 
     final response = await client
-        .get(Uri.parse('${urlPadrao}reserva/listar/' + idUsuario.toString()));
+        .get(Uri.parse('${urlPadrao}reserva/listarReservasUsuario/' + idUsuario.toString()));
     final List<Reserva> reservas = [];
     var reservaJson = jsonDecode(response.body);
 
@@ -44,8 +44,8 @@ class ReservaService {
           json['dataReserva'],
           json['horarioEntrada'],
           json['horarioSaida'],
-          json['isUsuario'],
-          json['isEstacionameneto']);
+          json['idUsuario'],
+          json['idEstacionameneto']);
       reservas.add(reserva);
     }
     return reservas;

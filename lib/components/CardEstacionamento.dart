@@ -64,7 +64,7 @@ class CardEstacionamento extends StatelessWidget {
 
   Widget showVagasDisponiveis() {
     return StreamBuilder<http.Response>(
-      stream: PeriodicRequester.getVagasDisponiveis(estacionamento.idEstacionamento!),
+      stream: PeriodicRequester.getVagasDisponiveis(estacionamento.idEstacionamento),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           var json = jsonDecode(snapshot.data!.body);

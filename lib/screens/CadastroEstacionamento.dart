@@ -191,6 +191,7 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
 
                     print('Testeeeeeeeeeee $idEndereco');
                     Estacionamento estacionamento = Estacionamento(
+                      0,
                       nomeEstacionamento.text,
                       cnpj.text,
                       int.parse(totalVagas.text),

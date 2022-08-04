@@ -3,7 +3,7 @@ import 'package:estacionamento/models/Endereco.dart';
 import 'package:estacionamento/models/HorarioFuncionamento.dart';
 
 class Estacionamento {
-  final int? idEstacionamento;
+  final int idEstacionamento;
   final String nomeEstacionamento;
   final String cnpj;
   final int qtdTotalVagas;
@@ -18,6 +18,7 @@ class Estacionamento {
   final bool? hasCarregamentoEletrico;
 
   Estacionamento(
+    this.idEstacionamento,
     this.nomeEstacionamento,
     this.cnpj,
     this.qtdTotalVagas,
@@ -26,7 +27,6 @@ class Estacionamento {
     this.telefone,
     this.valorHora,
     this.endereco, {
-    this.idEstacionamento,
     this.horarios,
     this.caracteristicas,
     this.isFavoritado,

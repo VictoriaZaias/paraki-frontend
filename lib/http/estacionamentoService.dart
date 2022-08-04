@@ -1,6 +1,4 @@
-import 'package:estacionamento/http/CaracteristicaService.dart';
 import 'package:estacionamento/http/EnderecoService.dart';
-import 'package:estacionamento/http/HorarioFuncionamentoService.dart';
 import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
@@ -59,7 +57,7 @@ class EstacionamentoService {
     for (var json in estacionamentoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       final Estacionamento estacionamento = Estacionamento(
-        idEstacionamento: json['idEstacionamento'],
+        json['idEstacionamento'],
         json['nomeEstacionamento'],
         json['CNPJ'],
         json['qtdTotalVagas'],
@@ -89,6 +87,7 @@ class EstacionamentoService {
     for (var json in estacionamentoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       final Estacionamento estacionamento = Estacionamento(
+        json['idEstacionamento'],
         json['nomeEstacionamento'],
         json['CNPJ'],
         json['qtdTotalVagas'],
@@ -97,7 +96,6 @@ class EstacionamentoService {
         json['telefone'],
         json['valorHora'].toDouble(),
         endereco,
-        idEstacionamento: json['idEstacionamento'],
       );
       estacionamentos.add(estacionamento);
     }
@@ -123,6 +121,7 @@ class EstacionamentoService {
       for (var json in estacionamentoJson['result']) {
         var endereco = await EnderecoService().buscarEndereco(json['endereco']);
         final Estacionamento estacionamento = Estacionamento(
+          json['idEstacionamento'],
           json['nomeEstacionamento'],
           json['CNPJ'],
           json['qtdTotalVagas'],
@@ -131,7 +130,6 @@ class EstacionamentoService {
           json['telefone'],
           json['valorHora'].toDouble(),
           endereco,
-          idEstacionamento: json['idEstacionamento'],
         );
         estacionamentos.add(estacionamento);
       }
@@ -150,6 +148,7 @@ class EstacionamentoService {
     for (var json in estacionamentoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       final Estacionamento estacionamento = Estacionamento(
+        json['idEstacionamento'],
         json['nomeEstacionamento'],
         json['CNPJ'],
         json['qtdTotalVagas'],
@@ -158,7 +157,6 @@ class EstacionamentoService {
         json['telefone'],
         json['valorHora'].toDouble(),
         endereco,
-        idEstacionamento: json['idEstacionamento'],
       );
       estacionamentos.add(estacionamento);
     }
