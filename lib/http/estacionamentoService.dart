@@ -52,7 +52,7 @@ class EstacionamentoService {
       interceptors: [LoggingInterceptor()],
     );
     final response = await client.get(
-        Uri.parse('${urlPadrao}estacionamento/listar' + idUsuario.toString()));
+        Uri.parse('${urlPadrao}estacionamento/listar/' + idUsuario.toString()));
     final List<Estacionamento> estacionamentos = [];
     var estacionamentoJson = jsonDecode(response.body);
 
