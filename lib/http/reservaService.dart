@@ -26,7 +26,7 @@ class LoggingInterceptor implements InterceptorContract {
 }
 
 class ReservaService {
-  String urlPadrao = "http://eeserva-pedepano.herokuapp.com/paraki/";
+  String urlPadrao = "http://estacionamento-pedepano.herokuapp.com/paraki/";
 
   Future<List<Reserva>> listarReservas(int idUsuario) async {
     final Client client = InterceptedClient.build(
@@ -45,13 +45,13 @@ class ReservaService {
           json['horarioEntrada'],
           json['horarioSaida'],
           json['idUsuario'],
-          json['idEstacionameneto']);
+          estacionamento: json['estacionamento']);
       reservas.add(reserva);
     }
     return reservas;
   }
 
-  void cadastrarReserva(Reserva reserva, double valorHora) async {
+  void cadastrarReserva(Reserva reserva, double valorHora, int idEstacionamento) async {
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
     );
@@ -60,7 +60,7 @@ class ReservaService {
       'horarioEntrada': reserva.horarioEntrada,
       'horarioSaida': reserva.horarioSaida,
       'usuario': reserva.idUsuario,
-      'estacionamento': reserva.idEstacionamento,
+      'estacionamento': idEstacionamento,
       'precoHora': valorHora,
     };
 

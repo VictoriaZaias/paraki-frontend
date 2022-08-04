@@ -199,12 +199,11 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
                   timeSaida.minute.toString() +
                   ":00";
               Reserva reserva = Reserva(
-                1,
+                0,
                 dataReserva,
                 horarioEntrada,
                 horarioSaida,
                 idUsuario,
-                widget.estacionamento.idEstacionamento,
                 //widget.estacionamento.valorHora,
               );
               print('---------------------');
@@ -212,7 +211,7 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
                   reserva.horarioSaida.toString());
               print('---------------------------------');
               ReservaService()
-                  .cadastrarReserva(reserva, widget.estacionamento.valorHora);
+                  .cadastrarReserva(reserva, widget.estacionamento.valorHora, widget.estacionamento.idEstacionamento);
               Navigator.push(
                   context,
                   MaterialPageRoute(
