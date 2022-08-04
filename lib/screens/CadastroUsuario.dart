@@ -1,4 +1,5 @@
 import 'package:estacionamento/http/UsuarioService.dart';
+import 'package:estacionamento/screens/AcaoBemSucedida.dart';
 import 'package:estacionamento/screens/Login.dart';
 import 'package:flutter/material.dart';
 import '../components/Button.dart';
@@ -90,13 +91,15 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     default:
                       carroId = '4';
                   }
-                  Usuario usuario = Usuario(nomeUsuario.text, cpf.text, "2", carroId, senha.text);
+                  Usuario usuario = Usuario(
+                      nomeUsuario.text, cpf.text, "2", carroId, senha.text);
                   UsuarioService().cadastrarUsuario(usuario);
 
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Login(),
+                      builder: (context) =>
+                          AcaoBemSucedida("Cadastro efetuado com sucesso!"),
                     ),
                   );
                 },

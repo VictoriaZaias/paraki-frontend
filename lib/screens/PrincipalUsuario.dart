@@ -8,6 +8,7 @@ import '../components/ListaEstacionamento.dart';
 import '../http/EstacionamentoService.dart';
 import '../models/Estacionamento.dart';
 import '../models/Usuario.dart';
+import 'ReservasMotorista.dart';
 
 class PrincipalUsuario extends StatefulWidget {
   final Usuario user;
@@ -64,13 +65,17 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
                     isFavoriteVisible = !isFavoriteVisible;
                   }),
                 ),
-                /*
                 ActionButton(
                   tamanhoBotao: _tamanhoActionButtons,
                   simbolo: Icons.manage_search,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ReservasMotorista(user: widget.user)));
+                  },
                 ),
-                */
               ],
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:estacionamento/screens/EstacionamentosDono.dart';
 import 'package:estacionamento/screens/PerfilUsuario.dart';
+import 'package:estacionamento/screens/ReservasMotorista.dart';
 import 'package:flutter/material.dart';
 import '../components/ActionButton.dart';
 import '../components/Editor.dart';
@@ -63,6 +64,17 @@ class _PrincipalDonoState extends State<PrincipalDono> {
                   onPressed: () => setState(() {
                     isFavoriteVisible = !isFavoriteVisible;
                   }),
+                ),
+                ActionButton(
+                  tamanhoBotao: _tamanhoActionButtons,
+                  simbolo: Icons.manage_search,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ReservasMotorista(user: widget.user)));
+                  },
                 ),
                 ActionButton(
                   tamanhoBotao: _tamanhoActionButtons,

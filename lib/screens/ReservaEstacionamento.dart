@@ -1,3 +1,5 @@
+import 'package:estacionamento/components/DatePicker.dart';
+import 'package:estacionamento/components/TimePicker.dart';
 import 'package:estacionamento/http/ReservaService.dart';
 import 'package:estacionamento/models/Reserva.dart';
 import 'package:estacionamento/screens/Pagamento.dart';
@@ -51,6 +53,10 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
               Row(
                 children: [
                   Text("Dia: "),
+                  DatePicker(
+                    selectedDate: date,
+                  ),
+/*
                   OutlinedButton(
                     onPressed: () async {
                       final newDate = await showDatePicker(
@@ -80,12 +86,16 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
                     ),
                     child: Text(
                         '${numberFormat.format(date.day).toString()}/${numberFormat.format(date.month).toString()}/${numberFormat.format(date.year).toString()}'),
-                  ),
+                  ),*/
                 ],
               ),
               Row(
                 children: [
                   Text("Horário: "),
+                  TimePicker(
+                    selectedTime: timeEntrada,
+                  ),
+/*
                   OutlinedButton(
                     onPressed: () async {
                       final newTime = await showTimePicker(
@@ -113,7 +123,7 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
                     ),
                     child: Text(
                         '${numberFormat.format(timeEntrada.hour).toString()}:${numberFormat.format(timeEntrada.minute).toString()}'),
-                  ),
+                  ),*/
                 ],
               ),
             ],
@@ -124,6 +134,13 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
               Row(
                 children: [
                   Text("Horário: "),
+                  TimePicker(
+                    selectedTime: timeSaida,
+                    onChanged: (TimeOfDay? newTime) => setState(() {
+                      timeSaida = newTime!;
+                    }),
+                  ),
+/*
                   OutlinedButton(
                     onPressed: () async {
                       final newTime = await showTimePicker(
@@ -151,7 +168,7 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
                     ),
                     child: Text(
                         '${numberFormat.format(timeSaida.hour).toString()}:${numberFormat.format(timeSaida.minute).toString()}'),
-                  ),
+                  ),*/
                 ],
               ),
             ],
@@ -183,10 +200,18 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
                 widget.estacionamento.idEstacionamento,
                 //widget.estacionamento.valorHora,
               );
+              print('---------------------');
+              print(reserva.horarioEntrada.toString() +
+                  reserva.horarioSaida.toString());
+              print('---------------------------------');
               ReservaService()
                   .cadastrarReserva(reserva, widget.estacionamento.valorHora);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Pagamento(reserva: reserva,)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Pagamento(
+                            reserva: reserva,
+                          )));
             },
           ),
         ],

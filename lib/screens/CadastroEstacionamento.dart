@@ -1,4 +1,5 @@
 import 'package:estacionamento/components/ContainerDados.dart';
+import 'package:estacionamento/components/TimePicker.dart';
 import 'package:estacionamento/http/EnderecoService.dart';
 import 'package:estacionamento/http/estacionamentoService.dart';
 import 'package:estacionamento/models/Caracteristica.dart';
@@ -95,7 +96,8 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                 child: SizedBox(
                   width: 300.0,
                   child: Column(
-                    children: _dadosHorarios(aberturasEstacionamento, fechamentosEstacionamento),
+                    children: _dadosHorarios(
+                        aberturasEstacionamento, fechamentosEstacionamento),
                   ),
                 ),
               ),
@@ -212,7 +214,8 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
     );
   }
 
-  List<Widget> _dadosHorarios(List<TimeOfDay> aberturasEstacionamento, List<TimeOfDay> fechamentosEstacionamento) {
+  List<Widget> _dadosHorarios(List<TimeOfDay> aberturasEstacionamento,
+      List<TimeOfDay> fechamentosEstacionamento) {
     return [
       Padding(
         padding: const EdgeInsets.only(bottom: 2.0),
@@ -247,9 +250,13 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
             ),
             Row(
               children: [
-                _relogio(abertura),
+                TimePicker(
+                  selectedTime: abertura,
+                ),
                 Text(" - "),
-                _relogio(fechamento),
+                TimePicker(
+                  selectedTime: fechamento,
+                ),
               ],
             )
           ],
@@ -257,7 +264,7 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
       ],
     );
   }
-
+/*
   Widget _relogio(TimeOfDay horario) {
     return OutlinedButton(
       onPressed: () async {
@@ -287,5 +294,5 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
       child: Text(
           '${numberFormat.format(horario.hour).toString()}:${numberFormat.format(horario.minute).toString()}'),
     );
-  }
+  }*/
 }

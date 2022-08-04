@@ -26,7 +26,7 @@ class AcaoBemSucedida extends StatelessWidget {
               scale: 1.4,
             ),
             Button(
-              rotulo: "Página inicial",
+              rotulo: "Voltar",
               altura: 40.0,
               onPressed: () {
                 Navigator.pop(context);

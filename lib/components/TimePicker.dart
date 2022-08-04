@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TimePicker extends StatefulWidget {
+  late TimeOfDay? selectedTime;
+  final void Function(TimeOfDay?)? onChanged;
 
-  const TimePicker({
+  TimePicker({
     Key? key,
+    this.selectedTime,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -13,7 +17,13 @@ class TimePicker extends StatefulWidget {
 
 class _TimePickerState extends State<TimePicker> {
   NumberFormat numberFormat = new NumberFormat("00");
-  TimeOfDay selectedTime = TimeOfDay.now();
+  //var selectedTime;
+
+  @override
+  void initState() {
+    //selectedTime = widget.selectedTime!;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +31,7 @@ class _TimePickerState extends State<TimePicker> {
       onPressed: () async {
         final newTime = await showTimePicker(
           context: context,
-          initialTime: selectedTime,
+          initialTime: widget.selectedTime!,
           builder: (context, child) {
             return MediaQuery(
               data:
@@ -32,7 +42,7 @@ class _TimePickerState extends State<TimePicker> {
         );
         if (newTime != null) {
           setState(() {
-            selectedTime = newTime;
+            widget.selectedTime = newTime;
           });
         }
       },
@@ -43,7 +53,7 @@ class _TimePickerState extends State<TimePicker> {
         )),
       ),
       child: Text(
-          '${numberFormat.format(selectedTime.hour).toString()}:${numberFormat.format(selectedTime.minute).toString()}'),
+          '${numberFormat.format(widget.selectedTime!.hour).toString()}:${numberFormat.format(widget.selectedTime!.minute).toString()}'),
     );
   }
 }

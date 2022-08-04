@@ -59,6 +59,7 @@ class EstacionamentoService {
     for (var json in estacionamentoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       final Estacionamento estacionamento = Estacionamento(
+        idEstacionamento: json['idEstacionamento'],
         json['nomeEstacionamento'],
         json['CNPJ'],
         json['qtdTotalVagas'],
@@ -67,7 +68,6 @@ class EstacionamentoService {
         json['telefone'],
         json['valorHora'].toDouble(),
         endereco,
-        idEstacionamento: json['idEstacionamento'],
         isFavoritado: json['favorito'],
         hasCarregamentoEletrico: json['caracteristica'],
       );
@@ -81,7 +81,7 @@ class EstacionamentoService {
       interceptors: [LoggingInterceptor()],
     );
     final response = await client.get(Uri.parse(
-        '${urlPadrao}estacionamento/listarEstacionamentosDono' +
+        '${urlPadrao}estacionamento/listarEstacionamentosDono/' +
             idUsuario.toString()));
     final List<Estacionamento> estacionamentos = [];
     var estacionamentoJson = jsonDecode(response.body);

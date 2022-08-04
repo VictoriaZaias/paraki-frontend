@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import '../models/Reserva.dart';
 
 class DatePicker extends StatefulWidget {
-  final String? selectedDate;
+  final DateTime? selectedDate;
 
   DatePicker({
     Key? key,
@@ -17,7 +17,13 @@ class DatePicker extends StatefulWidget {
 
 class _DatePickerState extends State<DatePicker> {
   NumberFormat numberFormat = new NumberFormat("00");
-  DateTime date = DateTime.now();
+  var selectedDate;
+
+  @override
+  void initState() {
+    selectedDate = widget.selectedDate;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +44,7 @@ class _DatePickerState extends State<DatePicker> {
         );
         if (newDate != null) {
           setState(() {
-            date = newDate;
+            selectedDate = newDate;
           });
         }
       },
@@ -49,7 +55,7 @@ class _DatePickerState extends State<DatePicker> {
         )),
       ),
       child: Text(
-          '${numberFormat.format(date.day).toString()}/${numberFormat.format(date.month).toString()}/${numberFormat.format(date.year).toString()}'),
+          '${numberFormat.format(selectedDate.day).toString()}/${numberFormat.format(selectedDate.month).toString()}/${numberFormat.format(selectedDate.year).toString()}'),
     );
   }
 }
