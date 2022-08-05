@@ -211,7 +211,7 @@ class EstacionamentoService {
     };
 
     final String jsonEstacionamento = jsonEncode(estacionamentoMap);
-    await client.post(Uri.parse('${urlPadrao}tests/cadastrar'),
+    await client.post(Uri.parse('${urlPadrao}estacionamento/cadastrar'),
     headers: {"content-type": "application/json"}, body: jsonEstacionamento);
   }
 }

@@ -73,15 +73,15 @@ class UsuarioService {
     {
       final usuarioResponse =
           await client.get(Uri.parse('${urlPadrao}usuario/buscaPorCPF/$CPF'));
-
+      Usuario usuario = Usuario('', '', '', '', '');
       var jsonUsuario = jsonDecode(usuarioResponse.body);
-      final Usuario usuario = Usuario(
+      usuario = Usuario(
         jsonUsuario['result']['nomeUsuario'],
-        CPF,
+        jsonUsuario['result']['CPF'],
         jsonUsuario['result']['tipoUsuario'],
         jsonUsuario['result']['modeloCarro'],
         jsonUsuario['result']['senha'],
-        idUsuario: jsonUsuario['result']['idUsuario'],
+        idUsuario : jsonUsuario['result']['idUsuario'],
       );
 
       return usuario;
@@ -107,4 +107,18 @@ class UsuarioService {
         headers: {"content-type": "application/json"},
         body: jsonUsuario);
   }
+
+  Future<bool> validarCPF(String cpf) async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );
+    final respostaCPF = await client.get(Uri.parse('${urlPadrao}usuario/validarCPF/$cpf'));
+    var jsonValidar = jsonDecode(respostaCPF.body);
+    final String valido = jsonValidar['result'];
+    if (valido == "valido"){
+      return true;
+    }
+    return false;
+  }
+
 }

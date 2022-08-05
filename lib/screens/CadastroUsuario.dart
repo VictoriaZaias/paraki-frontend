@@ -26,7 +26,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   static const _dicaCampoConfirmaSenha = '00000000';
   static const _textoBotaoCadastrar = 'Cadastrar';
   static TextEditingController nomeUsuario = TextEditingController();
-  static TextEditingController cpf = TextEditingController();
+  static TextEditingController cpfControlador = TextEditingController();
   static TextEditingController senha = TextEditingController();
    static TextEditingController confirma = TextEditingController();
   static String? carro;
@@ -53,7 +53,15 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 rotulo: _rotuloCampoCPF,
                 dica: _dicaCampoCPF,
                 teclado: TextInputType.number,
-                controlador: cpf,
+                controlador: cpfControlador,
+                onSubmitted : (cpf) async{
+                  bool validado = await UsuarioService().validarCPF(cpf);
+                    if (cpf!="") {
+                      if (!validado) {
+                         cpfControlador.clear();
+                    }
+                  };
+                },
               ),
               DropdownSelect(
                 dica: "Tipo(s) de carro(s)",
@@ -96,7 +104,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
 
                   if (validarSenha(senha.text, confirma.text)){
                       Usuario usuario = Usuario(
-                        nomeUsuario.text, cpf.text, "2", carroId, senha.text);
+                        nomeUsuario.text, cpfControlador.text, "2", carroId, senha.text);
                       UsuarioService().cadastrarUsuario(usuario);
                       Navigator.pushReplacement(
                     context,

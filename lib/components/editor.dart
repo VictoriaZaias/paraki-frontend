@@ -13,6 +13,8 @@ class Editor extends StatelessWidget {
   final Function(String)? onSubmitted;
   final bool senha;
   final String? textoErro;
+  final Function(String)? onChanged;
+  final Function()? onTap;
 
   const Editor({
     Key? key,
@@ -26,6 +28,8 @@ class Editor extends StatelessWidget {
     this.teclado,
     this.enabled,
     this.onSubmitted,
+    this.onChanged,
+    this.onTap,
     this.senha = false,
     this.textoErro,
   }) : super(key: key);
@@ -39,6 +43,8 @@ class Editor extends StatelessWidget {
         //height: altura,
         child: TextFormField(
           enabled: enabled,
+          onChanged: onChanged,
+          onTap: onTap,
           onFieldSubmitted: onSubmitted,
           obscureText: senha,
           controller: controlador,

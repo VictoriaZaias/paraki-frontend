@@ -1,4 +1,4 @@
-import 'package:estacionamento/http/usuarioService.dart';
+import 'package:estacionamento/http/UsuarioService.dart';
 import 'package:estacionamento/models/Usuario.dart';
 import 'package:flutter/material.dart';
 import '../../components/ActionButton.dart';
@@ -61,7 +61,12 @@ class _AdminAlteraState extends State<AdminAltera> {
                 controlador: cpfControlador,
                 onSubmitted: (cpf) {
                   setState(() {
-                    _fetchUsuario(cpf, nomeUsuarioControlador, tipoUsuarioControlador);
+                    nomeUsuarioControlador.clear();
+                    tipoUsuarioControlador.clear();
+                    if (cpf!="") {
+                      _fetchUsuario(cpf, nomeUsuarioControlador, tipoUsuarioControlador);
+                    }
+                    cpfControlador.clear();
                   });
                 },
               ),
@@ -108,8 +113,14 @@ class _AdminAlteraState extends State<AdminAltera> {
   }
 
   Future _fetchUsuario(String cpf, TextEditingController nome, TextEditingController tipo) async {
-    Usuario usuario = await UsuarioService().buscarUsuario(cpf);
-    nome.text = usuario.nomeUsuario;
-    tipo.text = usuario.tipo;
+    if (cpf!="") {
+      Usuario usuario = await UsuarioService().buscarUsuario(cpf);
+      if (usuario != null){
+        nome.text = usuario.nomeUsuario;
+        tipo.text = usuario.tipo;
+      }
+    }
+   
+    
   }
 }
