@@ -25,11 +25,16 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   static const _rotuloCampoConfirmaSenha = 'Confirmar senha';
   static const _dicaCampoConfirmaSenha = '00000000';
   static const _textoBotaoCadastrar = 'Cadastrar';
+
   static TextEditingController nomeUsuario = TextEditingController();
   static TextEditingController cpfControlador = TextEditingController();
   static TextEditingController senha = TextEditingController();
-   static TextEditingController confirma = TextEditingController();
+  static TextEditingController confirma = TextEditingController();
   static String? carro;
+
+  String? textoErroCPF = null;
+  String? textoErroSenha = null;
+  bool cpfValidacao = false;
 
   @override
   Widget build(BuildContext context) {
@@ -53,14 +58,10 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 rotulo: _rotuloCampoCPF,
                 dica: _dicaCampoCPF,
                 teclado: TextInputType.number,
+                textoErro: textoErroCPF,
                 controlador: cpfControlador,
-                onSubmitted : (cpf) async{
-                  bool validado = await UsuarioService().validarCPF(cpf);
-                    if (cpf!="") {
-                      if (!validado) {
-                         cpfControlador.clear();
-                    }
-                  };
+                onSubmitted: (cpf) async {
+                  cpfValidacao = await UsuarioService().validarCPF(cpf);
                 },
               ),
               DropdownSelect(
@@ -81,6 +82,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
               Editor(
                 rotulo: _rotuloCampoConfirmaSenha,
                 dica: _dicaCampoConfirmaSenha,
+                textoErro: textoErroSenha,
                 controlador: confirma,
                 senha: true,
               ),
@@ -102,24 +104,32 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       carroId = '4';
                   }
 
-                  if (validarSenha(senha.text, confirma.text)){
-                      Usuario usuario = Usuario(
-                        nomeUsuario.text, cpfControlador.text, "2", carroId, senha.text);
-                      UsuarioService().cadastrarUsuario(usuario);
-                      Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          AcaoBemSucedida("Cadastro efetuado com sucesso!"),
-                    ),
-                  );
-                  }else{
-                    senha.clear();
-                    confirma.clear();
+                  if (validarSenha(senha.text, confirma.text) && cpfValidacao) {
+                    Usuario usuario = Usuario(nomeUsuario.text,
+                        cpfControlador.text, "2", carroId, senha.text);
+                    UsuarioService().cadastrarUsuario(usuario);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            AcaoBemSucedida("Cadastro efetuado com sucesso!"),
+                      ),
+                    );
+                  } else {
+                    if (validarSenha(senha.text, confirma.text) != true) {
+                      setState(() {
+                        textoErroSenha = "As senhas não são iguais.";
+                      });
+                      senha.clear();
+                      confirma.clear();
+                    }
+                    if (cpfValidacao != true) {
+                      setState(() {
+                        textoErroCPF = "CPF inválido.";
+                      });
+                      cpfControlador.clear();
+                    }
                   }
-                  
-
-                  
                 },
               ),
             ],
@@ -129,7 +139,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     );
   }
 
-  bool validarSenha(String senha, String confirma){
+  bool validarSenha(String senha, String confirma) {
     if (senha == confirma) {
       return true;
     }

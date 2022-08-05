@@ -25,11 +25,15 @@ class _AdminCadastroState extends State<AdminCadastro> {
   static const _dicaCampoConfirmaSenha = '00000000';
   static const _textoBotaoCadastrar = 'Cadastrar';
   static TextEditingController nomeUsuario = TextEditingController();
-  static TextEditingController cpf = TextEditingController();
+  static TextEditingController cpfControlador = TextEditingController();
   static TextEditingController senha = TextEditingController();
-   static TextEditingController confirma = TextEditingController();
+  static TextEditingController confirma = TextEditingController();
   static String? carro;
   static String? vinculoUsuario;
+
+  String? textoErroCPF = null;
+  String? textoErroSenha = null;
+  bool cpfValidacao = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +71,11 @@ class _AdminCadastroState extends State<AdminCadastro> {
                 rotulo: _rotuloCampoCPF,
                 dica: _dicaCampoCPF,
                 teclado: TextInputType.number,
-                controlador: cpf,
+                textoErro: textoErroCPF,
+                controlador: cpfControlador,
+                onSubmitted: (cpf) async {
+                  cpfValidacao = await UsuarioService().validarCPF(cpf);
+                },
               ),
               DropdownSelect(
                 dica: "Tipo(s) de carro(s)",
@@ -78,6 +86,7 @@ class _AdminCadastroState extends State<AdminCadastro> {
                 }),
                 getRotulo: (String valor) => valor,
               ),
+              /*
               DropdownSelect(
                 dica: "Tipo usuário",
                 opcoes: ["Motorista", "Dono de estacionamento"],
@@ -87,6 +96,7 @@ class _AdminCadastroState extends State<AdminCadastro> {
                 }),
                 getRotulo: (String valor) => valor,
               ),
+              */
               Editor(
                 rotulo: _rotuloCampoSenha,
                 dica: _dicaCampoSenha,
@@ -96,6 +106,7 @@ class _AdminCadastroState extends State<AdminCadastro> {
               Editor(
                 rotulo: _rotuloCampoConfirmaSenha,
                 dica: _dicaCampoConfirmaSenha,
+                textoErro: textoErroSenha,
                 controlador: confirma,
                 senha: true,
               ),
@@ -128,20 +139,33 @@ class _AdminCadastroState extends State<AdminCadastro> {
                       default:
                         carroId = '4';
                     }
-                    if (validarSenha(senha.text, confirma.text)){
-                    Usuario usuario = Usuario(nomeUsuario.text, cpf.text,
-                        vinculoId, carroId, senha.text);
-                    UsuarioService().cadastrarUsuario(usuario);
-
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AcaoBemSucedida("Motorista cadastrado com sucesso!")),
-                    );
-                    }else{
-                    senha.clear();
-                    confirma.clear();
-                  }
+                    if (validarSenha(senha.text, confirma.text) &&
+                        cpfValidacao) {
+                      Usuario usuario = Usuario(nomeUsuario.text,
+                          cpfControlador.text, "2", carroId, senha.text);
+                      UsuarioService().cadastrarUsuario(usuario);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              AcaoBemSucedida("Cadastro efetuado com sucesso!"),
+                        ),
+                      );
+                    } else {
+                      if (validarSenha(senha.text, confirma.text) != true) {
+                        setState(() {
+                          textoErroSenha = "As senhas não são iguais.";
+                        });
+                        senha.clear();
+                        confirma.clear();
+                      }
+                      if (cpfValidacao != true) {
+                        setState(() {
+                          textoErroCPF = "CPF inválido.";
+                        });
+                        cpfControlador.clear();
+                      }
+                    }
                   },
                 ),
               ),
@@ -151,11 +175,11 @@ class _AdminCadastroState extends State<AdminCadastro> {
       ),
     );
   }
-  bool validarSenha(String senha, String confirma){
+
+  bool validarSenha(String senha, String confirma) {
     if (senha == confirma) {
       return true;
     }
     return false;
   }
-
 }

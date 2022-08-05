@@ -24,11 +24,12 @@ class _LoginState extends State<Login> {
   static const _dicaCampoSenha = '00000000';
   static const _textoBotaoEntrar = 'Entrar';
   static const _textoBotaoCadastrar = 'Cadastrar';
-  String? textoErro = null;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _controladorCpf = TextEditingController();
   final TextEditingController _controladorSenha = TextEditingController();
+  
+  String? textoErro = null;
 
   //
   late SharedPreferences logindata;
@@ -88,10 +89,10 @@ class _LoginState extends State<Login> {
               Button(
                 rotulo: _textoBotaoEntrar,
                 onPressed: () async {
-                  //validateAndSave();
+                  validateAndSave();
                   var usuario = await LoginService().validarLogin(
                       _controladorCpf.text, _controladorSenha.text);
-                  if (usuario.idUsuario == 0) {
+                  if (usuario.nomeUsuario == "") {
                     setState(() {
                       textoErro = "CPF ou senha inválidos!";
                     });

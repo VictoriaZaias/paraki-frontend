@@ -126,7 +126,7 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
             Padding(
               padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 30.0),
               child: Button(
-                rotulo: "Reservar",
+                rotulo: "Reserve",
                 onPressed: () {
                   Navigator.push(
                     context,

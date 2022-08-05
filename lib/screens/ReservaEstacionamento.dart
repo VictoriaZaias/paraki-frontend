@@ -180,46 +180,54 @@ class _ReservaEstacionamentoState extends State<ReservaEstacionamento> {
               ),
             ],
           ),
-          Button(
-            rotulo: "Reservar",
-            onPressed: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              int? idUsuario = await prefs.getInt('USER_ID');
-              var dataReserva = date.year.toString() +
-                  "-" +
-                  date.month.toString() +
-                  "-" +
-                  date.day.toString();
-              var horarioEntrada = timeEntrada.hour.toString() +
-                  ":" +
-                  timeEntrada.minute.toString() +
-                  ":00";
-              var horarioSaida = timeSaida.hour.toString() +
-                  ":" +
-                  timeSaida.minute.toString() +
-                  ":00";
-              Reserva reserva = Reserva(
-                0,
-                dataReserva,
-                horarioEntrada,
-                horarioSaida,
-                idUsuario,
-                estacionamento: widget.estacionamento,
-                //widget.estacionamento.valorHora,
-              );
-              print('---------------------');
-              print(reserva.horarioEntrada.toString() +
-                  reserva.horarioSaida.toString());
-              print('---------------------------------');
-              ReservaService()
-                  .cadastrarReserva(reserva, widget.estacionamento.valorHora!, widget.estacionamento.idEstacionamento!);
-              Navigator.push(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 100),
+            child: Button(
+              rotulo: "Última etapa",
+              onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                int? idUsuario = await prefs.getInt('USER_ID');
+                var dataReserva = date.year.toString() +
+                    "-" +
+                    date.month.toString() +
+                    "-" +
+                    date.day.toString();
+                var horarioEntrada = timeEntrada.hour.toString() +
+                    ":" +
+                    timeEntrada.minute.toString() +
+                    ":00";
+                var horarioSaida = timeSaida.hour.toString() +
+                    ":" +
+                    timeSaida.minute.toString() +
+                    ":00";
+                Reserva reserva = Reserva(
+                  0,
+                  dataReserva,
+                  horarioEntrada,
+                  horarioSaida,
+                  idUsuario,
+                  estacionamento: widget.estacionamento,
+                  //widget.estacionamento.valorHora,
+                );
+                print('---------------------');
+                print(reserva.horarioEntrada.toString() +
+                    reserva.horarioSaida.toString());
+                print('---------------------------------');
+                ReservaService().cadastrarReserva(
+                  reserva,
+                  widget.estacionamento.valorHora!,
+                  widget.estacionamento.idEstacionamento!,
+                );
+                Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Pagamento(
-                            reserva: reserva,
-                          )));
-            },
+                    builder: (context) => Pagamento(
+                      reserva: reserva,
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
