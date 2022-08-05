@@ -523,7 +523,7 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                       caracteristicas: caracteristicas,
                     );
                     EstacionamentoService()
-                        .cadastrarEstacionamento(estacionamento, idEndereco);
+                        .cadastrarEstacionamento(estacionamento, idEndereco, widget.idUsuario);
                   },
                 ),
               ),
