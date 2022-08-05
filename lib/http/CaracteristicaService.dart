@@ -68,20 +68,4 @@ class CaracteristicaService {
     }
     return caracteristicas;
   }
-
-  void cadastrarCaracteristica(List<Caracteristica> caracteristica, idEstacionamento) async {
-    final Client client = InterceptedClient.build(
-      interceptors: [LoggingInterceptor()],
-    );
-    final Map<String, dynamic> caracteristicaMap = {
-      'caracteristica': caracteristica,
-      'idEstacionamento': idEstacionamento
-    };
-
-    final String jsonCaracteristica = jsonEncode(caracteristicaMap);
-    print("------------------------");
-    print(jsonCaracteristica);
-   // await client.post(Uri.parse('${urlPadrao}caracteristica/cadastrar'),
-       // headers: {"content-type": "application/json"}, body: jsonCaracteristica);
-  }
 }

@@ -28,6 +28,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   static TextEditingController nomeUsuario = TextEditingController();
   static TextEditingController cpf = TextEditingController();
   static TextEditingController senha = TextEditingController();
+   static TextEditingController confirma = TextEditingController();
   static String? carro;
 
   @override
@@ -72,6 +73,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
               Editor(
                 rotulo: _rotuloCampoConfirmaSenha,
                 dica: _dicaCampoConfirmaSenha,
+                controlador: confirma,
                 senha: true,
               ),
               Button(
@@ -91,17 +93,25 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     default:
                       carroId = '4';
                   }
-                  Usuario usuario = Usuario(
-                      nomeUsuario.text, cpf.text, "2", carroId, senha.text);
-                  UsuarioService().cadastrarUsuario(usuario);
 
-                  Navigator.pushReplacement(
+                  if (validarSenha(senha.text, confirma.text)){
+                      Usuario usuario = Usuario(
+                        nomeUsuario.text, cpf.text, "2", carroId, senha.text);
+                      UsuarioService().cadastrarUsuario(usuario);
+                      Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
                           AcaoBemSucedida("Cadastro efetuado com sucesso!"),
                     ),
                   );
+                  }else{
+                    senha.clear();
+                    confirma.clear();
+                  }
+                  
+
+                  
                 },
               ),
             ],
@@ -109,5 +119,12 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
         ),
       ),
     );
+  }
+
+  bool validarSenha(String senha, String confirma){
+    if (senha == confirma) {
+      return true;
+    }
+    return false;
   }
 }

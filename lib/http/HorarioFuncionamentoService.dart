@@ -50,20 +50,4 @@ class HorarioFuncionamentoService{
   }
   return horarios;
  }
-
- void cadastrarHorario(HorarioFuncionamento horarioFuncionamento, idEstacionamento) async {
-    final Client client = InterceptedClient.build(
-      interceptors: [LoggingInterceptor()],
-    );
-    final Map<String, dynamic> horarioMap = {
-      'diaSemana': horarioFuncionamento.diaSemana,
-      'horarioInicio': horarioFuncionamento.horarioInicio,
-      'horarioFim': horarioFuncionamento.horarioFim,
-      'idEstacionamento': idEstacionamento
-    };
-
-    final String jsonHorario = jsonEncode(horarioMap);
-    await client.post(Uri.parse('${urlPadrao}horario/cadastrar'),
-        headers: {"content-type": "application/json"}, body: jsonHorario);
-  }
 }

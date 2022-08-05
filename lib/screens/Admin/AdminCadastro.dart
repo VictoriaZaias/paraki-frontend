@@ -27,6 +27,7 @@ class _AdminCadastroState extends State<AdminCadastro> {
   static TextEditingController nomeUsuario = TextEditingController();
   static TextEditingController cpf = TextEditingController();
   static TextEditingController senha = TextEditingController();
+   static TextEditingController confirma = TextEditingController();
   static String? carro;
   static String? vinculoUsuario;
 
@@ -95,6 +96,7 @@ class _AdminCadastroState extends State<AdminCadastro> {
               Editor(
                 rotulo: _rotuloCampoConfirmaSenha,
                 dica: _dicaCampoConfirmaSenha,
+                controlador: confirma,
                 senha: true,
               ),
               Padding(
@@ -126,6 +128,7 @@ class _AdminCadastroState extends State<AdminCadastro> {
                       default:
                         carroId = '4';
                     }
+                    if (validarSenha(senha.text, confirma.text)){
                     Usuario usuario = Usuario(nomeUsuario.text, cpf.text,
                         vinculoId, carroId, senha.text);
                     UsuarioService().cadastrarUsuario(usuario);
@@ -135,6 +138,10 @@ class _AdminCadastroState extends State<AdminCadastro> {
                       MaterialPageRoute(
                           builder: (context) => AcaoBemSucedida("Motorista cadastrado com sucesso!")),
                     );
+                    }else{
+                    senha.clear();
+                    confirma.clear();
+                  }
                   },
                 ),
               ),
@@ -144,4 +151,11 @@ class _AdminCadastroState extends State<AdminCadastro> {
       ),
     );
   }
+  bool validarSenha(String senha, String confirma){
+    if (senha == confirma) {
+      return true;
+    }
+    return false;
+  }
+
 }

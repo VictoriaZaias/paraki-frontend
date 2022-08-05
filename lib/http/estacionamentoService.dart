@@ -183,7 +183,7 @@ class EstacionamentoService {
     final Map<String, dynamic> horarioSabMap = {};
     final Map<String, dynamic> horarioDomMap = {};
     for (var e in estacionamento.horarios!){
-      if (e.diaSemana == "Seg-Sex") {
+      if (e.diaSemana == "semanal") {
         horarioSemanalMap.putIfAbsent("horarioInicio", () => e.horarioInicio);
          horarioSemanalMap.putIfAbsent("horarioFim", () => e.horarioFim);
       } else if (e.diaSemana == "Dom") {
@@ -205,7 +205,7 @@ class EstacionamentoService {
       'caracteristica' : caracteristicaMap,
       'nroEstacionamento' : estacionamento.nroEstacionamento,
       'usuario' : idUsuario,
-      'seg-sex' : horarioSemanalMap,
+      'semanal' : horarioSemanalMap,
       'dom' : horarioDomMap,
       'sab' : horarioSabMap
     };

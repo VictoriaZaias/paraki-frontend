@@ -505,7 +505,7 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
     
                     List<HorarioFuncionamento> horarios = [];
                     horarios.add(HorarioFuncionamento(0, horarioAberturaSemana,
-                        horarioFechamentoSemana, "Seg-Sex"));
+                        horarioFechamentoSemana, "semanal"));
                     horarios.add(HorarioFuncionamento(
                         0, horarioAberturaSab, horarioFechamentoSab, "Sab"));
                     horarios.add(HorarioFuncionamento(
