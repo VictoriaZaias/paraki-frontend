@@ -15,7 +15,7 @@ class ParakiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Login(),
+      home: Inicial(),
       title: 'Paraki',
       theme: appTheme(),
       debugShowCheckedModeBanner: false,

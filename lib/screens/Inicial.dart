@@ -1,6 +1,12 @@
 import 'dart:async';
 import 'package:estacionamento/screens/Login.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/Usuario.dart';
+import 'Admin/PrincipalAdmin.dart';
+import 'Dono/PrincipalDono.dart';
+import 'PrincipalUsuario.dart';
 
 class Inicial extends StatefulWidget {
   const Inicial({Key? key}) : super(key: key);
@@ -9,30 +15,54 @@ class Inicial extends StatefulWidget {
   State<Inicial> createState() => _InicialState();
 }
 
-class _InicialState extends State<Inicial> {
-  late Timer timer;
-  int counter = 0;
+class _InicialState extends State<Inicial> with SingleTickerProviderStateMixin {
+  late SharedPreferences logindata;
+  late bool newuser;
+
+  static List _images = <Image>[
+    Image.asset(
+      'assets/images/pk-0.png',
+      scale: 2.5,
+    ),
+    Image.asset(
+      'assets/images/pk-1.png',
+      scale: 2.5,
+    ),
+    Image.asset(
+      'assets/images/pk-2.png',
+      scale: 2.5,
+    ),
+    Image.asset(
+      'assets/images/pk-3.png',
+      scale: 2.5,
+    ),
+  ];
+
+  Timer? timer;
+  int index = 0;
 
   @override
   void initState() {
-    /*
-    timer = new Timer(const Duration(seconds: 4), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Login()),
-      );
-    });
-    */
-    timer = Timer.periodic(
-        Duration(seconds: 1), (_) => setState(() => counter += 1));
     super.initState();
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (index < _images.length - 1) {
+        setState(() {
+          index++;
+        });
+      }
+      if (index == _images.length - 1) {
+        timer.cancel();
+        Future.delayed(const Duration(seconds: 1), () {
+          check_if_already_login();
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    timer!.cancel();
     super.dispose();
-    timer.cancel();
   }
 
   @override
@@ -40,58 +70,54 @@ class _InicialState extends State<Inicial> {
     return Scaffold(
       body: Center(
         child: AnimatedSwitcher(
-          child: _animationPk(),
-          duration: const Duration(seconds: 4),
-          /*
-          transitionBuilder: (Widget child, Animation<double> animation) {
-            return AnimatedSwitcher.defaultTransitionBuilder(child, animation);
-          },*/
+          duration: const Duration(milliseconds: 500),
+          child: Container(
+            key: ValueKey(_images[index]),
+            child: _images[index],
+          ),
         ),
       ),
     );
   }
 
-  Widget? _animationPk() {
-    switch (counter) {
-      case 0:
-        return _renderParakiZero();
-      case 1:
-        return _renderParakiUm();
-      case 2:
-        return _renderParakiDois();
-      case 3:
-        return _renderParakiTres();
-      default:
-        dispose();
-        return null;
+  void check_if_already_login() async {
+    logindata = await SharedPreferences.getInstance();
+    newuser = (logindata.getBool('login') ?? true);
+    if (newuser == false) {
+      Usuario usuario = Usuario(
+        logindata.getString('username')!,
+        logindata.getString('cpf')!,
+        logindata.getString('tipo_user')!,
+        logindata.getString('modelo_carro')!,
+        logindata.getString('senha_user')!,
+        idUsuario: logindata.getInt('id_user')!,
+      );
+      if (usuario.tipo == "Motorista") {
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PrincipalUsuario(user: usuario)),
+        );
+      } else if (usuario.tipo == "Administrador") {
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => PrincipalAdmin()),
+        );
+      } else if (usuario.tipo == "Dono de estacionamento") {
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => PrincipalDono(user: usuario)),
+        );
+      }
+    } else {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Login()),
+      );
     }
-  }
-
-  Widget _renderParakiZero() {
-    return Image.asset(
-      'assets/images/pk-0.png',
-      scale: 2.5,
-    );
-  }
-
-  Widget _renderParakiUm() {
-    return Image.asset(
-      'assets/images/pk-1.png',
-      scale: 2.5,
-    );
-  }
-
-  Widget _renderParakiDois() {
-    return Image.asset(
-      'assets/images/pk-2.png',
-      scale: 2.5,
-    );
-  }
-
-  Widget _renderParakiTres() {
-    return Image.asset(
-      'assets/images/pk-3.png',
-      scale: 2.5,
-    );
   }
 }
