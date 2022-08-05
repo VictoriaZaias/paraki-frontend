@@ -1,7 +1,8 @@
+import 'package:estacionamento/screens/Dono/CadastroEstacionamento.dart';
 import 'package:estacionamento/screens/Inicial.dart';
 import 'package:flutter/material.dart';
 import 'screens/Admin/PrincipalAdmin.dart';
-import 'screens/CadastroEstacionamento.dart';
+
 import 'screens/Login.dart';
 import 'theme/style_one.dart';
 

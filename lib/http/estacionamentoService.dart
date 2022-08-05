@@ -168,7 +168,7 @@ class EstacionamentoService {
   }
 
   void cadastrarEstacionamento(
-      Estacionamento estacionamento, idEndereco) async {
+      Estacionamento estacionamento, idEndereco, idUsuario) async {
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
     );
@@ -193,8 +193,6 @@ class EstacionamentoService {
         horarioSabMap.putIfAbsent("horarioInicio", () => e.horarioInicio);
          horarioSabMap.putIfAbsent("horarioFim", () => e.horarioFim);
       }
-      
-      i++;
     }
 
     final Map<String, dynamic> estacionamentoMap = {
@@ -205,16 +203,14 @@ class EstacionamentoService {
       'telefone': estacionamento.telefone,
       'valorHora': estacionamento.valorHora,
       'caracteristica' : caracteristicaMap,
+      'nroEstacionamento' : estacionamento.nroEstacionamento,
+      'usuario' : idUsuario,
       'seg-sex' : horarioSemanalMap,
       'dom' : horarioDomMap,
       'sab' : horarioSabMap
     };
 
-    print(estacionamentoMap);
-
-    print("---------PPPP---------");
     final String jsonEstacionamento = jsonEncode(estacionamentoMap);
-    //print(jsonEstacionamento);
     await client.post(Uri.parse('${urlPadrao}tests/cadastrar'),
     headers: {"content-type": "application/json"}, body: jsonEstacionamento);
   }
