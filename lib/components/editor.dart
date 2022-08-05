@@ -9,6 +9,7 @@ class Editor extends StatelessWidget {
   final String? dica;
   final IconData? icone;
   final TextInputType? teclado;
+  final bool? enabled;
   final Function(String)? onSubmitted;
   final bool senha;
   final String? textoErro;
@@ -23,6 +24,7 @@ class Editor extends StatelessWidget {
     this.dica,
     this.icone,
     this.teclado,
+    this.enabled,
     this.onSubmitted,
     this.senha = false,
     this.textoErro,
@@ -36,6 +38,7 @@ class Editor extends StatelessWidget {
         width: largura,
         //height: altura,
         child: TextFormField(
+          enabled: enabled,
           onFieldSubmitted: onSubmitted,
           obscureText: senha,
           controller: controlador,

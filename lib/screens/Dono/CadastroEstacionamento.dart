@@ -30,6 +30,10 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
   static const _rotuloCampoNomeEstacionamento = 'Nome do estacionamento';
   static const _rotuloCampoCNPJ = 'CNPJ';
   static const _rotuloCampoCEP = 'CEP';
+  static const _rotuloCampoLogradouro = 'Logradouro';
+  static const _rotuloCampoBairro = 'Bairro';
+  static const _rotuloCampoCidade = 'Cidade';
+  static const _rotuloCampoUnidadeFederativa = 'Estado';
   static const _rotuloCampoNumero = 'Numero';
   static const _rotuloCampoTelefone = 'Telefone';
   static const _rotuloCampoTotalVagas = 'Quantidade de vagas';
@@ -38,6 +42,10 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
   static TextEditingController nomeEstacionamento = TextEditingController();
   static TextEditingController cnpj = TextEditingController();
   static TextEditingController cep = TextEditingController();
+  static TextEditingController logradouro = TextEditingController();
+  static TextEditingController bairro = TextEditingController();
+  static TextEditingController cidade = TextEditingController();
+  static TextEditingController unidadeFederativa = TextEditingController();
   static TextEditingController numero = TextEditingController();
   static TextEditingController telefone = TextEditingController();
   static TextEditingController totalVagas = TextEditingController();
@@ -46,9 +54,30 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
       List<TimeOfDay>.filled(3, TimeOfDay(hour: 0, minute: 0));
   static List<TimeOfDay> fechamentosEstacionamento =
       List<TimeOfDay>.filled(3, TimeOfDay(hour: 0, minute: 0));
+  ListaCaracteristicas? listaCaracteristicas;
   static List<Caracteristica> caracteristicas = [];
   NumberFormat numberFormat = new NumberFormat("00");
 
+  @override
+  void initState() {
+    //pegaCaracteristicas();
+    listaCaracteristicas = ListaCaracteristicas(
+      CaracteristicaService().listarTodasCaracteristicas(),
+      isCheckbox: true,
+      isChecked: caracteristicas,
+    );
+    super.initState();
+  }
+
+/*
+  pegaCaracteristicas() async {
+    listaCaracteristicas = await ListaCaracteristicas(
+      CaracteristicaService().listarTodasCaracteristicas(),
+      isCheckbox: true,
+      isChecked: caracteristicas,
+    );
+  }
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,6 +103,32 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
               Editor(
                 rotulo: _rotuloCampoCEP,
                 controlador: cep,
+                onSubmitted: (cep) {
+                  setState(() {
+                    _fetchEndereco(
+                        cep, logradouro, bairro, cidade, unidadeFederativa);
+                  });
+                },
+              ),
+              Editor(
+                rotulo: _rotuloCampoLogradouro,
+                controlador: logradouro,
+                enabled: false,
+              ),
+              Editor(
+                rotulo: _rotuloCampoBairro,
+                controlador: bairro,
+                enabled: false,
+              ),
+              Editor(
+                rotulo: _rotuloCampoCidade,
+                controlador: cidade,
+                enabled: false,
+              ),
+              Editor(
+                rotulo: _rotuloCampoUnidadeFederativa,
+                controlador: unidadeFederativa,
+                enabled: false,
               ),
               Editor(
                 rotulo: _rotuloCampoNumero,
@@ -392,12 +447,9 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                         ),
                       ),
                       SizedBox(
-                        height: 180.0,
-                        child: ListaCaracteristicas(
-                          CaracteristicaService().listarTodasCaracteristicas(),
-                          isCheckbox: true,
-                          isChecked: caracteristicas,
-                        ),
+                        height: 180,
+                        /** caracteristicas.length,*/
+                        child: listaCaracteristicas,
                       ),
                     ],
                   ),
@@ -409,8 +461,13 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                   rotulo: _textoBotaoCadastrar,
                   onPressed: () async {
 
-                    Endereco endereco =
-                        await EnderecoService().buscarPorCEP(cep.text);
+                    Endereco endereco = Endereco(
+                        1,
+                        bairro.text,
+                        logradouro.text,
+                        cidade.text,
+                        unidadeFederativa.text,
+                        cep.text);
                     EnderecoService().cadastrarEndereco(endereco);
                     int idEndereco =
                         await EnderecoService().buscarIdCEP(endereco.cep);
@@ -475,6 +532,19 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
         ),
       ),
     );
+  }
+
+  Future _fetchEndereco(
+      String cep,
+      TextEditingController logradouro,
+      TextEditingController bairro,
+      TextEditingController cidade,
+      TextEditingController uf) async {
+    Endereco endereco = await EnderecoService().buscarPorCEP(cep);
+    logradouro.text = endereco.logradouro;
+    bairro.text = endereco.bairro;
+    cidade.text = endereco.cidade;
+    uf.text = endereco.unidadeFederativa;
   }
 /*
   List<Widget> _dadosHorarios(List<TimeOfDay> aberturasEstacionamento,

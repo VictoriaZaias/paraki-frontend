@@ -14,7 +14,7 @@ class AdminAltera extends StatefulWidget {
 }
 
 class _AdminAlteraState extends State<AdminAltera> {
-  static const _rotuloCampoNomeUsuarioCadastroUsuario = 'Nome completo';
+  static const _rotuloCampoNomeUsuario = 'Nome completo';
   static const _rotuloTipoUsuario = 'Tipo usuário';
   static const _textoBotaoAtualizar = 'Atualizar';
   static TextEditingController nomeUsuarioControlador = TextEditingController();
@@ -74,13 +74,15 @@ class _AdminAlteraState extends State<AdminAltera> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Editor(
-              rotulo: _rotuloCampoNomeUsuarioCadastroUsuario,
+              rotulo: _rotuloCampoNomeUsuario,
               controlador: nomeUsuarioControlador,
+              enabled: false,
             ),
             Editor(
               rotulo: _rotuloTipoUsuario,
               teclado: TextInputType.number,
               controlador: tipoUsuarioControlador,
+              enabled: false,
             ),
             SizedBox(
               child: Column(
@@ -93,7 +95,7 @@ class _AdminAlteraState extends State<AdminAltera> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => AcaoBemSucedida(
-                                  "Usuário atualizado com sucesso!")));
+                                  "Usuário alterado com sucesso!")));
                     },
                   ),
                 ],
