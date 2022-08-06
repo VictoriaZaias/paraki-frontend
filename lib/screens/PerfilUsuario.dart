@@ -2,6 +2,7 @@ import 'package:estacionamento/components/ActionButton.dart';
 import 'package:estacionamento/models/Usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../components/DropdownSelect.dart';
 import 'Login.dart';
 
 class PerfilUsuario extends StatefulWidget {
@@ -16,15 +17,19 @@ class PerfilUsuario extends StatefulWidget {
 }
 
 class _PerfilUsuarioState extends State<PerfilUsuario> {
-  //
+  late TextEditingController novaSenhaController;
+  late TextEditingController novaConfirmaSenhaController;
+  late TextEditingController novoModeloCarroController;
   late SharedPreferences logindata;
   late String username;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initial();
+    novaSenhaController = TextEditingController();
+    novaConfirmaSenhaController = TextEditingController();
+    novoModeloCarroController = TextEditingController();
   }
 
   void initial() async {
@@ -34,7 +39,14 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
     });
   }
 
-  //
+  @override
+  void dispose() {
+    novaSenhaController.dispose();
+    novaConfirmaSenhaController.dispose();
+    novoModeloCarroController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,70 +87,193 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
       ),
       body: Column(
         children: [
-          dadosUsuario("CPF", widget.user.cpf, null, null),
-          dadosUsuario("Senha", widget.user.senha, Icons.edit, null),
-          dadosUsuario("Modelo do(s) carro(s)", widget.user.modeloCarro,
-              Icons.edit, null),
-          dadosUsuario("Sair do app", null, Icons.logout_rounded, _logOut()),
+          Container(
+            decoration: decorationDadosPerfil(),
+            child: ListTile(
+              title: Text("CPF"),
+              subtitle: Text(widget.user.cpf),
+            ),
+          ),
+          Container(
+            decoration: decorationDadosPerfil(),
+            child: ListTile(
+              title: Text("Senha"),
+              subtitle: Text(widget.user.senha),
+              trailing: IconButton(
+                onPressed: () {
+                  novaSenha(novaSenhaController, novaConfirmaSenhaController);
+                },
+                icon: Icon(
+                  Icons.edit,
+                  color: Color(0xFFEDE4E2),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            decoration: decorationDadosPerfil(),
+            child: ListTile(
+              title: Text("Modelo do(s) carro(s)"),
+              subtitle: Text(widget.user.modeloCarro),
+              trailing: IconButton(
+                onPressed: () {
+                  novoModeloCarro();
+                },
+                icon: Icon(
+                  Icons.edit,
+                  color: Color(0xFFEDE4E2),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            decoration: decorationDadosPerfil(),
+            child: ListTile(
+              title: Text("Sair"),
+              trailing: IconButton(
+                onPressed: _logOut(),
+                icon: Icon(
+                  Icons.logout_rounded,
+                  color: Color(0xFFEDE4E2),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Container dadosUsuario(
-      String titulo, String? dado, IconData? icone, Function()? onPressed) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Color(0xFFB497F2),
-            width: 1.5,
-          ),
+  BoxDecoration decorationDadosPerfil() {
+    return BoxDecoration(
+      border: Border(
+        bottom: BorderSide(
+          color: Color(0xFFB497F2),
+          width: 1.5,
         ),
-      ),
-      child: ListTile(
-        title: Text(titulo),
-        subtitle: dado != null ? Text(dado) : null,
-        trailing: icone != null
-            ? IconButton(
-                onPressed: onPressed,
-                icon: Icon(
-                  icone,
-                  color: Color(0xFFEDE4E2),
-                ),
-              )
-            : null,
       ),
     );
   }
 
-  Function? openDialog() {
-    return () {
-      showDialog(
-          context: context,
-          builder: (context) => Theme(
-                data: Theme.of(context).copyWith(
-                    colorScheme: ColorScheme.light(
-                  primary: Color(0xFFB497F2),
-                )),
-                child: AlertDialog(
-                  title: Text("Altera senha"),
-                  content: TextField(
+  Future novaSenha(TextEditingController senha, TextEditingController confirmaSenha) {
+    return showDialog(
+      context: context,
+      builder: (context) => Theme(
+        data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+          primary: Color(0xFFB497F2),
+        )),
+        child: StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            String? textoErro = "";
+            return AlertDialog(
+              title: Text("Senha"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
                     autofocus: true,
                     decoration:
                         InputDecoration(hintText: "Informe sua nova senha"),
+                    controller: senha,
                   ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text("Salvar"),
+                  SizedBox(height: 15),
+                  TextField(
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      hintText: "Confirme sua nova senha",
+                      helperText: textoErro,
                     ),
-                  ],
+                    controller: confirmaSenha,
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Cancelar"),
                 ),
-              ));
-    };
+                TextButton(
+                  onPressed: () {
+                    if (senha.text ==
+                        confirmaSenha.text) {
+                          print("----------------------------");
+                          print(senha.text);
+                          print(confirmaSenha.text);
+                          print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKakks");
+                      //chama serviço para alterar senha
+                      Navigator.of(context).pop();
+                    } else {
+                      setState(() {
+                        textoErro = "As senhas não são iguais.";
+                      });
+                      novaSenhaController.clear();
+                      novaConfirmaSenhaController.clear();
+                    }
+                  },
+                  child: Text("Salvar"),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Future novoModeloCarro() {
+    String? carro;
+    return showDialog(
+      context: context,
+      builder: (context) => Theme(
+        data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+          primary: Color(0xFFB497F2),
+        )),
+        child: AlertDialog(
+          title: Text("Modelo do(s) carro(s)"),
+          content: DropdownSelect(
+            dica: "Tipo(s) de carro(s)",
+            opcoes: ["Combustão", "Elétrico", "Combustão e elétrico"],
+            valor: carro,
+            getRotulo: (String valor) => valor,
+            onChanged: (String? valor) => setState(() {
+              carro = valor;
+            }),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancelar"),
+            ),
+            TextButton(
+              onPressed: () {
+                String carroId;
+                switch (carro) {
+                  case 'Combustão':
+                    carroId = '1';
+                    break;
+                  case 'Elétrico':
+                    carroId = '2';
+                    break;
+                  case 'Combustão e elétrico':
+                    carroId = '3';
+                    break;
+                  default:
+                    carroId = '4';
+                }
+                Navigator.pop(context);
+              },
+              child: Text("Salvar"),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Function()? _logOut() {
@@ -151,3 +286,79 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
     };
   }
 }
+/*
+class NovaSenhaDialog extends StatefulWidget {
+  final TextEditingController? novaSenhaController;
+  final TextEditingController? novaConfirmaSenhaController;
+
+  const NovaSenhaDialog({
+    Key? key,
+    this.novaSenhaController,
+    this.novaConfirmaSenhaController,
+  }) : super(key: key);
+
+  @override
+  State<NovaSenhaDialog> createState() => _NovaSenhaDialogState();
+}
+
+class _NovaSenhaDialogState extends State<NovaSenhaDialog> {
+  String? textoErro = "";
+  @override
+  Widget build(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => Theme(
+        data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+          primary: Color(0xFFB497F2),
+        )),
+        child: AlertDialog(
+          title: Text("Senha"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                autofocus: true,
+                decoration: InputDecoration(hintText: "Informe sua nova senha"),
+                controller: novaSenhaController,
+              ),
+              SizedBox(height: 15),
+              TextField(
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: "Confirme sua nova senha",
+                  helperText: textoErro,
+                ),
+                controller: novaConfirmaSenhaController,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancelar"),
+            ),
+            TextButton(
+              onPressed: () {
+                if (novaSenhaController.text ==
+                    novaConfirmaSenhaController.text) {
+                  //chama serviço para alterar senha
+                  Navigator.of(context).pop();
+                } else {
+                  setState(() {
+                    textoErro = "As senhas não são iguais.";
+                  });
+                  novaSenhaController.clear();
+                  novaConfirmaSenhaController.clear();
+                }
+              },
+              child: Text("Salvar"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}*/

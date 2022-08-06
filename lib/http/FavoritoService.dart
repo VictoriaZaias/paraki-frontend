@@ -43,8 +43,11 @@ class FavoritoService {
     };
 
     final String jsonUsuario = jsonEncode(favoritoMap);
-    await client.delete(Uri.parse('${urlPadrao}/favorito/excluir/' + favorito.idUsuario.toString()),
-        headers: {"content-type": "application/json"}, body: jsonUsuario);
+    await client.delete(
+        Uri.parse(
+            '${urlPadrao}/favorito/excluir/' + favorito.idUsuario.toString()),
+        headers: {"content-type": "application/json"},
+        body: jsonUsuario);
   }
 
   void cadastrarFavorito(Favorito favorito) async {
@@ -66,11 +69,12 @@ class FavoritoService {
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
     );
-    final response = await client
-        .get(Uri.parse('${urlPadrao}favorito/listar/' + idUsuario.toString()));
+    final response = await client.get(Uri.parse(
+        '${urlPadrao}estacionamento/listarFavoritosUsuario/' +
+            idUsuario.toString()));
     final List<Estacionamento> estacionamentos = [];
     var favoritoJson = jsonDecode(response.body);
-    
+
     for (var json in favoritoJson['result']) {
       var endereco = await EnderecoService().buscarEndereco(json['endereco']);
       final Estacionamento estacionamento = Estacionamento(

@@ -11,7 +11,9 @@ import '../../components/Button.dart';
 import '../../components/Editor.dart';
 import '../../components/ListaCaracteristicas.dart';
 import '../../http/CaracteristicaService.dart';
+import '../../http/UsuarioService.dart';
 import '../../models/Endereco.dart';
+import '../AcaoBemSucedida.dart';
 
 class CadastroEstacionamento extends StatefulWidget {
   final int idUsuario;
@@ -39,17 +41,19 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
   static const _rotuloCampoTotalVagas = 'Quantidade de vagas';
   static const _rotuloCampovalorHora = 'Preço por hora';
   static const _textoBotaoCadastrar = 'Cadastrar';
-  static TextEditingController nomeEstacionamento = TextEditingController();
-  static TextEditingController cnpj = TextEditingController();
-  static TextEditingController cep = TextEditingController();
-  static TextEditingController logradouro = TextEditingController();
-  static TextEditingController bairro = TextEditingController();
-  static TextEditingController cidade = TextEditingController();
-  static TextEditingController unidadeFederativa = TextEditingController();
-  static TextEditingController numero = TextEditingController();
-  static TextEditingController telefone = TextEditingController();
-  static TextEditingController totalVagas = TextEditingController();
-  static TextEditingController valorHora = TextEditingController();
+  static TextEditingController nomeEstacionamentoControlador =
+      TextEditingController();
+  static TextEditingController cnpjControlador = TextEditingController();
+  static TextEditingController cepControlador = TextEditingController();
+  static TextEditingController logradouroControlador = TextEditingController();
+  static TextEditingController bairroControlador = TextEditingController();
+  static TextEditingController cidadeControlador = TextEditingController();
+  static TextEditingController unidadeFederativaControlador =
+      TextEditingController();
+  static TextEditingController numeroControlador = TextEditingController();
+  static TextEditingController telefoneControlador = TextEditingController();
+  static TextEditingController totalVagasControlador = TextEditingController();
+  static TextEditingController valorHoraControlador = TextEditingController();
   static List<TimeOfDay> aberturasEstacionamento =
       List<TimeOfDay>.filled(3, TimeOfDay(hour: 0, minute: 0));
   static List<TimeOfDay> fechamentosEstacionamento =
@@ -57,6 +61,9 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
   ListaCaracteristicas? listaCaracteristicas;
   static List<Caracteristica> caracteristicas = [];
   NumberFormat numberFormat = new NumberFormat("00");
+
+  String? textoErroCNPJ = null;
+  bool cnpjValidacao = false;
 
   @override
   void initState() {
@@ -79,6 +86,22 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
   }
 */
   @override
+  void dispose() {
+    nomeEstacionamentoControlador.dispose();
+    cnpjControlador.dispose();
+    cepControlador.dispose();
+    logradouroControlador.dispose();
+    bairroControlador.dispose();
+    cidadeControlador.dispose();
+    unidadeFederativaControlador.dispose();
+    numeroControlador.dispose();
+    telefoneControlador.dispose();
+    totalVagasControlador.dispose();
+    valorHoraControlador.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
@@ -94,63 +117,72 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
               ),
               Editor(
                 rotulo: _rotuloCampoNomeEstacionamento,
-                controlador: nomeEstacionamento,
+                controlador: nomeEstacionamentoControlador,
               ),
               Editor(
                 rotulo: _rotuloCampoCNPJ,
                 teclado: TextInputType.number,
-                controlador: cnpj,
+                textoErro: textoErroCNPJ,
+                controlador: cnpjControlador,
+                onSubmitted: (cnpj) async {
+                  cnpjValidacao =
+                      await EstacionamentoService().validarCNPJ(cnpj);
+                },
               ),
               Editor(
                 rotulo: _rotuloCampoCEP,
                 teclado: TextInputType.number,
-                controlador: cep,
+                controlador: cepControlador,
                 onSubmitted: (cep) {
                   setState(() {
                     _fetchEndereco(
-                        cep, logradouro, bairro, cidade, unidadeFederativa);
+                        cep,
+                        logradouroControlador,
+                        bairroControlador,
+                        cidadeControlador,
+                        unidadeFederativaControlador);
                   });
                 },
               ),
               Editor(
                 rotulo: _rotuloCampoLogradouro,
-                controlador: logradouro,
+                controlador: logradouroControlador,
                 enabled: false,
               ),
               Editor(
                 rotulo: _rotuloCampoBairro,
-                controlador: bairro,
+                controlador: bairroControlador,
                 enabled: false,
               ),
               Editor(
                 rotulo: _rotuloCampoCidade,
-                controlador: cidade,
+                controlador: cidadeControlador,
                 enabled: false,
               ),
               Editor(
                 rotulo: _rotuloCampoUnidadeFederativa,
-                controlador: unidadeFederativa,
+                controlador: unidadeFederativaControlador,
                 enabled: false,
               ),
               Editor(
                 rotulo: _rotuloCampoNumero,
                 teclado: TextInputType.number,
-                controlador: numero,
+                controlador: numeroControlador,
               ),
               Editor(
                 rotulo: _rotuloCampoTelefone,
                 teclado: TextInputType.number,
-                controlador: telefone,
+                controlador: telefoneControlador,
               ),
               Editor(
                 rotulo: _rotuloCampoTotalVagas,
                 teclado: TextInputType.number,
-                controlador: totalVagas,
+                controlador: totalVagasControlador,
               ),
               Editor(
                 rotulo: _rotuloCampovalorHora,
                 teclado: TextInputType.number,
-                controlador: valorHora,
+                controlador: valorHoraControlador,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15.0),
@@ -297,69 +329,86 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                 child: Button(
                   rotulo: _textoBotaoCadastrar,
                   onPressed: () async {
-                    Endereco endereco = Endereco(
-                        1,
-                        bairro.text,
-                        logradouro.text,
-                        cidade.text,
-                        unidadeFederativa.text,
-                        cep.text);
-                    EnderecoService().cadastrarEndereco(endereco);
-                    int idEndereco =
-                        await EnderecoService().buscarIdCEP(endereco.cep);
+                    if (cnpjValidacao) {
+                      Endereco endereco = Endereco(
+                          1,
+                          bairroControlador.text,
+                          logradouroControlador.text,
+                          cidadeControlador.text,
+                          unidadeFederativaControlador.text,
+                          cepControlador.text);
+                      EnderecoService().cadastrarEndereco(endereco);
+                      int idEndereco =
+                          await EnderecoService().buscarIdCEP(endereco.cep);
 
-                    String horarioAberturaSemana =
-                        aberturasEstacionamento[0].hour.toString() +
-                            ":" +
-                            aberturasEstacionamento[0].minute.toString() +
-                            ":00";
-                    String horarioFechamentoSemana =
-                        fechamentosEstacionamento[0].hour.toString() +
-                            ":" +
-                            fechamentosEstacionamento[0].minute.toString() +
-                            ":00";
-                    String horarioAberturaSab =
-                        aberturasEstacionamento[1].hour.toString() +
-                            ":" +
-                            aberturasEstacionamento[1].minute.toString() +
-                            ":00";
-                    String horarioFechamentoSab =
-                        fechamentosEstacionamento[1].hour.toString() +
-                            ":" +
-                            fechamentosEstacionamento[1].minute.toString() +
-                            ":00";
-                    String horarioAberturaDom =
-                        aberturasEstacionamento[2].hour.toString() +
-                            ":" +
-                            aberturasEstacionamento[2].minute.toString() +
-                            ":00";
-                    String horarioFechamentoDom =
-                        fechamentosEstacionamento[2].hour.toString() +
-                            ":" +
-                            fechamentosEstacionamento[2].minute.toString() +
-                            ":00";
+                      String horarioAberturaSemana =
+                          aberturasEstacionamento[0].hour.toString() +
+                              ":" +
+                              aberturasEstacionamento[0].minute.toString() +
+                              ":00";
+                      String horarioFechamentoSemana =
+                          fechamentosEstacionamento[0].hour.toString() +
+                              ":" +
+                              fechamentosEstacionamento[0].minute.toString() +
+                              ":00";
+                      String horarioAberturaSab =
+                          aberturasEstacionamento[1].hour.toString() +
+                              ":" +
+                              aberturasEstacionamento[1].minute.toString() +
+                              ":00";
+                      String horarioFechamentoSab =
+                          fechamentosEstacionamento[1].hour.toString() +
+                              ":" +
+                              fechamentosEstacionamento[1].minute.toString() +
+                              ":00";
+                      String horarioAberturaDom =
+                          aberturasEstacionamento[2].hour.toString() +
+                              ":" +
+                              aberturasEstacionamento[2].minute.toString() +
+                              ":00";
+                      String horarioFechamentoDom =
+                          fechamentosEstacionamento[2].hour.toString() +
+                              ":" +
+                              fechamentosEstacionamento[2].minute.toString() +
+                              ":00";
 
-                    List<HorarioFuncionamento> horarios = [];
-                    horarios.add(HorarioFuncionamento(0, horarioAberturaSemana,
-                        horarioFechamentoSemana, "semanal"));
-                    horarios.add(HorarioFuncionamento(
-                        0, horarioAberturaSab, horarioFechamentoSab, "Sab"));
-                    horarios.add(HorarioFuncionamento(
-                        0, horarioAberturaDom, horarioFechamentoDom, "Dom"));
+                      List<HorarioFuncionamento> horarios = [];
+                      horarios.add(HorarioFuncionamento(
+                          0,
+                          horarioAberturaSemana,
+                          horarioFechamentoSemana,
+                          "semanal"));
+                      horarios.add(HorarioFuncionamento(
+                          0, horarioAberturaSab, horarioFechamentoSab, "Sab"));
+                      horarios.add(HorarioFuncionamento(
+                          0, horarioAberturaDom, horarioFechamentoDom, "Dom"));
 
-                    Estacionamento estacionamento = Estacionamento(
-                      nomeEstacionamento: nomeEstacionamento.text,
-                      cnpj: cnpj.text,
-                      qtdTotalVagas: int.parse(totalVagas.text),
-                      nroEstacionamento: int.parse(numero.text),
-                      telefone: telefone.text,
-                      valorHora: double.parse(valorHora.text),
-                      endereco: endereco,
-                      horarios: horarios,
-                      caracteristicas: caracteristicas,
-                    );
-                    EstacionamentoService().cadastrarEstacionamento(
-                        estacionamento, idEndereco, widget.idUsuario);
+                      Estacionamento estacionamento = Estacionamento(
+                        nomeEstacionamento: nomeEstacionamentoControlador.text,
+                        cnpj: cnpjControlador.text,
+                        qtdTotalVagas: int.parse(totalVagasControlador.text),
+                        nroEstacionamento: int.parse(numeroControlador.text),
+                        telefone: telefoneControlador.text,
+                        valorHora: double.parse(valorHoraControlador.text),
+                        endereco: endereco,
+                        horarios: horarios,
+                        caracteristicas: caracteristicas,
+                      );
+                      EstacionamentoService().cadastrarEstacionamento(
+                          estacionamento, idEndereco, widget.idUsuario);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AcaoBemSucedida(
+                              "Estacionamento cadastrado com sucesso!"),
+                        ),
+                      );
+                    } else {
+                      setState(() {
+                        textoErroCNPJ = "CNPJ inválido.";
+                      });
+                      cnpjControlador.clear();
+                    }
                   },
                 ),
               ),

@@ -96,6 +96,8 @@ class EstacionamentoService {
         telefone: json['telefone'],
         valorHora: json['valorHora'].toDouble(),
         endereco: endereco,
+        isFavoritado: json['favorito'],
+        hasCarregamentoEletrico: json['caracteristica'],
       );
       estacionamentos.add(estacionamento);
     }
@@ -134,6 +136,8 @@ class EstacionamentoService {
           telefone: json['telefone'],
           valorHora: json['valorHora'].toDouble(),
           endereco: endereco,
+          isFavoritado: json['favorito'],
+          hasCarregamentoEletrico: json['caracteristica'],
         );
         estacionamentos.add(estacionamento);
       }
@@ -174,7 +178,7 @@ class EstacionamentoService {
     );
     int i = 0;
     final Map<String, dynamic> caracteristicaMap = {};
-    for (var e in estacionamento.caracteristicas!){
+    for (var e in estacionamento.caracteristicas!) {
       caracteristicaMap.putIfAbsent(i.toString(), () => e.idCaracteristica);
       i++;
     }
@@ -182,16 +186,16 @@ class EstacionamentoService {
     final Map<String, dynamic> horarioSemanalMap = {};
     final Map<String, dynamic> horarioSabMap = {};
     final Map<String, dynamic> horarioDomMap = {};
-    for (var e in estacionamento.horarios!){
+    for (var e in estacionamento.horarios!) {
       if (e.diaSemana == "semanal") {
         horarioSemanalMap.putIfAbsent("horarioInicio", () => e.horarioInicio);
-         horarioSemanalMap.putIfAbsent("horarioFim", () => e.horarioFim);
+        horarioSemanalMap.putIfAbsent("horarioFim", () => e.horarioFim);
       } else if (e.diaSemana == "Dom") {
         horarioDomMap.putIfAbsent("horarioInicio", () => e.horarioInicio);
-         horarioDomMap.putIfAbsent("horarioFim", () => e.horarioFim);
+        horarioDomMap.putIfAbsent("horarioFim", () => e.horarioFim);
       } else if (e.diaSemana == "Sab") {
         horarioSabMap.putIfAbsent("horarioInicio", () => e.horarioInicio);
-         horarioSabMap.putIfAbsent("horarioFim", () => e.horarioFim);
+        horarioSabMap.putIfAbsent("horarioFim", () => e.horarioFim);
       }
     }
 
@@ -202,16 +206,31 @@ class EstacionamentoService {
       'idEndereco': idEndereco,
       'telefone': estacionamento.telefone,
       'valorHora': estacionamento.valorHora,
-      'caracteristica' : caracteristicaMap,
-      'nroEstacionamento' : estacionamento.nroEstacionamento,
-      'usuario' : idUsuario,
-      'semanal' : horarioSemanalMap,
-      'dom' : horarioDomMap,
-      'sab' : horarioSabMap
+      'caracteristica': caracteristicaMap,
+      'nroEstacionamento': estacionamento.nroEstacionamento,
+      'usuario': idUsuario,
+      'semanal': horarioSemanalMap,
+      'dom': horarioDomMap,
+      'sab': horarioSabMap
     };
 
     final String jsonEstacionamento = jsonEncode(estacionamentoMap);
     await client.post(Uri.parse('${urlPadrao}estacionamento/cadastrar'),
-    headers: {"content-type": "application/json"}, body: jsonEstacionamento);
+        headers: {"content-type": "application/json"},
+        body: jsonEstacionamento);
+  }
+
+  Future<bool> validarCNPJ(String cnpj) async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );
+    final respostaCNPJ = await client
+        .get(Uri.parse('${urlPadrao}estacionamento/validarCNPJ/$cnpj'));
+    var jsonValidar = jsonDecode(respostaCNPJ.body);
+    final String valido = jsonValidar['result'];
+    if (valido == "valido") {
+      return true;
+    }
+    return false;
   }
 }
