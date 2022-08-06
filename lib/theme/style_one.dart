@@ -20,6 +20,9 @@ ThemeData appTheme() {
       color: _lilili,
     ),
     scaffoldBackgroundColor: _roxolele,
+    colorScheme: ColorScheme.fromSwatch().copyWith(
+      secondary: _lilili, // Your accent color
+    ),
     // Fundos
 
     // Letras
@@ -43,6 +46,12 @@ ThemeData appTheme() {
         color: _branquin,
       ),
     ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: _lilili,
+      selectionColor: Color(0xFFE6E0F3),
+      selectionHandleColor: _lilili,
+    ),
+    timePickerTheme: timeTheme(),
     // Letras
 
     // Botões
@@ -65,10 +74,40 @@ ThemeData appTheme() {
     ),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all<Color>(_branquin),
+        foregroundColor: MaterialStateProperty.all<Color>(_lilili),
       ),
     ),
     // Botões
+  );
+}
+
+TimePickerThemeData timeTheme() {
+  return TimePickerThemeData(
+    hourMinuteColor: MaterialStateColor.resolveWith((states) =>
+        states.contains(MaterialState.selected)
+            ? Color(0xFFE6E0F3)
+            : Color(0xFFD3D3D3)),
+    hourMinuteTextColor: MaterialStateColor.resolveWith((states) =>
+        states.contains(MaterialState.selected) ? _lilili : Colors.black),
+    dialHandColor: _lilili,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(18.0),
+    ),
+    hourMinuteShape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(18.0),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      contentPadding: EdgeInsets.all(0),
+      //fillColor: Colors.pinkAccent,
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFFD3D3D3), width: 2),
+        borderRadius: BorderRadius.circular(18.0),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: _lilili, width: 2),
+        borderRadius: BorderRadius.circular(18.0),
+      ),
+    ),
   );
 }
 

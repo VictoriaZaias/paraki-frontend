@@ -14,7 +14,7 @@ import '../http/EstacionamentoService.dart';
 import '../http/FavoritoService.dart';
 import '../models/Estacionamento.dart';
 import '../models/Favorito.dart';
-import 'ReservaEstacionamento.dart';
+import 'CadastroReserva.dart';
 
 class DadosEstacionamento extends StatefulWidget {
   final Estacionamento estacionamento;
@@ -131,7 +131,7 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ReservaEstacionamento(
+                        builder: (context) => CadastroReserva(
                             estacionamento: widget.estacionamento)),
                   );
                 },

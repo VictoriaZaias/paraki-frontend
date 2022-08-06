@@ -75,12 +75,6 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
       ),
       body: Column(
         children: [
-          /*
-          dadosUsuario("CPF", widget.user.cpf, null, null),
-          dadosUsuario("Senha", widget.user.senha, null, null),
-          dadosUsuario("Modelo do(s) carro(s)", widget.user.modeloCarro,
-              null, null),*/
-
           dadosUsuario("CPF", widget.user.cpf, null, null),
           dadosUsuario("Senha", widget.user.senha, Icons.edit, null),
           dadosUsuario("Modelo do(s) carro(s)", widget.user.modeloCarro,
@@ -116,6 +110,35 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
             : null,
       ),
     );
+  }
+
+  Function? openDialog() {
+    return () {
+      showDialog(
+          context: context,
+          builder: (context) => Theme(
+                data: Theme.of(context).copyWith(
+                    colorScheme: ColorScheme.light(
+                  primary: Color(0xFFB497F2),
+                )),
+                child: AlertDialog(
+                  title: Text("Altera senha"),
+                  content: TextField(
+                    autofocus: true,
+                    decoration:
+                        InputDecoration(hintText: "Informe sua nova senha"),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Salvar"),
+                    ),
+                  ],
+                ),
+              ));
+    };
   }
 
   Function()? _logOut() {

@@ -98,10 +98,12 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
               ),
               Editor(
                 rotulo: _rotuloCampoCNPJ,
+                teclado: TextInputType.number,
                 controlador: cnpj,
               ),
               Editor(
                 rotulo: _rotuloCampoCEP,
+                teclado: TextInputType.number,
                 controlador: cep,
                 onSubmitted: (cep) {
                   setState(() {
@@ -132,18 +134,22 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
               ),
               Editor(
                 rotulo: _rotuloCampoNumero,
+                teclado: TextInputType.number,
                 controlador: numero,
               ),
               Editor(
                 rotulo: _rotuloCampoTelefone,
+                teclado: TextInputType.number,
                 controlador: telefone,
               ),
               Editor(
                 rotulo: _rotuloCampoTotalVagas,
+                teclado: TextInputType.number,
                 controlador: totalVagas,
               ),
               Editor(
                 rotulo: _rotuloCampovalorHora,
+                teclado: TextInputType.number,
                 controlador: valorHora,
               ),
               Padding(
@@ -151,7 +157,6 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                 child: SizedBox(
                   width: 300.0,
                   child: Column(
-                    // TENTAR REFATORAR PELO AMORR
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 2.0),
@@ -176,72 +181,16 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                               ),
                               Row(
                                 children: [
-                                  OutlinedButton(
-                                    onPressed: () async {
-                                      final newTime = await showTimePicker(
-                                        context: context,
-                                        initialTime: aberturasEstacionamento[0],
-                                        builder: (context, child) {
-                                          return MediaQuery(
-                                            data: MediaQuery.of(context)
-                                                .copyWith(
-                                                    alwaysUse24HourFormat:
-                                                        true),
-                                            child: child ?? Container(),
-                                          );
-                                        },
-                                      );
-                                      if (newTime != null) {
-                                        setState(() {
-                                          aberturasEstacionamento[0] = newTime;
-                                        });
-                                      }
+                                  TimePicker(
+                                    onTimeChanged: (newTime) {
+                                      aberturasEstacionamento[0] = newTime;
                                     },
-                                    style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      )),
-                                    ),
-                                    child: Text(
-                                        '${numberFormat.format(aberturasEstacionamento[0].hour).toString()}:${numberFormat.format(aberturasEstacionamento[0].minute).toString()}'),
                                   ),
                                   Text(" - "),
-                                  OutlinedButton(
-                                    onPressed: () async {
-                                      final newTime = await showTimePicker(
-                                        context: context,
-                                        initialTime:
-                                            fechamentosEstacionamento[0],
-                                        builder: (context, child) {
-                                          return MediaQuery(
-                                            data: MediaQuery.of(context)
-                                                .copyWith(
-                                                    alwaysUse24HourFormat:
-                                                        true),
-                                            child: child ?? Container(),
-                                          );
-                                        },
-                                      );
-                                      if (newTime != null) {
-                                        setState(() {
-                                          fechamentosEstacionamento[0] =
-                                              newTime;
-                                        });
-                                      }
+                                  TimePicker(
+                                    onTimeChanged: (newTime) {
+                                      fechamentosEstacionamento[0] = newTime;
                                     },
-                                    style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      )),
-                                    ),
-                                    child: Text(
-                                        '${numberFormat.format(fechamentosEstacionamento[0].hour).toString()}:${numberFormat.format(fechamentosEstacionamento[0].minute).toString()}'),
                                   ),
                                 ],
                               )
@@ -262,72 +211,16 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                               ),
                               Row(
                                 children: [
-                                  OutlinedButton(
-                                    onPressed: () async {
-                                      final newTime = await showTimePicker(
-                                        context: context,
-                                        initialTime: aberturasEstacionamento[1],
-                                        builder: (context, child) {
-                                          return MediaQuery(
-                                            data: MediaQuery.of(context)
-                                                .copyWith(
-                                                    alwaysUse24HourFormat:
-                                                        true),
-                                            child: child ?? Container(),
-                                          );
-                                        },
-                                      );
-                                      if (newTime != null) {
-                                        setState(() {
-                                          aberturasEstacionamento[1] = newTime;
-                                        });
-                                      }
+                                  TimePicker(
+                                    onTimeChanged: (newTime) {
+                                      aberturasEstacionamento[1] = newTime;
                                     },
-                                    style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      )),
-                                    ),
-                                    child: Text(
-                                        '${numberFormat.format(aberturasEstacionamento[1].hour).toString()}:${numberFormat.format(aberturasEstacionamento[1].minute).toString()}'),
                                   ),
                                   Text(" - "),
-                                  OutlinedButton(
-                                    onPressed: () async {
-                                      final newTime = await showTimePicker(
-                                        context: context,
-                                        initialTime:
-                                            fechamentosEstacionamento[1],
-                                        builder: (context, child) {
-                                          return MediaQuery(
-                                            data: MediaQuery.of(context)
-                                                .copyWith(
-                                                    alwaysUse24HourFormat:
-                                                        true),
-                                            child: child ?? Container(),
-                                          );
-                                        },
-                                      );
-                                      if (newTime != null) {
-                                        setState(() {
-                                          fechamentosEstacionamento[1] =
-                                              newTime;
-                                        });
-                                      }
+                                  TimePicker(
+                                    onTimeChanged: (newTime) {
+                                      fechamentosEstacionamento[1] = newTime;
                                     },
-                                    style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      )),
-                                    ),
-                                    child: Text(
-                                        '${numberFormat.format(fechamentosEstacionamento[1].hour).toString()}:${numberFormat.format(fechamentosEstacionamento[1].minute).toString()}'),
                                   ),
                                 ],
                               ),
@@ -348,72 +241,16 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                               ),
                               Row(
                                 children: [
-                                  OutlinedButton(
-                                    onPressed: () async {
-                                      final newTime = await showTimePicker(
-                                        context: context,
-                                        initialTime: aberturasEstacionamento[2],
-                                        builder: (context, child) {
-                                          return MediaQuery(
-                                            data: MediaQuery.of(context)
-                                                .copyWith(
-                                                    alwaysUse24HourFormat:
-                                                        true),
-                                            child: child ?? Container(),
-                                          );
-                                        },
-                                      );
-                                      if (newTime != null) {
-                                        setState(() {
-                                          aberturasEstacionamento[2] = newTime;
-                                        });
-                                      }
+                                  TimePicker(
+                                    onTimeChanged: (newTime) {
+                                      aberturasEstacionamento[2] = newTime;
                                     },
-                                    style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      )),
-                                    ),
-                                    child: Text(
-                                        '${numberFormat.format(aberturasEstacionamento[2].hour).toString()}:${numberFormat.format(aberturasEstacionamento[2].minute).toString()}'),
                                   ),
                                   Text(" - "),
-                                  OutlinedButton(
-                                    onPressed: () async {
-                                      final newTime = await showTimePicker(
-                                        context: context,
-                                        initialTime:
-                                            fechamentosEstacionamento[2],
-                                        builder: (context, child) {
-                                          return MediaQuery(
-                                            data: MediaQuery.of(context)
-                                                .copyWith(
-                                                    alwaysUse24HourFormat:
-                                                        true),
-                                            child: child ?? Container(),
-                                          );
-                                        },
-                                      );
-                                      if (newTime != null) {
-                                        setState(() {
-                                          fechamentosEstacionamento[2] =
-                                              newTime;
-                                        });
-                                      }
+                                  TimePicker(
+                                    onTimeChanged: (newTime) {
+                                      fechamentosEstacionamento[2] = newTime;
                                     },
-                                    style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      )),
-                                    ),
-                                    child: Text(
-                                        '${numberFormat.format(fechamentosEstacionamento[2].hour).toString()}:${numberFormat.format(fechamentosEstacionamento[2].minute).toString()}'),
                                   ),
                                 ],
                               )
@@ -460,7 +297,6 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                 child: Button(
                   rotulo: _textoBotaoCadastrar,
                   onPressed: () async {
-
                     Endereco endereco = Endereco(
                         1,
                         bairro.text,
@@ -502,7 +338,7 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                             ":" +
                             fechamentosEstacionamento[2].minute.toString() +
                             ":00";
-    
+
                     List<HorarioFuncionamento> horarios = [];
                     horarios.add(HorarioFuncionamento(0, horarioAberturaSemana,
                         horarioFechamentoSemana, "semanal"));
@@ -522,8 +358,8 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
                       horarios: horarios,
                       caracteristicas: caracteristicas,
                     );
-                    EstacionamentoService()
-                        .cadastrarEstacionamento(estacionamento, idEndereco, widget.idUsuario);
+                    EstacionamentoService().cadastrarEstacionamento(
+                        estacionamento, idEndereco, widget.idUsuario);
                   },
                 ),
               ),
@@ -546,87 +382,4 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
     cidade.text = endereco.cidade;
     uf.text = endereco.unidadeFederativa;
   }
-/*
-  List<Widget> _dadosHorarios(List<TimeOfDay> aberturasEstacionamento,
-      List<TimeOfDay> fechamentosEstacionamento) {
-    return [
-      Padding(
-        padding: const EdgeInsets.only(bottom: 2.0),
-        child: Text(
-          "Horários:",
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      _horarioDia(
-          "Seg-Sex:", aberturasEstacionamento[0], fechamentosEstacionamento[0]),
-      _horarioDia(
-          "Sáb:", aberturasEstacionamento[1], fechamentosEstacionamento[1]),
-      _horarioDia(
-          "Dom:", aberturasEstacionamento[2], fechamentosEstacionamento[2]),
-    ];
-  }
-
-  Widget _horarioDia(String titulo, TimeOfDay abertura, TimeOfDay fechamento) {
-    return ContainerDados(
-      dados: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              titulo,
-              style: TextStyle(
-                fontSize: 16.0,
-              ),
-            ),
-            Row(
-              children: [
-                TimePicker(
-                  selectedTime: abertura,
-                ),
-                Text(" - "),
-                TimePicker(
-                  selectedTime: fechamento,
-                ),
-              ],
-            )
-          ],
-        ),
-      ],
-    );
-  }
-/*
-  Widget _relogio(TimeOfDay horario) {
-    return OutlinedButton(
-      onPressed: () async {
-        final newTime = await showTimePicker(
-          context: context,
-          initialTime: horario,
-          builder: (context, child) {
-            return MediaQuery(
-              data:
-                  MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-              child: child ?? Container(),
-            );
-          },
-        );
-        if (newTime != null) {
-          setState(() {
-            horario = newTime;
-          });
-        }
-      },
-      style: ButtonStyle(
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        )),
-      ),
-      child: Text(
-          '${numberFormat.format(horario.hour).toString()}:${numberFormat.format(horario.minute).toString()}'),
-    );
-  }*/
-  */
 }

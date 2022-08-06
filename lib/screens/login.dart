@@ -136,6 +136,10 @@ class _LoginState extends State<Login> {
                       MaterialPageRoute(
                           builder: (context) => CadastroUsuario()));
                 },
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Color(0xFFEDE4E2)),
+                ),
               ),
             ],
           ),

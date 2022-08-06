@@ -4,11 +4,11 @@ import 'package:intl/intl.dart';
 import '../models/Reserva.dart';
 
 class DatePicker extends StatefulWidget {
-  final DateTime? selectedDate;
+  final ValueChanged<DateTime> onDateChanged;
 
   DatePicker({
     Key? key,
-    this.selectedDate,
+    required this.onDateChanged,
   }) : super(key: key);
 
   @override
@@ -16,14 +16,8 @@ class DatePicker extends StatefulWidget {
 }
 
 class _DatePickerState extends State<DatePicker> {
+  DateTime selectedDate = DateTime.now();
   NumberFormat numberFormat = new NumberFormat("00");
-  var selectedDate;
-
-  @override
-  void initState() {
-    selectedDate = widget.selectedDate;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,18 +25,25 @@ class _DatePickerState extends State<DatePicker> {
       onPressed: () async {
         final newDate = await showDatePicker(
           context: context,
-          initialDate: DateTime.now(),
+          initialDate: selectedDate,
           firstDate: DateTime.now(),
           lastDate: DateTime(DateTime.now().year + 1),
           builder: (context, child) {
-            return MediaQuery(
-              data:
-                  MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-              child: child ?? Container(),
+            return Theme(
+              data: Theme.of(context).copyWith(
+                  colorScheme: ColorScheme.light(
+                primary: Color(0xFFB497F2),
+              )),
+              child: MediaQuery(
+                data: MediaQuery.of(context)
+                    .copyWith(alwaysUse24HourFormat: true),
+                child: child ?? Container(),
+              ),
             );
           },
         );
         if (newDate != null) {
+          widget.onDateChanged(newDate);
           setState(() {
             selectedDate = newDate;
           });
