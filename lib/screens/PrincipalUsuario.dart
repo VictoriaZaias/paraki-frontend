@@ -92,7 +92,7 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
               onSubmitted: (buscaCidade) {
                 setState(() {
                   listar = ListaEstacionamento(EstacionamentoService()
-                      .listarEstacionamentoBusca(buscaCidade, ''));
+                      .listarEstacionamentoBusca(buscaCidade, '', widget.user.idUsuario!));
                 });
               },
             ),
@@ -104,7 +104,7 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
               onSubmitted: (buscaRua) {
                 setState(() {
                   listar = ListaEstacionamento(EstacionamentoService()
-                      .listarEstacionamentoBusca('', buscaRua));
+                      .listarEstacionamentoBusca('', buscaRua, widget.user.idUsuario!));
                 });
               },
             ),
@@ -128,7 +128,7 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
     if (buscaCidade == "" && buscaRua == "") {
       return lista = EstacionamentoService().listarEstacionamento(idUsuario);
     } else {
-      return lista = EstacionamentoService().listarEstacionamentoBusca(buscaCidade, buscaRua);
+      return lista = EstacionamentoService().listarEstacionamentoBusca(buscaCidade, buscaRua, idUsuario);
     }
   }
 }

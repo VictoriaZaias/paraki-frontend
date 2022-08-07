@@ -11,7 +11,9 @@ ThemeData appTheme() {
   return ThemeData(
     // Fundos
     tabBarTheme: TabBarTheme(
-      labelColor: _lilili,
+      indicator: BoxDecoration(
+        color: _roxedao,
+      ),
     ),
     cardTheme: CardTheme(
       color: _branquin,
@@ -67,7 +69,7 @@ ThemeData appTheme() {
             MaterialStateProperty.all<BorderSide>(BorderSide(color: _branquin)),
       ),
     ),
-    elevatedButtonTheme: buttonTheme(),
+    //elevatedButtonTheme: buttonTheme(),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       foregroundColor: _branquin,
       backgroundColor: _roxedao,

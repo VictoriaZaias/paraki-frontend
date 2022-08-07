@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:estacionamento/screens/Dono/EstacionamentosDono.dart';
 import 'package:estacionamento/screens/PerfilUsuario.dart';
 import 'package:estacionamento/screens/ReservasMotorista.dart';
@@ -23,111 +25,193 @@ class PrincipalDono extends StatefulWidget {
 }
 
 class _PrincipalDonoState extends State<PrincipalDono> {
-  static const _tamanhoActionButtons = 55.0;
-  bool isFavoriteVisible = false;
-  static TextEditingController buscaCidade = TextEditingController();
-  static TextEditingController buscaRua = TextEditingController();
+  late TextEditingController? buscaCidade;
+  late TextEditingController? buscaRua;
   var listar;
 
   @override
   void initState() {
-    listar = ListaEstacionamento(buscar('', '', widget.user.idUsuario!));
     super.initState();
+    buscaCidade = TextEditingController();
+    buscaRua = TextEditingController();
+    listar = ListaEstacionamento(buscar('', '', widget.user.idUsuario!));
+  }
+
+  @override
+  void dispose() {
+    buscaCidade!.dispose();
+    buscaRua!.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(90),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return DefaultTabController(
+      initialIndex: 1,
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: IconButton(
+                onPressed: () async {
+                  filtroDialog(context);
+                },
+                icon: Icon(
+                  Icons.filter_list,
+                  color: Color(0xFFEDE4E2),
+                ),
+              ),
+            ),
+          ],
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                child: Icon(
+                  Icons.star,
+                  color: Color(0xFFEDE4E2),
+                ),
+              ),
+              Tab(
+                child: Icon(
+                  Icons.format_list_bulleted,
+                  color: Color(0xFFEDE4E2),
+                ),
+              ),
+              Tab(
+                child: Icon(
+                  Icons.location_on,
+                  color: Color(0xFFEDE4E2),
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            Column(
               children: [
-                ActionButton(
-                  tamanhoBotao: _tamanhoActionButtons,
-                  simbolo: Icons.person,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                PerfilUsuario(user: widget.user)));
-                  },
-                ),
-                ActionButton(
-                  tamanhoBotao: _tamanhoActionButtons,
-                  simbolo: Icons.star,
-                  corSimbolo: !isFavoriteVisible ? null : Color(0xFF8A67EF),
-                  onPressed: () => setState(() {
-                    isFavoriteVisible = !isFavoriteVisible;
-                  }),
-                ),
-                ActionButton(
-                  tamanhoBotao: _tamanhoActionButtons,
-                  simbolo: Icons.manage_search,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ReservasMotorista(user: widget.user)));
-                  },
-                ),
-                ActionButton(
-                  tamanhoBotao: _tamanhoActionButtons,
-                  simbolo: Icons.car_rental,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                EstacionamentosDono(user: widget.user)));
-                  },
-                ),
+                ListaEstacionamento(FavoritoService()
+                    .listarEstacionamentosFavoritados(widget.user.idUsuario!)),
               ],
             ),
+            Column(
+              children: [
+                listar,
+              ],
+            ),
+            Center(
+              child: Text("Mapa. vem aí?"),
+            ),
+          ],
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Color(0xFF8A67EF),
+                ),
+                child: Text('Menu dono de estacionamento'),
+              ),
+              ListTile(
+                leading: Icon(Icons.person),
+                title: const Text('Perfil'),
+                iconColor: Colors.black,
+                textColor: Colors.black,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PerfilUsuario(user: widget.user),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.manage_search),
+                title: const Text('Minhas reservas'),
+                iconColor: Colors.black,
+                textColor: Colors.black,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ReservasMotorista(user: widget.user),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.car_crash_outlined),
+                title: const Text('Meus estacionamento'),
+                iconColor: Colors.black,
+                textColor: Colors.black,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          EstacionamentosDono(user: widget.user),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Editor(
-              rotulo: 'Informe sua cidade',
-              largura: 370.0,
-              icone: Icons.search,
-              controlador: buscaCidade,
-              onSubmitted: (buscaCidade) {
+    );
+  }
+
+  Future filtroDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => Theme(
+        data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+          primary: Color(0xFFB497F2),
+        )),
+        child: AlertDialog(
+          title: Text("Filtro"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                autofocus: true,
+                decoration: InputDecoration(hintText: "Informe a cidade"),
+                controller: buscaCidade,
+              ),
+              SizedBox(height: 15),
+              TextField(
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: "Informe a rua",
+                ),
+                controller: buscaRua,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancelar"),
+            ),
+            TextButton(
+              onPressed: () {
                 setState(() {
                   listar = ListaEstacionamento(EstacionamentoService()
-                      .listarEstacionamentoBusca(buscaCidade, ''));
+                      .listarEstacionamentoBusca(buscaCidade!.text,
+                          buscaRua!.text, widget.user.idUsuario!));
                 });
+                Navigator.of(context).pop();
               },
-            ),
-            Editor(
-              rotulo: 'Informe o logradouro de destino',
-              largura: 370.0,
-              icone: Icons.search,
-              controlador: buscaRua,
-              onSubmitted: (buscaRua) {
-                setState(() {
-                  listar = ListaEstacionamento(EstacionamentoService()
-                      .listarEstacionamentoBusca('', buscaRua));
-                });
-              },
-            ),
-            Visibility(
-              child: listar,
-              visible: !isFavoriteVisible,
-            ),
-            Visibility(
-              child: ListaEstacionamento(FavoritoService()
-                  .listarEstacionamentosFavoritados(widget.user.idUsuario!)),
-              visible: isFavoriteVisible,
+              child: Text("Salvar"),
             ),
           ],
         ),
@@ -143,6 +227,6 @@ Future<List<Estacionamento>> buscar(
     return lista = EstacionamentoService().listarEstacionamento(idUsuario);
   } else {
     return lista = EstacionamentoService()
-        .listarEstacionamentoBusca(buscaCidade, buscaRua);
+        .listarEstacionamentoBusca(buscaCidade, buscaRua, idUsuario);
   }
 }

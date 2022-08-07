@@ -25,10 +25,12 @@ class _ReservasMotoristaState extends State<ReservasMotorista> {
       appBar: TopoPadrao(
         titulo: "Minhas reservas",
       ),
-      body: Center(
-        child: ListaReservas(
-          user: widget.user,
-        ),
+      body: Column(
+        children: [
+          ListaReservas(
+            user: widget.user,
+          ),
+        ],
       ),
     );
   }

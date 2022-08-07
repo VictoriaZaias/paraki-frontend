@@ -5,6 +5,7 @@ class ActionButton extends StatelessWidget {
   final double padding;
   final double? tamanhoBotao;
   final IconData? simbolo;
+  final String? dica;
   final double? tamanhoSimbolo;
   final Color? corSimbolo;
   final Function()? onPressed;
@@ -15,6 +16,7 @@ class ActionButton extends StatelessWidget {
     this.padding = 20.0,
     this.tamanhoBotao = 60.0,
     this.simbolo,
+    this.dica,
     this.tamanhoSimbolo = 25.0,
     this.corSimbolo,
     required this.onPressed,
@@ -37,6 +39,7 @@ class ActionButton extends StatelessWidget {
               size: tamanhoSimbolo,
             ),
           ),
+          tooltip: dica,
         ),
       ),
     );

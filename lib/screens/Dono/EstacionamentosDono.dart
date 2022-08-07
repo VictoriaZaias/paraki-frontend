@@ -66,15 +66,13 @@ class _EstacionamentosDonoState extends State<EstacionamentosDono> {
           ],
         ),
       ),
-      body:// SingleChildScrollView(
-       // child:
-         Column(
-          children: [
-            ListaEstacionamento(EstacionamentoService()
-                .listarEstacionamentosDono(widget.user.idUsuario!)),
-          ],
-        ),
-     // ),
+      body: Column(
+        children: [
+          ListaEstacionamento(EstacionamentoService()
+              .listarEstacionamentosDono(widget.user.idUsuario!)),
+
+        ],
+      ),
     );
   }
 }

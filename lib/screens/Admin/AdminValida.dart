@@ -1,5 +1,5 @@
 import 'package:estacionamento/components/ListaEstacionamento.dart';
-import 'package:estacionamento/http/estacionamentoService.dart';
+import 'package:estacionamento/http/EstacionamentoService.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/ActionButton.dart';

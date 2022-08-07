@@ -1,7 +1,7 @@
 import 'package:estacionamento/components/ContainerDados.dart';
 import 'package:estacionamento/components/TimePicker.dart';
 import 'package:estacionamento/http/EnderecoService.dart';
-import 'package:estacionamento/http/estacionamentoService.dart';
+import 'package:estacionamento/http/EstacionamentoService.dart';
 import 'package:estacionamento/models/Caracteristica.dart';
 import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:estacionamento/models/HorarioFuncionamento.dart';
