@@ -30,6 +30,52 @@ class LoggingInterceptor implements InterceptorContract {
 class ReservaService {
   String urlPadrao = "http://estacionamento-pedepano.herokuapp.com/paraki/";
 
+  Future<List<Reserva>> listarReservasEstacionamento(int idEstacionamento) async {
+    final Client client = InterceptedClient.build(
+      interceptors: [LoggingInterceptor()],
+    );
+
+    final response = await client.get(Uri.parse(
+        '${urlPadrao}reserva/listarReservasEstacionamento/' + idEstacionamento.toString()));
+    final List<Reserva> reservas = [];
+    var reservaJson = jsonDecode(response.body);
+
+    for (var json in reservaJson['result']) {
+      final Endereco endereco = Endereco(
+        json['idEndereco'],
+        json['bairro'],
+        json['logradouro'],
+        json['cidade'],
+        json['uf'],
+        json['cep'],
+      );
+      print('------------------');
+      print(endereco);
+      final Estacionamento estacionamento = Estacionamento(
+        idEstacionamento: json['idEstacionamento'],
+        nomeEstacionamento: json['nomeEstacionamento'],
+        nroEstacionamento: json['nroEstacionamento'],
+        telefone: json['telefone'],
+        valorHora: json['valorTotal'].toDouble(),
+        endereco: endereco,
+      );
+      print('------------------');
+      print(estacionamento);
+      final Reserva reserva = Reserva(
+        json['idReserva'],
+        json['dataReserva'],
+        json['horarioEntrada'],
+        json['horarioSaida'],
+        json['idUsuario'],
+        estacionamento: estacionamento,
+      );
+      print('------------------');
+      print(reserva);
+      reservas.add(reserva);
+    }
+    return reservas;
+  }
+
   Future<List<Reserva>> listarReservas(int idUsuario) async {
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],

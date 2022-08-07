@@ -1,37 +1,67 @@
-import 'package:estacionamento/components/ListaReservas.dart';
-import 'package:estacionamento/components/TopoPadrao.dart';
+import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:flutter/material.dart';
-import '../components/CardEsqueleto.dart';
-import '../components/CardReserva.dart';
-import '../components/CenteredMessage.dart';
-import '../http/ReservaService.dart';
-import '../models/Reserva.dart';
-import '../models/Usuario.dart';
+import '../../components/ActionButton.dart';
+import '../../components/CardEsqueleto.dart';
+import '../../components/CardReserva.dart';
+import '../../components/CenteredMessage.dart';
+import '../../components/TopoPadrao.dart';
+import '../../http/ReservaService.dart';
+import '../../models/Reserva.dart';
 
-class ReservasMotorista extends StatefulWidget {
-  final Usuario user;
+class ReservasEstacionamento extends StatefulWidget {
+  final Estacionamento estacionamento;
 
-  const ReservasMotorista({
+  const ReservasEstacionamento({
     Key? key,
-    required this.user,
+    required this.estacionamento,
   }) : super(key: key);
 
   @override
-  State<ReservasMotorista> createState() => _ReservasMotoristaState();
+  State<ReservasEstacionamento> createState() => _ReservasEstacionamentoState();
 }
 
-class _ReservasMotoristaState extends State<ReservasMotorista> {
+class _ReservasEstacionamentoState extends State<ReservasEstacionamento> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopoPadrao(
-        titulo: "Minhas reservas",
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(95.0),
+        child: AppBar(
+          centerTitle: true,
+          toolbarHeight: 90.0,
+          leadingWidth: 90.0,
+          leading: ActionButton(
+            simbolo: Icons.arrow_back,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Column(
+            children: [
+              Text(
+                "Reservas",
+                style: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  fontSize: 19.0,
+                ),
+              ),
+              Text(
+                widget.estacionamento.nomeEstacionamento!,
+                style: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  fontSize: 19.0,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: Column(
         children: [
           Expanded(
             child: FutureBuilder<List<Reserva>>(
-              future: ReservaService().listarReservas(widget.user.idUsuario!),
+              future: ReservaService().listarReservasEstacionamento(
+                  widget.estacionamento.idEstacionamento!),
               builder: (context, AsyncSnapshot<List<Reserva>> snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:

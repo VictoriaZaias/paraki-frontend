@@ -1,12 +1,10 @@
-import 'dart:js';
-
 import 'package:estacionamento/screens/Dono/EstacionamentosDono.dart';
 import 'package:estacionamento/screens/PerfilUsuario.dart';
 import 'package:estacionamento/screens/ReservasMotorista.dart';
 import 'package:flutter/material.dart';
 import '../../components/ActionButton.dart';
 import '../../components/Editor.dart';
-import '../../components/ListaEstacionamento.dart';
+import '../../components/ListaEstacionamentos.dart';
 import '../../http/EstacionamentoService.dart';
 import '../../http/FavoritoService.dart';
 import '../../models/Estacionamento.dart';
@@ -47,13 +45,12 @@ class _PrincipalDonoState extends State<PrincipalDono> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 1,
       length: 3,
       child: Scaffold(
         appBar: AppBar(
           actions: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: IconButton(
                 onPressed: () async {
                   filtroDialog(context);
@@ -69,13 +66,13 @@ class _PrincipalDonoState extends State<PrincipalDono> {
             tabs: [
               Tab(
                 child: Icon(
-                  Icons.star,
+                  Icons.manage_search,
                   color: Color(0xFFEDE4E2),
                 ),
               ),
               Tab(
                 child: Icon(
-                  Icons.format_list_bulleted,
+                  Icons.star,
                   color: Color(0xFFEDE4E2),
                 ),
               ),
@@ -92,13 +89,13 @@ class _PrincipalDonoState extends State<PrincipalDono> {
           children: [
             Column(
               children: [
-                ListaEstacionamento(FavoritoService()
-                    .listarEstacionamentosFavoritados(widget.user.idUsuario!)),
+                listar,
               ],
             ),
             Column(
               children: [
-                listar,
+                ListaEstacionamento(FavoritoService()
+                    .listarEstacionamentosFavoritados(widget.user.idUsuario!)),
               ],
             ),
             Center(
@@ -131,7 +128,7 @@ class _PrincipalDonoState extends State<PrincipalDono> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.manage_search),
+                leading: Icon(Icons.calendar_month),
                 title: const Text('Minhas reservas'),
                 iconColor: Colors.black,
                 textColor: Colors.black,
@@ -147,7 +144,7 @@ class _PrincipalDonoState extends State<PrincipalDono> {
               ),
               ListTile(
                 leading: Icon(Icons.car_crash_outlined),
-                title: const Text('Meus estacionamento'),
+                title: const Text('Meus estacionamentos'),
                 iconColor: Colors.black,
                 textColor: Colors.black,
                 onTap: () {

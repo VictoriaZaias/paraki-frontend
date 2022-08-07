@@ -1,4 +1,4 @@
-import 'package:estacionamento/components/ListaEstacionamento.dart';
+import 'package:estacionamento/components/ListaEstacionamentos.dart';
 import 'package:estacionamento/http/EstacionamentoService.dart';
 import 'package:flutter/material.dart';
 

@@ -3,7 +3,7 @@ import 'package:estacionamento/screens/PerfilUsuario.dart';
 import 'package:flutter/material.dart';
 import '../components/ActionButton.dart';
 import '../components/Editor.dart';
-import '../components/ListaEstacionamento.dart';
+import '../components/ListaEstacionamentos.dart';
 import '../http/EstacionamentoService.dart';
 import '../models/Estacionamento.dart';
 import '../models/Usuario.dart';

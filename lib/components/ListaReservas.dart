@@ -5,7 +5,7 @@ import '../models/Usuario.dart';
 import 'CardEsqueleto.dart';
 import 'CardReserva.dart';
 import 'CenteredMessage.dart';
-
+/*
 class ListaReservas extends StatefulWidget {
   final Usuario user;
 
@@ -66,3 +66,4 @@ class _ListaReservasState extends State<ListaReservas> {
     );
   }
 }
+*/
