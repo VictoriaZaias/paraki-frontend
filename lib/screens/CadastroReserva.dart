@@ -2,6 +2,7 @@ import 'package:estacionamento/components/DatePicker.dart';
 import 'package:estacionamento/components/TimePicker.dart';
 import 'package:estacionamento/http/ReservaService.dart';
 import 'package:estacionamento/models/Reserva.dart';
+import 'package:estacionamento/models/Usuario.dart';
 import 'package:estacionamento/screens/Pagamento.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +93,14 @@ class _CadastroReservaState extends State<CadastroReserva> {
                 onPressed: () async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  int? idUsuario = await prefs.getInt('USER_ID');
+                  Usuario usuario = Usuario(
+                    prefs.getString('username')!,
+                    prefs.getString('cpf')!,
+                    prefs.getString('tipo_user')!,
+                    prefs.getString('modelo_carro')!,
+                    prefs.getString('senha_user')!,
+                  );
+
                   var dataReserva = selectedDate.year.toString() +
                       "-" +
                       selectedDate.month.toString() +
@@ -111,7 +119,7 @@ class _CadastroReservaState extends State<CadastroReserva> {
                     dataReserva,
                     horarioEntrada,
                     horarioSaida,
-                    idUsuario,
+                    usuario,
                     estacionamento: widget.estacionamento,
                     //widget.estacionamento.valorHora,
                   );

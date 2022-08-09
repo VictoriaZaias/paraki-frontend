@@ -1,3 +1,4 @@
+import 'package:estacionamento/components/CardReservaEstacionamento.dart';
 import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:flutter/material.dart';
 import '../../components/ActionButton.dart';
@@ -68,7 +69,7 @@ class _ReservasEstacionamentoState extends State<ReservasEstacionamento> {
                     break;
                   case ConnectionState.waiting:
                     return ListView.builder(
-                      itemCount: 6,
+                      itemCount: 7,
                       itemBuilder: (context, index) => CardEsqueleto(
                         icone: Icon(
                           Icons.calendar_month,
@@ -83,13 +84,14 @@ class _ReservasEstacionamentoState extends State<ReservasEstacionamento> {
                       final List<Reserva> reservas = snapshot.data ?? [];
                       if (reservas.isNotEmpty) {
                         return ListView.builder(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          itemCount: reservas.length,
                           itemBuilder: (context, index) {
                             final Reserva reserva = reservas[index];
-                            return CardReserva(
+                            return CardReservaEstacionamento(
                               reserva: reserva,
                             );
                           },
-                          itemCount: reservas.length,
                         );
                       }
                     }

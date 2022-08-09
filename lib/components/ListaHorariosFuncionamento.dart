@@ -17,7 +17,7 @@ class ListaHorariosFuncionamento extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 150.0,
+      height: 68.0,
       child: FutureBuilder<List<HorarioFuncionamento>>(
         future: HorarioFuncionamentoService().listarHorarios(idEstacionamento),
         builder: (context, AsyncSnapshot<List<HorarioFuncionamento>> snapshot) {
@@ -26,7 +26,7 @@ class ListaHorariosFuncionamento extends StatelessWidget {
               break;
             case ConnectionState.waiting:
               return ListView.builder(
-                itemCount: 7,
+                itemCount: 3,
                 itemBuilder: (context, index) => horariosEsqueleto(context),
               );
             case ConnectionState.active:

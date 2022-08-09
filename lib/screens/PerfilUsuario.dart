@@ -159,7 +159,8 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
     );
   }
 
-  Future novaSenha(TextEditingController senha, TextEditingController confirmaSenha) {
+  Future novaSenha(
+      TextEditingController senha, TextEditingController confirmaSenha) {
     return showDialog(
       context: context,
       builder: (context) => Theme(
@@ -201,12 +202,12 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                 ),
                 TextButton(
                   onPressed: () {
-                    if (senha.text ==
-                        confirmaSenha.text) {
-                          print("----------------------------");
-                          print(senha.text);
-                          print(confirmaSenha.text);
-                          print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKakks");
+                    if (senha.text == confirmaSenha.text) {
+                      print("----------------------------");
+                      print(senha.text);
+                      print(confirmaSenha.text);
+                      print(
+                          "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKakks");
                       //chama serviço para alterar senha
                       Navigator.of(context).pop();
                     } else {
@@ -236,45 +237,50 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
             colorScheme: ColorScheme.light(
           primary: Color(0xFFB497F2),
         )),
-        child: AlertDialog(
-          title: Text("Modelo do(s) carro(s)"),
-          content: DropdownSelect(
-            dica: "Tipo(s) de carro(s)",
-            opcoes: ["Combustão", "Elétrico", "Combustão e elétrico"],
-            valor: carro,
-            getRotulo: (String valor) => valor,
-            onChanged: (String? valor) => setState(() {
-              carro = valor;
-            }),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Cancelar"),
-            ),
-            TextButton(
-              onPressed: () {
-                String carroId;
-                switch (carro) {
-                  case 'Combustão':
-                    carroId = '1';
-                    break;
-                  case 'Elétrico':
-                    carroId = '2';
-                    break;
-                  case 'Combustão e elétrico':
-                    carroId = '3';
-                    break;
-                  default:
-                    carroId = '4';
-                }
-                Navigator.pop(context);
-              },
-              child: Text("Salvar"),
-            ),
-          ],
+        child: StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            String? textoErro = "";
+            return AlertDialog(
+              title: Text("Modelo do(s) carro(s)"),
+              content: DropdownSelect(
+                dica: "Tipo(s) de carro(s)",
+                opcoes: ["Combustão", "Elétrico", "Combustão e elétrico"],
+                valor: carro,
+                getRotulo: (String valor) => valor,
+                onChanged: (String? valor) => setState(() {
+                  carro = valor;
+                }),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Cancelar"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    String carroId;
+                    switch (carro) {
+                      case 'Combustão':
+                        carroId = '1';
+                        break;
+                      case 'Elétrico':
+                        carroId = '2';
+                        break;
+                      case 'Combustão e elétrico':
+                        carroId = '3';
+                        break;
+                      default:
+                        carroId = '4';
+                    }
+                    Navigator.pop(context);
+                  },
+                  child: Text("Salvar"),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

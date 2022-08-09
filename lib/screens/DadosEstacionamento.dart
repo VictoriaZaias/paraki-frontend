@@ -4,6 +4,7 @@ import 'package:estacionamento/models/Caracteristica.dart';
 import 'package:estacionamento/models/HorarioFuncionamento.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skeletons/skeletons.dart';
 import '../components/ActionButton.dart';
 import '../components/Button.dart';
 import '../components/ContainerDados.dart';
@@ -29,20 +30,26 @@ class DadosEstacionamento extends StatefulWidget {
 }
 
 class _DadosEstacionamentoState extends State<DadosEstacionamento> {
-  bool isFavoritado = false;
+  List<Caracteristica> listaCaracteristicas = [];
+  List<HorarioFuncionamento> listaHorarios = [];
+  bool? isFavoritado;
 
   @override
   void initState() {
-    isFavoritado = widget.estacionamento.isFavoritado!;
     super.initState();
+    isFavoritado = widget.estacionamento.isFavoritado!;
+    _fetchData();
   }
 
   void _fetchData() async {
-    List<Caracteristica> listaCaracteristicas = await CaracteristicaService()
+    List<Caracteristica> c = await CaracteristicaService()
         .listarCaracteristicas(widget.estacionamento.idEstacionamento!);
-    List<HorarioFuncionamento> listaHorarios =
-        await HorarioFuncionamentoService()
-            .listarHorarios(widget.estacionamento.idEstacionamento!);
+    List<HorarioFuncionamento> h = await HorarioFuncionamentoService()
+        .listarHorarios(widget.estacionamento.idEstacionamento!);
+    setState(() {
+      listaCaracteristicas = c;
+      listaHorarios = h;
+    });
   }
 
   @override
@@ -69,7 +76,7 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
           actions: [
             ActionButton(
               simbolo: Icons.star,
-              corSimbolo: isFavoritado ? Color(0xFF8A67EF) : null,
+              corSimbolo: isFavoritado! ? Color(0xFF8A67EF) : null,
               onPressed: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 int? idUsuario = await prefs.getInt('USER_ID');
@@ -77,15 +84,14 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
                   idUsuario,
                   widget.estacionamento.idEstacionamento,
                 );
-                if (isFavoritado)
+                if (isFavoritado!)
                   FavoritoService().excluirFavorito(favorito);
                 else
                   FavoritoService().cadastrarFavorito(favorito);
                 setState(() {
-                  isFavoritado = !isFavoritado;
+                  isFavoritado = !isFavoritado!;
                 });
               },
-              // sinalizar que o estacionamento foi favoritado com sucesso
             ),
           ],
         ),
@@ -108,19 +114,60 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
             ContainerDados(
               titulo: "Horario de funcionamento",
               dados: [
-                ListaHorariosFuncionamento(
-                    widget.estacionamento.idEstacionamento!),
+                SizedBox(
+                  height: 68,
+                  child: listaHorarios.isEmpty || listaHorarios == null
+                      ? ListView.builder(
+                          itemCount: 3,
+                          itemBuilder: (context, index) =>
+                              horariosEsqueleto(context),
+                        )
+                      : ListView.builder(
+                          //physics: NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.only(bottom: 10),
+                          itemCount: listaHorarios.length,
+                          itemBuilder: (context, index) {
+                            final horarioFuncionamento = listaHorarios[index];
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(horarioFuncionamento.diaSemana + ":"),
+                                Text(horarioFuncionamento.horarioInicio +
+                                    " - " +
+                                    horarioFuncionamento.horarioFim),
+                              ],
+                            );
+                          },
+                        ),
+                ),
               ],
             ),
             ContainerDados(
               titulo: "Caracteristicas",
               dados: [
                 SizedBox(
-                  height: 120.0,
-                  child: ListaCaracteristicas(CaracteristicaService()
-                      .listarCaracteristicas(
-                          widget.estacionamento.idEstacionamento!)),
-                )
+                  height: 23.0 * listaCaracteristicas.length,
+                  child: listaCaracteristicas.isEmpty ||
+                          listaCaracteristicas == null
+                      ? ListView.builder(
+                          itemCount: 1,
+                          itemBuilder: (context, index) =>
+                              paragrafoEsqueleto(context),
+                        )
+                      : ListView.builder(
+                          //physics: NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.only(bottom: 10),
+                          itemCount: listaCaracteristicas.length,
+                          itemBuilder: (context, index) {
+                            final caracteristica = listaCaracteristicas[index];
+                            return Row(
+                              children: [
+                                Text(caracteristica.caracteristica),
+                              ],
+                            );
+                          },
+                        ),
+                ),
               ],
             ),
             Padding(
@@ -131,8 +178,9 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CadastroReserva(
-                            estacionamento: widget.estacionamento)),
+                      builder: (context) => CadastroReserva(
+                          estacionamento: widget.estacionamento),
+                    ),
                   );
                 },
               ),
@@ -179,5 +227,85 @@ class _DadosEstacionamentoState extends State<DadosEstacionamento> {
         ],
       ),
     ];
+  }
+
+  Widget horariosEsqueleto(BuildContext context) {
+    return SkeletonItem(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SkeletonLine(
+                        style: SkeletonLineStyle(
+                          randomLength: true,
+                          height: 14,
+                          borderRadius: BorderRadius.circular(8),
+                          minLength: MediaQuery.of(context).size.width / 5,
+                          maxLength: MediaQuery.of(context).size.width / 3,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          SkeletonLine(
+                            style: SkeletonLineStyle(
+                              width: 55,
+                              height: 14,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          SkeletonLine(
+                            style: SkeletonLineStyle(
+                              width: 55,
+                              height: 14,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget paragrafoEsqueleto(BuildContext context) {
+    return SkeletonItem(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: SkeletonParagraph(
+                  style: SkeletonParagraphStyle(
+                    lines: 1,
+                    padding: EdgeInsets.symmetric(vertical: 4),
+                    spacing: 6,
+                    lineStyle: SkeletonLineStyle(
+                      randomLength: true,
+                      height: 14,
+                      borderRadius: BorderRadius.circular(8),
+                      minLength: MediaQuery.of(context).size.width / 3,
+                      maxLength: MediaQuery.of(context).size.width / 2,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

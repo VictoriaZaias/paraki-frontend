@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../components/ActionButton.dart';
 import '../components/Editor.dart';
 import '../components/ListaEstacionamentos.dart';
+import '../components/Mapa.dart';
 import '../http/EstacionamentoService.dart';
 import '../models/Estacionamento.dart';
 import '../models/Usuario.dart';
@@ -22,113 +23,193 @@ class PrincipalUsuario extends StatefulWidget {
 }
 
 class _PrincipalUsuarioState extends State<PrincipalUsuario> {
-  static const _tamanhoActionButtons = 55.0;
-  bool isFavoriteVisible = false;
-  static TextEditingController buscaCidade = TextEditingController();
-  static TextEditingController buscaRua = TextEditingController();
+ late TextEditingController? buscaCidade;
+  late TextEditingController? buscaRua;
   var listar;
 
   @override
   void initState() {
-    listar = ListaEstacionamento(buscar('', '', widget.user.idUsuario!));
     super.initState();
+    buscaCidade = TextEditingController();
+    buscaRua = TextEditingController();
+    listar = ListaEstacionamento(buscar('', '', widget.user.idUsuario!));
+  }
+
+  @override
+  void dispose() {
+    buscaCidade!.dispose();
+    buscaRua!.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(90),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: IconButton(
+                onPressed: () async {
+                  filtroDialog(context);
+                },
+                icon: Icon(
+                  Icons.filter_list,
+                  color: Color(0xFFEDE4E2),
+                ),
+              ),
+            ),
+          ],
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                child: Icon(
+                  Icons.manage_search,
+                  color: Color(0xFFEDE4E2),
+                ),
+              ),
+              Tab(
+                child: Icon(
+                  Icons.star,
+                  color: Color(0xFFEDE4E2),
+                ),
+              ),
+              Tab(
+                child: Icon(
+                  Icons.location_on,
+                  color: Color(0xFFEDE4E2),
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
+          children: [
+            Column(
               children: [
-                ActionButton(
-                  tamanhoBotao: _tamanhoActionButtons,
-                  simbolo: Icons.person,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                PerfilUsuario(user: widget.user)));
-                  },
-                ),
-                ActionButton(
-                  tamanhoBotao: _tamanhoActionButtons,
-                  simbolo: Icons.star,
-                  corSimbolo: !isFavoriteVisible ? null : Color(0xFF8A67EF),
-                  onPressed: () => setState(() {
-                    isFavoriteVisible = !isFavoriteVisible;
-                  }),
-                ),
-                ActionButton(
-                  tamanhoBotao: _tamanhoActionButtons,
-                  simbolo: Icons.manage_search,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ReservasMotorista(user: widget.user)));
-                  },
-                ),
+                listar,
               ],
             ),
+            Column(
+              children: [
+                ListaEstacionamento(FavoritoService()
+                    .listarEstacionamentosFavoritados(widget.user.idUsuario!)),
+              ],
+            ),
+            Center(
+              child: Mapa(latitude: -25.4415572, longitude: -54.4026853),
+            ),
+          ],
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Color(0xFF8A67EF),
+                ),
+                child: Text('Menu dono de estacionamento'),
+              ),
+              ListTile(
+                leading: Icon(Icons.person),
+                title: const Text('Perfil'),
+                iconColor: Colors.black,
+                textColor: Colors.black,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PerfilUsuario(user: widget.user),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.calendar_month),
+                title: const Text('Minhas reservas'),
+                iconColor: Colors.black,
+                textColor: Colors.black,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ReservasMotorista(user: widget.user),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Editor(
-              rotulo: 'Informe sua cidade',
-              largura: 370.0,
-              icone: Icons.search,
-              controlador: buscaCidade,
-              onSubmitted: (buscaCidade) {
+    );
+  }
+
+  Future filtroDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => Theme(
+        data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+          primary: Color(0xFFB497F2),
+        )),
+        child: AlertDialog(
+          title: Text("Filtro"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                autofocus: true,
+                decoration: InputDecoration(hintText: "Informe a cidade"),
+                controller: buscaCidade,
+              ),
+              SizedBox(height: 15),
+              TextField(
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: "Informe a rua",
+                ),
+                controller: buscaRua,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancelar"),
+            ),
+            TextButton(
+              onPressed: () {
                 setState(() {
                   listar = ListaEstacionamento(EstacionamentoService()
-                      .listarEstacionamentoBusca(buscaCidade, '', widget.user.idUsuario!));
+                      .listarEstacionamentoBusca(buscaCidade!.text,
+                          buscaRua!.text, widget.user.idUsuario!));
                 });
+                Navigator.of(context).pop();
               },
-            ),
-            Editor(
-              rotulo: 'Informe o logradouro de destino',
-              largura: 370.0,
-              icone: Icons.search,
-              controlador: buscaRua,
-              onSubmitted: (buscaRua) {
-                setState(() {
-                  listar = ListaEstacionamento(EstacionamentoService()
-                      .listarEstacionamentoBusca('', buscaRua, widget.user.idUsuario!));
-                });
-              },
-            ),
-            Visibility(
-              child: listar,
-              visible: !isFavoriteVisible,
-            ),
-            Visibility(
-              child: ListaEstacionamento(FavoritoService()
-                  .listarEstacionamentosFavoritados(widget.user.idUsuario!)),
-              visible: isFavoriteVisible,
+              child: Text("Salvar"),
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  Future<List<Estacionamento>> buscar(String buscaCidade, String buscaRua, int idUsuario) {
-    var lista;
-    if (buscaCidade == "" && buscaRua == "") {
-      return lista = EstacionamentoService().listarEstacionamento(idUsuario);
-    } else {
-      return lista = EstacionamentoService().listarEstacionamentoBusca(buscaCidade, buscaRua, idUsuario);
-    }
+Future<List<Estacionamento>> buscar(
+    String buscaCidade, String buscaRua, int idUsuario) {
+  var lista;
+  if (buscaCidade == "" && buscaRua == "") {
+    return lista = EstacionamentoService().listarEstacionamento(idUsuario);
+  } else {
+    return lista = EstacionamentoService()
+        .listarEstacionamentoBusca(buscaCidade, buscaRua, idUsuario);
   }
 }

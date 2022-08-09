@@ -45,6 +45,7 @@ class _ListaEstacionamentoState extends State<ListaEstacionamento> {
                     snapshot.data ?? [];
                 if (estacionamentos.isNotEmpty) {
                   return ListView.builder(
+                    itemCount: estacionamentos.length,
                     itemBuilder: (context, index) {
                       final Estacionamento estacionamento =
                           estacionamentos[index];
@@ -52,7 +53,6 @@ class _ListaEstacionamentoState extends State<ListaEstacionamento> {
                         estacionamento: estacionamento,
                       );
                     },
-                    itemCount: estacionamentos.length,
                   );
                 }
               }

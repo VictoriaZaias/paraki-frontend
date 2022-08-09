@@ -1,14 +1,15 @@
-import 'package:estacionamento/screens/Dono/EstacionamentosDono.dart';
-import 'package:estacionamento/screens/PerfilUsuario.dart';
-import 'package:estacionamento/screens/ReservasMotorista.dart';
 import 'package:flutter/material.dart';
-import '../../components/ActionButton.dart';
-import '../../components/Editor.dart';
+import '../../components/CardEsqueleto.dart';
+import '../../components/CardEstacionamento.dart';
 import '../../components/ListaEstacionamentos.dart';
+import '../../components/Mapa.dart';
 import '../../http/EstacionamentoService.dart';
 import '../../http/FavoritoService.dart';
 import '../../models/Estacionamento.dart';
 import '../../models/Usuario.dart';
+import '../PerfilUsuario.dart';
+import '../ReservasMotorista.dart';
+import 'EstacionamentosDono.dart';
 
 class PrincipalDono extends StatefulWidget {
   final Usuario user;
@@ -23,6 +24,8 @@ class PrincipalDono extends StatefulWidget {
 }
 
 class _PrincipalDonoState extends State<PrincipalDono> {
+  List<Estacionamento> listaEstacionamentos = [];
+  List<Estacionamento> listaEstacionamentosFavoritados = [];
   late TextEditingController? buscaCidade;
   late TextEditingController? buscaRua;
   var listar;
@@ -32,7 +35,18 @@ class _PrincipalDonoState extends State<PrincipalDono> {
     super.initState();
     buscaCidade = TextEditingController();
     buscaRua = TextEditingController();
-    listar = ListaEstacionamento(buscar('', '', widget.user.idUsuario!));
+    _fetchData();
+  }
+
+  Future _fetchData() async {
+    List<Estacionamento> e = await EstacionamentoService()
+        .listarEstacionamento(widget.user.idUsuario!);
+    List<Estacionamento> f = await FavoritoService()
+        .listarEstacionamentosFavoritados(widget.user.idUsuario!);
+    setState(() {
+      listaEstacionamentos = e;
+      listaEstacionamentosFavoritados = f;
+    });
   }
 
   @override
@@ -50,7 +64,7 @@ class _PrincipalDonoState extends State<PrincipalDono> {
         appBar: AppBar(
           actions: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: IconButton(
                 onPressed: () async {
                   filtroDialog(context);
@@ -86,20 +100,79 @@ class _PrincipalDonoState extends State<PrincipalDono> {
           ),
         ),
         body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: [
             Column(
               children: [
-                listar,
+                Expanded(
+                  child:
+                      listaEstacionamentos.isEmpty || listaEstacionamentos == null
+                          ? ListView.builder(
+                              itemCount: 7,
+                              itemBuilder: (context, index) => CardEsqueleto(
+                                icone: Image.asset(
+                                  'assets/images/carro.png',
+                                  scale: 3,
+                                ),
+                              ),
+                            )
+                          : RefreshIndicator(
+                              onRefresh: _fetchData,
+                              child: ListView.builder(
+                                physics: AlwaysScrollableScrollPhysics(),
+                                itemCount: listaEstacionamentos.length,
+                                itemBuilder: (context, index) {
+                                  final Estacionamento estacionamento =
+                                      listaEstacionamentos[index];
+                                  return CardEstacionamento(
+                                    estacionamento: estacionamento,
+                                  );
+                                },
+                              ),
+                            ),
+                ),
               ],
             ),
+            Column(
+              children: [
+                Expanded(
+                  child:
+                      listaEstacionamentosFavoritados.isEmpty || listaEstacionamentosFavoritados == null
+                          ? ListView.builder(
+                              itemCount: 7,
+                              itemBuilder: (context, index) => CardEsqueleto(
+                                icone: Image.asset(
+                                  'assets/images/carro.png',
+                                  scale: 3,
+                                ),
+                              ),
+                            )
+                          : RefreshIndicator(
+                              onRefresh: _fetchData,
+                              child: ListView.builder(
+                                physics: AlwaysScrollableScrollPhysics(),
+                                itemCount: listaEstacionamentosFavoritados.length,
+                                itemBuilder: (context, index) {
+                                  final Estacionamento estacionamentoFavoritado =
+                                      listaEstacionamentosFavoritados[index];
+                                  return CardEstacionamento(
+                                    estacionamento: estacionamentoFavoritado,
+                                  );
+                                },
+                              ),
+                            ),
+                ),
+              ],
+            ),
+            /*
             Column(
               children: [
                 ListaEstacionamento(FavoritoService()
                     .listarEstacionamentosFavoritados(widget.user.idUsuario!)),
               ],
-            ),
+            ),*/
             Center(
-              child: Text("Mapa. vem aí?"),
+              child: Mapa(latitude: -25.4415572, longitude: -54.4026853),
             ),
           ],
         ),
@@ -216,7 +289,7 @@ class _PrincipalDonoState extends State<PrincipalDono> {
     );
   }
 }
-
+/*
 Future<List<Estacionamento>> buscar(
     String buscaCidade, String buscaRua, int idUsuario) {
   var lista;
@@ -227,3 +300,4 @@ Future<List<Estacionamento>> buscar(
         .listarEstacionamentoBusca(buscaCidade, buscaRua, idUsuario);
   }
 }
+*/

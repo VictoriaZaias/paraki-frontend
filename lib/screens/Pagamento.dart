@@ -1,6 +1,9 @@
 import 'package:estacionamento/components/Button.dart';
 import 'package:estacionamento/components/ContainerDados.dart';
+import 'package:estacionamento/utils/globals.dart' as globals;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:mercadopago_sdk/mercadopago_sdk.dart';
 import '../components/TopoPadrao.dart';
 import '../http/EstacionamentoService.dart';
 import '../models/Reserva.dart';
@@ -13,6 +16,49 @@ class Pagamento extends StatelessWidget {
     Key? key,
     required this.reserva,
   }) : super(key: key);
+
+  Future<Map<String, dynamic>> montarPreferencia() async {
+    var mp = MP(globals.mpClientID, globals.mpClientSecret);
+    var preference = {
+      "items": [
+        {
+          "title": "Test Modified",
+          "quantity": 1,
+          "currency_id": "R\$",
+          "unit_price": 20.4
+        }
+      ],
+      "payer": {"name": "Martinho da vila", "email": "martinho@boobaloo.com"},
+      "payment_methods": {
+        "excluded_payment_types": [
+          
+        ]
+      }
+    };
+
+    var result = await mp.createPreference(preference);
+    return result;
+  }
+
+  Future<void> executarMercadoPago() async {
+    montarPreferencia().then((result) {
+      if (result != null) {
+        var preferenceId = result['response']['id'];
+        try {
+          const channelMercadoPago =
+              const MethodChannel("example.com/mercadoPago");
+          final response =
+              channelMercadoPago.invokeMethod('mercadoPago', <String, dynamic>{
+            "publicKey": globals.mpTESTPublicKey,
+            "preferenceId": preferenceId,
+          });
+          print(response);
+        } on PlatformException catch (e) {
+          print(e.message);
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,17 +112,18 @@ class Pagamento extends StatelessWidget {
           ),
           Button(
             rotulo: "Pagamento",
-            onPressed: () async {
+            onPressed: executarMercadoPago,
+            /*
+            onPressed: ()  {
               /*
               PaymentResult result =
                   await MercadoPagoMobileCheckout.startCheckout(
                 "TEST-289dbf5a-95ae-4c1c-a067-f68578724676",
-                preferenceId,
+                "187874844-9eb0116d-1e1e-4606-aff2-d85a911e194a",
               );
               print(result.toString());
               */
-/*
-              Navigator.push(
+/*              Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
@@ -84,6 +131,7 @@ class Pagamento extends StatelessWidget {
                 ),
               );*/
             },
+            */
           ),
         ],
       ),

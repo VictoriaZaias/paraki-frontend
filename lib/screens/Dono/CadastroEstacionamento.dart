@@ -85,6 +85,7 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
     );
   }
 */
+/*
   @override
   void dispose() {
     nomeEstacionamentoControlador.dispose();
@@ -100,7 +101,7 @@ class _CadastroEstacionamentoState extends State<CadastroEstacionamento> {
     valorHoraControlador.dispose();
     super.dispose();
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(

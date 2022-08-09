@@ -27,13 +27,15 @@ class CenteredMessage extends StatelessWidget {
             ),
             visible: icon != null,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 24.0),
-            child: Center(
-              child: Text(
-                message,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Text(
+                  message,
+                ),
               ),
-            ),
+            ],
           ),
         ],
       ),
