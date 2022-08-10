@@ -118,29 +118,12 @@ class _PagamentoState extends State<Pagamento> {
               )
             ],
           ),
-          Button(
-            rotulo: "Pagamento",
-            onPressed: executarMercadoPago,
-            /*
-            () {
-              ReservaService().cadastrarReserva(
-                reserva,
-                reserva.estacionamento!.idEstacionamento!,
-              );
-              executarMercadoPago();
-            },
-            */
-            /*
-            onPressed: ()  {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      AcaoBemSucedida("Reserva feita com sucesso!"),
-                ),
-              );
-            },
-            */
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15.0),
+            child: Button(
+              rotulo: "Pagamento",
+              onPressed: executarMercadoPago,
+            ),
           ),
         ],
       ),

@@ -26,6 +26,7 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
   late TextEditingController? buscaCidade;
   late TextEditingController? buscaRua;
   var listar;
+  var listarFavoritos;
 
   @override
   void initState() {
@@ -33,6 +34,8 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
     buscaCidade = TextEditingController();
     buscaRua = TextEditingController();
     listar = ListaEstacionamento(buscar('', '', widget.user.idUsuario!));
+    listarFavoritos =
+        ListaEstacionamento(buscarFavoritos('', '', widget.user.idUsuario!));
   }
 
   @override
@@ -64,20 +67,11 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
           ],
           bottom: TabBar(
             tabs: [
-              GestureDetector(
-                child: Tab(
-                  child: Icon(
-                    Icons.manage_search,
-                    color: Color(0xFFEDE4E2),
-                  ),
+              Tab(
+                child: Icon(
+                  Icons.manage_search,
+                  color: Color(0xFFEDE4E2),
                 ),
-                /*
-                onTap: () {
-                  setState(() {
-                    listar = ListaEstacionamento(
-                        buscar('', '', widget.user.idUsuario!));
-                  });
-                },*/
               ),
               Tab(
                 child: Icon(
@@ -99,16 +93,40 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
           children: [
             Column(
               children: [
-                //Text("teste"),
                 listar,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ActionButton(
+                      simbolo: Icons.refresh,
+                      onPressed: () {
+                        setState(() {
+                          listar = ListaEstacionamento(
+                              buscar('', '', widget.user.idUsuario!));
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
             Column(
               children: [
-                //Text("teste"),
-                
-                ListaEstacionamento(FavoritoService()
-                    .listarEstacionamentosFavoritados(widget.user.idUsuario!)),
+                listarFavoritos,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ActionButton(
+                      simbolo: Icons.refresh,
+                      onPressed: () {
+                        setState(() {
+                          listarFavoritos = ListaEstacionamento(
+                              buscarFavoritos('', '', widget.user.idUsuario!));
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
             Center(
@@ -125,7 +143,16 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
                 decoration: BoxDecoration(
                   color: Color(0xFF8A67EF),
                 ),
-                child: Text('Menu dono de estacionamento'),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Menu',
+                    style: TextStyle(
+                      color: Color(0xFFEDE4E2),
+                      fontSize: 32,
+                    ),
+                  ),
+                ),
               ),
               ListTile(
                 leading: Icon(Icons.person),
@@ -224,5 +251,17 @@ Future<List<Estacionamento>> buscar(
   } else {
     return lista = EstacionamentoService()
         .listarEstacionamentoBusca(buscaCidade, buscaRua, idUsuario);
+  }
+}
+
+Future<List<Estacionamento>> buscarFavoritos(
+    String buscaCidade, String buscaRua, int idUsuario) {
+  var lista;
+  if (buscaCidade == "" && buscaRua == "") {
+    return lista =
+        FavoritoService().listarEstacionamentosFavoritados(idUsuario);
+  } else {
+    return lista =
+        FavoritoService().listarEstacionamentosFavoritados(idUsuario);
   }
 }

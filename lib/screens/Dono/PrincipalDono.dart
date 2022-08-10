@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../components/ActionButton.dart';
 import '../../components/CardEsqueleto.dart';
 import '../../components/CardEstacionamento.dart';
 import '../../components/ListaEstacionamentos.dart';
@@ -29,24 +30,16 @@ class _PrincipalDonoState extends State<PrincipalDono> {
   late TextEditingController? buscaCidade;
   late TextEditingController? buscaRua;
   var listar;
+  var listarFavoritos;
 
   @override
   void initState() {
     super.initState();
     buscaCidade = TextEditingController();
     buscaRua = TextEditingController();
-    _fetchData();
-  }
-
-  Future _fetchData() async {
-    List<Estacionamento> e = await EstacionamentoService()
-        .listarEstacionamento(widget.user.idUsuario!);
-    List<Estacionamento> f = await FavoritoService()
-        .listarEstacionamentosFavoritados(widget.user.idUsuario!);
-    setState(() {
-      listaEstacionamentos = e;
-      listaEstacionamentosFavoritados = f;
-    });
+    listar = ListaEstacionamento(buscar('', '', widget.user.idUsuario!));
+    listarFavoritos =
+        ListaEstacionamento(buscarFavoritos('', '', widget.user.idUsuario!));
   }
 
   @override
@@ -104,75 +97,45 @@ class _PrincipalDonoState extends State<PrincipalDono> {
           children: [
             Column(
               children: [
-                Expanded(
-                  child:
-                      listaEstacionamentos.isEmpty || listaEstacionamentos == null
-                          ? ListView.builder(
-                              itemCount: 7,
-                              itemBuilder: (context, index) => CardEsqueleto(
-                                icone: Image.asset(
-                                  'assets/images/carro.png',
-                                  scale: 3,
-                                ),
-                              ),
-                            )
-                          : RefreshIndicator(
-                              onRefresh: _fetchData,
-                              child: ListView.builder(
-                                physics: AlwaysScrollableScrollPhysics(),
-                                itemCount: listaEstacionamentos.length,
-                                itemBuilder: (context, index) {
-                                  final Estacionamento estacionamento =
-                                      listaEstacionamentos[index];
-                                  return CardEstacionamento(
-                                    estacionamento: estacionamento,
-                                  );
-                                },
-                              ),
-                            ),
+                listar,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ActionButton(
+                      simbolo: Icons.refresh,
+                      onPressed: () {
+                        setState(() {
+                          listar = ListaEstacionamento(
+                              buscar('', '', widget.user.idUsuario!));
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
             Column(
               children: [
-                Expanded(
-                  child:
-                      listaEstacionamentosFavoritados.isEmpty || listaEstacionamentosFavoritados == null
-                          ? ListView.builder(
-                              itemCount: 7,
-                              itemBuilder: (context, index) => CardEsqueleto(
-                                icone: Image.asset(
-                                  'assets/images/carro.png',
-                                  scale: 3,
-                                ),
-                              ),
-                            )
-                          : RefreshIndicator(
-                              onRefresh: _fetchData,
-                              child: ListView.builder(
-                                physics: AlwaysScrollableScrollPhysics(),
-                                itemCount: listaEstacionamentosFavoritados.length,
-                                itemBuilder: (context, index) {
-                                  final Estacionamento estacionamentoFavoritado =
-                                      listaEstacionamentosFavoritados[index];
-                                  return CardEstacionamento(
-                                    estacionamento: estacionamentoFavoritado,
-                                  );
-                                },
-                              ),
-                            ),
+                listarFavoritos,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ActionButton(
+                      simbolo: Icons.refresh,
+                      onPressed: () {
+                        setState(() {
+                          listarFavoritos = ListaEstacionamento(
+                              buscarFavoritos('', '', widget.user.idUsuario!));
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
-            /*
-            Column(
-              children: [
-                ListaEstacionamento(FavoritoService()
-                    .listarEstacionamentosFavoritados(widget.user.idUsuario!)),
-              ],
-            ),*/
             Center(
-              child: Mapa(/*latitude: -25.4415572, longitude: -54.4026853*/),
+              child: Text("teste"),
+              //Mapa(/*latitude: -25.4415572, longitude: -54.4026853*/),
             ),
           ],
         ),
@@ -184,7 +147,16 @@ class _PrincipalDonoState extends State<PrincipalDono> {
                 decoration: BoxDecoration(
                   color: Color(0xFF8A67EF),
                 ),
-                child: Text('Menu dono de estacionamento'),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Menu',
+                    style: TextStyle(
+                      color: Color(0xFFEDE4E2),
+                      fontSize: 32,
+                    ),
+                  ),
+                ),
               ),
               ListTile(
                 leading: Icon(Icons.person),
@@ -289,7 +261,7 @@ class _PrincipalDonoState extends State<PrincipalDono> {
     );
   }
 }
-/*
+
 Future<List<Estacionamento>> buscar(
     String buscaCidade, String buscaRua, int idUsuario) {
   var lista;
@@ -300,4 +272,15 @@ Future<List<Estacionamento>> buscar(
         .listarEstacionamentoBusca(buscaCidade, buscaRua, idUsuario);
   }
 }
-*/
+
+Future<List<Estacionamento>> buscarFavoritos(
+    String buscaCidade, String buscaRua, int idUsuario) {
+  var lista;
+  if (buscaCidade == "" && buscaRua == "") {
+    return lista =
+        FavoritoService().listarEstacionamentosFavoritados(idUsuario);
+  } else {
+    return lista =
+        FavoritoService().listarEstacionamentosFavoritados(idUsuario);
+  }
+}
