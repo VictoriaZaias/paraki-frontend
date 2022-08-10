@@ -22,7 +22,10 @@ class CardReserva extends StatelessWidget {
             size: 80.0,
             color: Color(0xFFB497F2),
           ),
-          title: Text("Reserva " + reserva.idReserva.toString()),
+          title: Text("Reserva " +
+              reserva.idReserva.toString() +
+              " - " +
+              reserva.vaga!),
           subtitle: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: Column(

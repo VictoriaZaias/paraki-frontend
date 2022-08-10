@@ -99,6 +99,7 @@ class _CadastroReservaState extends State<CadastroReserva> {
                     prefs.getString('tipo_user')!,
                     prefs.getString('modelo_carro')!,
                     prefs.getString('senha_user')!,
+                    idUsuario: prefs.getInt('id_user')!,
                   );
 
                   var dataReserva = selectedDate.year.toString() +
@@ -114,24 +115,21 @@ class _CadastroReservaState extends State<CadastroReserva> {
                       ":" +
                       timeSaida.minute.toString() +
                       ":00";
+                  num valorTotal =
+                      _calculaValorTotal(horarioEntrada, horarioSaida);
                   Reserva reserva = Reserva(
                     0,
                     dataReserva,
                     horarioEntrada,
                     horarioSaida,
-                    usuario,
+                    usuario: usuario,
                     estacionamento: widget.estacionamento,
-                    //widget.estacionamento.valorHora,
+                    valorTotal: valorTotal.toDouble(),
                   );
                   print('---------------------');
                   print(reserva.horarioEntrada.toString() +
                       reserva.horarioSaida.toString());
                   print('---------------------------------');
-                  ReservaService().cadastrarReserva(
-                    reserva,
-                    widget.estacionamento.valorHora!,
-                    widget.estacionamento.idEstacionamento!,
-                  );
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -147,5 +145,16 @@ class _CadastroReservaState extends State<CadastroReserva> {
         ),
       ),
     );
+  }
+
+  num _calculaValorTotal(String start_time, String end_time) {
+    var format = DateFormat("HH:mm");
+    var start = format.parse(start_time);
+    var end = format.parse(end_time);
+
+    Duration diff = end.difference(start);
+    final hours = diff.inHours;
+    final minutes = diff.inMinutes % 60;
+    return (diff.inHours + minutes / 60) * widget.estacionamento.valorHora!;
   }
 }

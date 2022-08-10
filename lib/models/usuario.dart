@@ -17,6 +17,6 @@ class Usuario {
 
   @override
   String toString() {
-    return 'Usuario{Nome: $nomeUsuario, cpf: $cpf, senha: $senha}';
+    return 'Usuario{Nome: $nomeUsuario, cpf: $cpf, tipo: $tipo, modeloCarro: $modeloCarro, senha: $senha}';
   }
 }

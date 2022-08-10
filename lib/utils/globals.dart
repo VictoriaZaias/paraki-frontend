@@ -8,3 +8,5 @@ String mpAccessToken = "APP_USR-2317993513970845-080422-071581d103a9ec37f3c1af77
 
 String mpClientID = "2317993513970845";
 String mpClientSecret = "LNhDwQXNcugWA5HsWIsyyFODQJsnKALH";
+
+String mapa_Key = "AIzaSyBpynjkLXOrYOseQVRHldO3mddq9T7Sijw";

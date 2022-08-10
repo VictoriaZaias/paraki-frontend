@@ -8,7 +8,7 @@ class Reserva {
   final String? horarioSaida;
   final Usuario? usuario;
   final Estacionamento? estacionamento;
-  final int? vaga;
+  final String? vaga;
   final double? valorTotal;
 
   Reserva(
@@ -16,11 +16,16 @@ class Reserva {
     this.dataReserva,
     this.horarioEntrada,
     this.horarioSaida,
-    this.usuario,
     {
+    this.usuario,
     this.estacionamento,
     this.vaga,
     this.valorTotal,
     }
   );
+  
+  @override
+  String toString() {
+    return 'Reserva{id: $idReserva, data: $dataReserva, entrada: $horarioEntrada, saida: $horarioSaida, vaga: $vaga}';
+  }
 }

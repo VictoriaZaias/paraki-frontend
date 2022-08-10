@@ -4,6 +4,7 @@ import 'package:http_interceptor/http_interceptor.dart';
 import 'dart:convert';
 import '../models/Endereco.dart';
 import '../models/Reserva.dart';
+import '../models/Usuario.dart';
 
 class LoggingInterceptor implements InterceptorContract {
   @override
@@ -66,8 +67,9 @@ class ReservaService {
         json['dataReserva'],
         json['horarioEntrada'],
         json['horarioSaida'],
-        json['idUsuario'],
         estacionamento: estacionamento,
+        vaga: json['nomeVaga'],
+        valorTotal: json['valorTotal'].toDouble(),
       );
       print('------------------');
       print(reserva);
@@ -78,7 +80,6 @@ class ReservaService {
 
   Future<List<Reserva>> listarReservasEstacionamento(
       int idEstacionamento) async {
-
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
     );
@@ -90,22 +91,34 @@ class ReservaService {
     var reservaJson = jsonDecode(response.body);
 
     for (var json in reservaJson['result']) {
+      final Usuario usuario = Usuario(
+        json['nomeUsuario'],
+        json['cpf'],
+        json['tipoUsuario'],
+        json['modeloCarro'],
+        json['senha'],
+        idUsuario: json['idUsuario'],
+      );
+      print('------------------');
+      print(usuario);
       final Reserva reserva = Reserva(
         json['idReserva'],
         json['dataReserva'],
         json['horarioEntrada'],
         json['horarioSaida'],
-        json['usuario'],
+        usuario: usuario,
         vaga: json['vaga'],
-        valorTotal: json['valorTotal'],
+        valorTotal: json['valorTotal'].toDouble(),
       );
+      print('------------------');
+      print(reserva);
       reservas.add(reserva);
     }
     return reservas;
   }
 
   void cadastrarReserva(
-      Reserva reserva, double valorHora, int idEstacionamento) async {
+      Reserva reserva, int idEstacionamento) async {
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
     );
@@ -115,7 +128,7 @@ class ReservaService {
       'horarioSaida': reserva.horarioSaida,
       'usuario': reserva.usuario!.idUsuario,
       'estacionamento': idEstacionamento,
-      'precoHora': valorHora,
+      'valorTotal': reserva.valorTotal,
     };
 
     final String jsonReserva = jsonEncode(reservaMap);

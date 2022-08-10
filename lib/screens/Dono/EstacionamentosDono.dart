@@ -82,7 +82,7 @@ class _EstacionamentosDonoState extends State<EstacionamentosDono> {
                     break;
                   case ConnectionState.waiting:
                     return ListView.builder(
-                      itemCount: 5,
+                      itemCount: 7,
                       itemBuilder: (context, index) => CardEsqueleto(
                         icone: Image.asset(
                           'assets/images/carro.png',

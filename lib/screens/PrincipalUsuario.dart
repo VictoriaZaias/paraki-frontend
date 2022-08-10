@@ -23,7 +23,7 @@ class PrincipalUsuario extends StatefulWidget {
 }
 
 class _PrincipalUsuarioState extends State<PrincipalUsuario> {
- late TextEditingController? buscaCidade;
+  late TextEditingController? buscaCidade;
   late TextEditingController? buscaRua;
   var listar;
 
@@ -64,11 +64,20 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
           ],
           bottom: TabBar(
             tabs: [
-              Tab(
-                child: Icon(
-                  Icons.manage_search,
-                  color: Color(0xFFEDE4E2),
+              GestureDetector(
+                child: Tab(
+                  child: Icon(
+                    Icons.manage_search,
+                    color: Color(0xFFEDE4E2),
+                  ),
                 ),
+                /*
+                onTap: () {
+                  setState(() {
+                    listar = ListaEstacionamento(
+                        buscar('', '', widget.user.idUsuario!));
+                  });
+                },*/
               ),
               Tab(
                 child: Icon(
@@ -86,21 +95,25 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
           ),
         ),
         body: TabBarView(
-        physics: NeverScrollableScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           children: [
             Column(
               children: [
+                //Text("teste"),
                 listar,
               ],
             ),
             Column(
               children: [
+                //Text("teste"),
+                
                 ListaEstacionamento(FavoritoService()
                     .listarEstacionamentosFavoritados(widget.user.idUsuario!)),
               ],
             ),
             Center(
-              child: Mapa(latitude: -25.4415572, longitude: -54.4026853),
+              child: Text("teste"),
+              //Mapa(/*latitude: -25.4415572, longitude: -54.4026853*/),
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
+import '../models/Endereco.dart';
 import '../models/Estacionamento.dart';
 import '../models/Favorito.dart';
 import 'dart:convert';
@@ -76,7 +77,14 @@ class FavoritoService {
     var favoritoJson = jsonDecode(response.body);
 
     for (var json in favoritoJson['result']) {
-      var endereco = await EnderecoService().buscarEndereco(json['endereco']);
+      final Endereco endereco = Endereco(
+        json['idEndereco'],
+        json['bairro'],
+        json['logradouro'],
+        json['cidade'],
+        json['uf'],
+        json['cep'],
+      );
       final Estacionamento estacionamento = Estacionamento(
         idEstacionamento: json['idEstacionamento'],
         nomeEstacionamento: json['nomeEstacionamento'],

@@ -1,4 +1,5 @@
 import 'package:estacionamento/http/EnderecoService.dart';
+import 'package:estacionamento/models/Endereco.dart';
 import 'package:estacionamento/models/Estacionamento.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
@@ -55,7 +56,14 @@ class EstacionamentoService {
     var estacionamentoJson = jsonDecode(response.body);
 
     for (var json in estacionamentoJson['result']) {
-      var endereco = await EnderecoService().buscarEndereco(json['endereco']);
+      final Endereco endereco = Endereco(
+        json['idEndereco'],
+        json['bairro'],
+        json['logradouro'],
+        json['cidade'],
+        json['uf'],
+        json['cep'],
+      );
       final Estacionamento estacionamento = Estacionamento(
         idEstacionamento: json['idEstacionamento'],
         nomeEstacionamento: json['nomeEstacionamento'],
@@ -85,7 +93,14 @@ class EstacionamentoService {
     var estacionamentoJson = jsonDecode(response.body);
 
     for (var json in estacionamentoJson['result']) {
-      var endereco = await EnderecoService().buscarEndereco(json['endereco']);
+      final Endereco endereco = Endereco(
+        json['idEndereco'],
+        json['bairro'],
+        json['logradouro'],
+        json['cidade'],
+        json['uf'],
+        json['cep'],
+      );
       final Estacionamento estacionamento = Estacionamento(
         idEstacionamento: json['idEstacionamento'],
         nomeEstacionamento: json['nomeEstacionamento'],
@@ -126,7 +141,14 @@ class EstacionamentoService {
 
     if (estacionamentoJson['result'] != ' ') {
       for (var json in estacionamentoJson['result']) {
-        var endereco = await EnderecoService().buscarEndereco(json['endereco']);
+        final Endereco endereco = Endereco(
+          json['idEndereco'],
+          json['bairro'],
+          json['logradouro'],
+          json['cidade'],
+          json['uf'],
+          json['cep'],
+        );
         final Estacionamento estacionamento = Estacionamento(
           idEstacionamento: json['idEstacionamento'],
           nomeEstacionamento: json['nomeEstacionamento'],

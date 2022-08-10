@@ -24,13 +24,12 @@ class CardReservaEstacionamento extends StatelessWidget {
           title: Text("Reserva " +
               reserva.idReserva.toString() +
               " - " +
-              reserva.vaga.toString()),
+              reserva.vaga!),
           subtitle: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(reserva.estacionamento!.nomeEstacionamento!),
                 Text("Motorista: " + reserva.usuario!.nomeUsuario),
                 Text("Dia: " +
                     reserva.dataReserva! +
@@ -39,7 +38,7 @@ class CardReservaEstacionamento extends StatelessWidget {
                     reserva.horarioEntrada! +
                     " - " +
                     reserva.horarioSaida!),
-                Text("Preço: " + "R\$" + reserva.valorTotal.toString()),
+                Text("Preço: R\$" + reserva.valorTotal!.toString()),
               ],
             ),
           ),

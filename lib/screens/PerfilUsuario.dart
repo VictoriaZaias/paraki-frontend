@@ -101,6 +101,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
               title: Text("Senha"),
               textColor: Color(0xFFEDE4E2),
               subtitle: Text(widget.user.senha),
+              /*
               trailing: IconButton(
                 onPressed: () {
                   novaSenha(novaSenhaController, novaConfirmaSenhaController);
@@ -110,6 +111,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                   color: Color(0xFFEDE4E2),
                 ),
               ),
+              */
             ),
           ),
           Container(
@@ -118,6 +120,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
               title: Text("Modelo do(s) carro(s)"),
               subtitle: Text(widget.user.modeloCarro),
               textColor: Color(0xFFEDE4E2),
+/*
               trailing: IconButton(
                 onPressed: () {
                   novoModeloCarro();
@@ -127,6 +130,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                   color: Color(0xFFEDE4E2),
                 ),
               ),
+              */
             ),
           ),
           Container(
