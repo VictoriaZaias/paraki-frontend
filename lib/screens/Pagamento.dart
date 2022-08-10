@@ -113,7 +113,7 @@ class _PagamentoState extends State<Pagamento> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text("R\$ " + widget.reserva.valorTotal.toString()),
+                  Text("R\$ " + widget.reserva.valorTotal!.toStringAsFixed(2)),
                 ],
               )
             ],

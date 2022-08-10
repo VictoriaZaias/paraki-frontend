@@ -130,8 +130,7 @@ class _PrincipalUsuarioState extends State<PrincipalUsuario> {
               ],
             ),
             Center(
-              child: Text("teste"),
-              //Mapa(/*latitude: -25.4415572, longitude: -54.4026853*/),
+              child: Mapa(),
             ),
           ],
         ),

@@ -48,11 +48,11 @@ class EnderecoService {
       }
   }
 
-  Future<Endereco> buscarPorCEP(String CEP) async{
+  Future<Endereco> buscarPorCEP(String cep) async{
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
     );{
-      final enderecoResponse = await client.get(Uri.parse("http://viacep.com.br/ws/$CEP/json/"));
+      final enderecoResponse = await client.get(Uri.parse("http://viacep.com.br/ws/$cep/json/"));
 
       var jsonEndereco = jsonDecode(enderecoResponse.body);
       final Endereco endereco = Endereco(
@@ -61,7 +61,7 @@ class EnderecoService {
         jsonEndereco['logradouro'],
         jsonEndereco['localidade'],
         jsonEndereco['uf'],
-        CEP,
+        cep,
       );
   
     return endereco;
@@ -85,11 +85,11 @@ class EnderecoService {
         headers: {"content-type": "application/json"}, body: jsonEndereco);
   }
 
-  Future<int> buscarIdCEP(String CEP) async{
+  Future<int> buscarIdCEP(String cep) async{
     final Client client = InterceptedClient.build(
       interceptors: [LoggingInterceptor()],
     );{
-      final enderecoResponse = await client.get(Uri.parse('${urlPadrao}endereco/verificaEndereco/$CEP'));
+      final enderecoResponse = await client.get(Uri.parse('${urlPadrao}endereco/verificaEndereco/$cep'));
 
       var jsonEndereco = jsonDecode(enderecoResponse.body);
       final int idEndereco = jsonEndereco['result']['idEndereco'];

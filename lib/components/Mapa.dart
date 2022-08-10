@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart' as loc;
 
 class Mapa extends StatefulWidget {
   //final double latitude;
@@ -34,124 +35,62 @@ class _MapaState extends State<Mapa> {
 
   @override
   void initState() {
+    _initLocalizacoes();
     super.initState();
     //_initMinhaLocalizacao();
-    // _onMapCreated();
   }
 
   Future _initLocalizacoes() async {
-    minhaLocalizacao = await _determinePosition();
-  }
-
-  Future _onMapCreated(GoogleMapController controller) async {
-    mapController = controller;
     marcadores = await LocalizacaoService().pegarlocalizacoes();
   }
 
   @override
   Widget build(BuildContext context) {
-    /*
-    return FutureBuilder(
-      future: _initLocalizacoes(),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapchat) {
-        if (snapchat.hasData) {
-          return GoogleMap(
-            //onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
-            /*CameraPosition(
-              target: LatLng(
-                  minhaLocalizacao!.latitude, minhaLocalizacao!.longitude),
-                  
-              zoom: 14.0,
-            ),
-            */
-            //markers: marcadores,
-          );
-        }
-        return Center(child: CircularProgressIndicator());
-      },
-    );
-    */
-/*
-    return FutureBuilder(
-      future: _onMapCreated(),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapchat) {
-        if (snapchat.hasData) {
-          //final Position currentLocation = snapchat.data;
-          return GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target:
-                  //LatLng(currentLocation.latitude, currentLocation.longitude),
-                  LatLng(minhaLocalizacao!.latitude, minhaLocalizacao!.longitude),
-              zoom: 14.0,
-            ),
-            //markers: Set<Marker>.of(marcadores),
-            markers: <Marker>{
-              Marker(
-                markerId: MarkerId("12345"),
-                position: LatLng(
-                    minhaLocalizacao!.latitude, minhaLocalizacao!.longitude),
-              ),
-            },
-          );
-        }
-        return Center(child: CircularProgressIndicator());
-      },
-    );
-    */
-/*
-    return FutureBuilder<LocationData?>(
+    return FutureBuilder<loc.LocationData?>(
       future: _currentLocation(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapchat) {
         if (snapchat.hasData) {
-          final LocationData currentLocation = snapchat.data;
+          final loc.LocationData currentLocation = snapchat.data;
           return GoogleMap(
+            onMapCreated: (GoogleMapController controller) {
+              mapController = controller;
+            },
             initialCameraPosition: CameraPosition(
               target:
                   LatLng(currentLocation.latitude!, currentLocation.longitude!),
-              zoom: 14.0,
-            ),
-            markers: <Marker>{
-              Marker(
-                markerId: MarkerId("12345"),
-                position: LatLng(
-                    currentLocation.latitude!, currentLocation.longitude!),
-              ),
-            },
-          );
-        }
-        return Center(child: CircularProgressIndicator());
-      },
-    );
-    */
-
-    return FutureBuilder<Position?>(
-      future: _determinePosition(),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapchat) {
-        if (snapchat.hasData) {
-          final Position currentLocation = snapchat.data;
-          return GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target:
-                  //LatLng(currentLocation.latitude, currentLocation.longitude),
-                  LatLng(-25.4415572, -54.4026853),
+              //LatLng(-25.4415572, -54.4026853),
               zoom: 14.0,
             ),
             markers: marcadores,
-            /*
-            <Marker>{
-              Marker(
-                markerId: MarkerId("12345"),
-                position: LatLng(localizacao.latitude, localizacao.longitude),
-              ),
-            },
-            */
           );
         }
         return Center(child: CircularProgressIndicator());
       },
     );
+  }
+
+  Future<loc.LocationData?> _currentLocation() async {
+    bool serviceEnabled;
+    loc.PermissionStatus permissionGranted;
+
+    loc.Location location = new loc.Location();
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return null;
+      }
+    }
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == loc.PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != loc.PermissionStatus.granted) {
+        return null;
+      }
+    }
+    return await location.getLocation();
   }
 /*
   Future<Set<Marker>> initEnderecos() async {
@@ -173,10 +112,9 @@ class _MapaState extends State<Mapa> {
     return markers;
   }
 */
-  /// Determine the current position of the device.
-  ///
-  /// When the location services are not enabled or permissions
-  /// are denied the `Future` will return an error.
+
+/*
+// Lentro DEMAIS
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -214,31 +152,5 @@ class _MapaState extends State<Mapa> {
     return await Geolocator.getCurrentPosition();
   }
 }
-
-/*
-  // Pega localização atual, mas n consigo usar pq o package location conflita classe location com o geocoding
-
-  Future<LocationData?> _currentLocation() async {
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
-
-    Location location = new Location();
-
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        return null;
-      }
-    }
-
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return null;
-      }
-    }
-    return await location.getLocation();
-  }
-  */
+*/
+}
